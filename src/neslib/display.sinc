@@ -1,4 +1,5 @@
-.importzp _oam_off			;make this ZP variable accessible to assembly code
+.segment "ZEROPAGE"
+_oam_off: .res 1
 
 .segment "CODE"
 

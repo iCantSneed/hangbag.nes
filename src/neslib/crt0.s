@@ -262,3 +262,7 @@ sounds_data:
 	.word nmi	;$fffa vblank nmi
 	.word start	;$fffc reset
 	.word irq	;$fffe irq / brk
+
+.segment "CHARS"
+
+	.incbin "../chr/master.chr"

@@ -1,12 +1,9 @@
-#include "neslib/neslib.h"
-
-#pragma bss-name (push,"ZEROPAGE")
-unsigned char oam_off;
+#include <screen/screens.h>
+#include <neslib/neslib.h>
 
 void main()
 {
-  while (1)
-  {
-    nesclock();
-  }
+  bank_spr(0);
+  bank_bg(1);
+  screen_playfield();
 }

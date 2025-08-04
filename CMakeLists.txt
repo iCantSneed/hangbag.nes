@@ -19,8 +19,8 @@ find_program(_AR ar65)
 set(CMAKE_AR "${_AR}" CACHE FILEPATH "Archiver path override (prevents issues with cmake)")
 
 # Overridable default flag values.
-set(CC65_TARGET_FLAG "-Oisr" CACHE STRING "Target flag for CC65")
-set(CC65_DEBUG_FLAG "-g -DDEBUG --asm-define DEBUG" CACHE STRING "Debug flags for CC65")
+set(CC65_TARGET_FLAG "" CACHE STRING "Target flag for CC65")
+set(CC65_DEBUG_FLAG "-g -DDEBUG --asm-define DEBUG -Oisr" CACHE STRING "Debug flags for CC65")
 set(CC65_OPT_MAX_FLAG "-Oisr" CACHE STRING "Max Optimization flags for CC65")
 set(CC65_OPT_MIN_SIZE "-O" CACHE STRING "Optimization flags for Min Size Build CC65")
 
@@ -100,9 +100,29 @@ set_readonly(CMAKE_EXECUTABLE_SUFFIX ".nes")
 set(CMAKE_DEPFILE_FLAGS_ASM "--create-dep <DEP_FILE>")
 set(CMAKE_DEPFILE_FLAGS_C "--create-dep <DEP_FILE>")
 
-add_executable("${PROJECT_NAME}"
+add_executable(${PROJECT_NAME}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c"
+
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/component/controller/controller.c"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/kiwi.c"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/player.c"
+
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/screen/playfield.c"
 
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/crt0.s"
 )
-target_link_options(${PROJECT_NAME} PRIVATE -m ${PROJECT_NAME}.map -C ${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/nes.cfg)
+# add_custom_target("${PROJECT_NAME}_deps" DEPENDS
+#   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/display.sinc"
+#   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/famitone2.sinc"
+#   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/nes.cfg"
+#   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/neslib.sinc"
+# )
+# add_dependencies(${PROJECT_NAME} "${PROJECT_NAME}_deps")
+target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_link_options(${PROJECT_NAME} PRIVATE
+  -g
+  -m ${PROJECT_NAME}.map
+  -Ln ${PROJECT_NAME}.lbl
+  -Wl,"--dbgfile ${PROJECT_NAME}.dbg"
+  -C ${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/nes.cfg
+)
