@@ -5,18 +5,18 @@
 #pragma bss-name (push,"RODATA")
 
 const unsigned char kiwi_metaspr[] = {
-  0,  0,  0x40, 0x00,
-  8,  0,  0x41, 0x00,
-  16, 0,  0x42, 0x00,
-  0,  8,  0x50, 0x00,
-  8,  8,  0x51, 0x00,
-  16, 8,  0x52, 0x00,
-  0,  16, 0x60, 0x00,
-  8,  16, 0x61, 0x01,
-  16, 16, 0x62, 0x00,
-  0,  24, 0x70, 0x00,
-  8,  24, 0x71, 0x01,
-  16, 24, 0x72, 0x00,
+  -11, -29, 0x40, 0x00,
+  -3,  -29, 0x41, 0x00,
+  5,   -29, 0x42, 0x00,
+  -11, -21, 0x50, 0x00,
+  -3,  -21, 0x51, 0x00,
+  5,   -21, 0x52, 0x00,
+  -11, -13, 0x60, 0x00,
+  -3,  -13, 0x61, 0x01,
+  5,   -13, 0x62, 0x00,
+  -11, -5,  0x70, 0x00,
+  -3,  -5,  0x71, 0x01,
+  5,   -5,  0x72, 0x00,
   128
 };
 
@@ -26,6 +26,9 @@ const unsigned char kiwi_metaspr[] = {
 #define PAL_KIWI_13 0x39
 
 #define KIWI_SPR_IDX 4*1
+
+#define KIWI_LEFT_X (8*2+11-2)
+#define KIWI_RIGHT_X (8*30-13+2)
 
 void fastcall kiwi_init()
 {
@@ -41,11 +44,17 @@ void fastcall kiwi_tick()
 {
   if (pad0 & PAD_LEFT)
   {
-    --player_x_pos;
+    if (player_x_pos > KIWI_LEFT_X)
+    {
+      --player_x_pos;
+    }
   }
   else if (pad0 & PAD_RIGHT)
   {
-    ++player_x_pos;
+    if (player_x_pos < KIWI_RIGHT_X)
+    {
+      ++player_x_pos;
+    }
   }
-  oam_meta_spr(player_x_pos, 21, KIWI_SPR_IDX, kiwi_metaspr);
+  oam_meta_spr(player_x_pos, 50, KIWI_SPR_IDX, kiwi_metaspr);
 }

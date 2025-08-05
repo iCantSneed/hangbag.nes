@@ -22,15 +22,9 @@ void fastcall screen_playfield()
   pal_col(4+2, 0x15);
   pal_col(4+3, 0x05);
 
-  // Draw the grated floor
-  vram_adr(NTADR_A(0, 6));
-  vram_fill(0x81, 32);
-  vram_adr(0x23c8);
-  vram_fill(0b01010000, 8);
-
   // Draw bricks on the side
-  i = 8;
-  vram_adr(NTADR_A(0, 8));
+  i = 4;
+  vram_adr(NTADR_A(0, 4));
   for (; i < 28; ++i)
   {
     vram_put(0x80);
@@ -47,6 +41,12 @@ void fastcall screen_playfield()
     vram_fill(0, 6);
     vram_put(0b01000100);
   }
+
+  // Draw the grated floor
+  vram_adr(NTADR_A(2, 6));
+  vram_fill(0x81, 28);
+  vram_adr(0x23c8);
+  vram_fill(0b01010101, 8);
 
   // Draw bricks at the bottom
   vram_adr(NTADR_A(0, 28));
