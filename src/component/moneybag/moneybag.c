@@ -68,6 +68,7 @@ const unsigned char moneybag_skinny_metaspr[] = {
 #define MONEYBAG_SPR_IDX 4*13
 
 #define MONEYBAG_GROUND_Y_POS 0xc000
+#define MONEYBAG_GROUND_FAT_Y_DELTA 0x0200
 #define MONEYBAG_GRAVITY 0x29
 #define MONEYBAG_IDLE_FRAMES 10
 
@@ -112,7 +113,7 @@ void jump_action_falling()
   oam_meta_spr(MSB(moneybag_x_pos), MSB(moneybag_y_pos), MONEYBAG_SPR_IDX, moneybag_normal_metaspr);
   if (MSB(moneybag_y_pos) >= MSB(MONEYBAG_GROUND_Y_POS))
   {
-    moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
+    moneybag_y_pos = MONEYBAG_GROUND_Y_POS + MONEYBAG_GROUND_FAT_Y_DELTA;
     next_jump_action = &jump_action_landed;
   }
 }
@@ -124,6 +125,7 @@ void jump_action_landed()
   if (idle_frame == MONEYBAG_IDLE_FRAMES)
   {
     idle_frame = 0;
+    moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
     next_jump_action = &jump_action_prepare_jump;
   }
 }
