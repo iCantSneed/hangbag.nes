@@ -7,6 +7,7 @@ unsigned int moneybag_x_pos, moneybag_y_pos;
 int moneybag_x_velocity, moneybag_y_velocity;
 jumpaction next_jump_action;
 unsigned char idle_frame;
+unsigned char moneybag_x_velocity_negative;
 
 #pragma bss-name (push,"RODATA")
 
@@ -71,6 +72,8 @@ const unsigned char moneybag_skinny_metaspr[] = {
 #define MONEYBAG_GROUND_FAT_Y_DELTA 0x0200
 #define MONEYBAG_GRAVITY 0x29
 #define MONEYBAG_IDLE_FRAMES 10
+#define MONEYBAG_LEFT_X (8*2+14-5)
+#define MONEYBAG_RIGHT_X (8*30-10)
 
 void fastcall moneybag_init()
 {
@@ -78,6 +81,7 @@ void fastcall moneybag_init()
   moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
   next_jump_action = &jump_action_prepare_jump;
   idle_frame = 0;
+  moneybag_x_velocity_negative = FALSE;
 }
 
 void fastcall moneybag_tick()
@@ -85,19 +89,46 @@ void fastcall moneybag_tick()
   next_jump_action();
 }
 
+void fastcall airborne_adjust_position()
+{
+  moneybag_x_pos += moneybag_x_velocity;
+  if (MSB(moneybag_x_pos) < MONEYBAG_LEFT_X)
+  {
+    moneybag_x_pos = MONEYBAG_LEFT_X << 8;
+    moneybag_x_velocity = -moneybag_x_velocity;
+    moneybag_x_velocity_negative = FALSE;
+  }
+  else if (MSB(moneybag_x_pos) >= MONEYBAG_RIGHT_X)
+  {
+    moneybag_x_pos = ((MONEYBAG_RIGHT_X - 1) << 8) | 0xff;
+    moneybag_x_velocity = -moneybag_x_velocity;
+    moneybag_x_velocity_negative = TRUE;
+  }
+
+  moneybag_y_velocity += MONEYBAG_GRAVITY;
+  moneybag_y_pos += moneybag_y_velocity;
+}
+
 void jump_action_prepare_jump()
 {
   oam_meta_spr(MSB(moneybag_x_pos), MSB(moneybag_y_pos), MONEYBAG_SPR_IDX, moneybag_normal_metaspr);
   moneybag_x_velocity = (rand16() & 0x01ff) + 0x3f;
+  if (LSB(moneybag_x_velocity) < 64) // 25% probability that the velocity will be reversed
+  {
+    moneybag_x_velocity_negative ^= TRUE;
+  }
+  if (moneybag_x_velocity_negative)
+  {
+    moneybag_x_velocity = -moneybag_x_velocity;
+  }
+
   moneybag_y_velocity = -(rand16() & 0x02ff) - 0x01ff;
   next_jump_action = &jump_action_jumping;
 }
 
 void jump_action_jumping()
 {
-  moneybag_x_pos += moneybag_x_velocity;
-  moneybag_y_velocity += MONEYBAG_GRAVITY;
-  moneybag_y_pos += moneybag_y_velocity;
+  airborne_adjust_position();
   oam_meta_spr(MSB(moneybag_x_pos), MSB(moneybag_y_pos), MONEYBAG_SPR_IDX, moneybag_skinny_metaspr);
   if (MSB(moneybag_y_velocity) > 0)
   {
@@ -107,9 +138,7 @@ void jump_action_jumping()
 
 void jump_action_falling()
 {
-  moneybag_x_pos += moneybag_x_velocity;
-  moneybag_y_velocity += MONEYBAG_GRAVITY;
-  moneybag_y_pos += moneybag_y_velocity;
+  airborne_adjust_position();
   oam_meta_spr(MSB(moneybag_x_pos), MSB(moneybag_y_pos), MONEYBAG_SPR_IDX, moneybag_normal_metaspr);
   if (MSB(moneybag_y_pos) >= MSB(MONEYBAG_GROUND_Y_POS))
   {
