@@ -47,5 +47,5 @@ void fastcall kiwi_tick()
   {
     ++player_x_pos;
   }
-  oam_meta_spr(player_x_pos, 32, KIWI_SPR_IDX, kiwi_metaspr);
+  oam_meta_spr(player_x_pos, 24, KIWI_SPR_IDX, kiwi_metaspr);
 }
