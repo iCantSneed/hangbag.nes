@@ -25,7 +25,7 @@ const unsigned char kiwi_metaspr[] = {
 #define PAL_KIWI_03 0x37
 #define PAL_KIWI_13 0x39
 
-#define KIWI_SPR_IDX 4
+#define KIWI_SPR_IDX 4*1
 
 void fastcall kiwi_init()
 {
