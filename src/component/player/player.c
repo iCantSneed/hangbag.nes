@@ -8,7 +8,7 @@ unsigned char player_x_pos;
 
 void fastcall player_init()
 {
-  player_x_pos = 80;
+  player_x_pos = KIWI_RIGHT_X;
   kiwi_init();
 }
 

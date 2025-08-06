@@ -28,7 +28,6 @@ const unsigned char kiwi_metaspr[] = {
 #define KIWI_SPR_IDX 4*1
 
 #define KIWI_LEFT_X (8*2+11-2)
-#define KIWI_RIGHT_X (8*30-13+2)
 
 void fastcall kiwi_init()
 {

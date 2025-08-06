@@ -77,7 +77,7 @@ const unsigned char moneybag_skinny_metaspr[] = {
 
 void fastcall moneybag_init()
 {
-  moneybag_x_pos = 0x8000;
+  moneybag_x_pos = MONEYBAG_LEFT_X << 8;
   moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
   next_jump_action = &jump_action_prepare_jump;
   idle_frame = 0;
