@@ -106,6 +106,7 @@ add_executable(${PROJECT_NAME}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/controller/controller.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/moneybag/moneybag.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/kiwi.c"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/noose.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/player.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/score/score.c"
 

@@ -41,19 +41,22 @@ void fastcall kiwi_init()
 
 void fastcall kiwi_tick()
 {
-  if (pad0 & PAD_LEFT)
+  if (!player_noose_activated)
   {
-    if (player_x_pos > KIWI_LEFT_X)
+    if (pad0 & PAD_LEFT)
     {
-      --player_x_pos;
+      if (player_x_pos > KIWI_LEFT_X)
+      {
+        --player_x_pos;
+      }
+    }
+    else if (pad0 & PAD_RIGHT)
+    {
+      if (player_x_pos < KIWI_RIGHT_X)
+      {
+        ++player_x_pos;
+      }
     }
   }
-  else if (pad0 & PAD_RIGHT)
-  {
-    if (player_x_pos < KIWI_RIGHT_X)
-    {
-      ++player_x_pos;
-    }
-  }
-  oam_meta_spr(player_x_pos, 50, KIWI_SPR_IDX, kiwi_metaspr);
+  oam_meta_spr(player_x_pos, KIWI_Y, KIWI_SPR_IDX, kiwi_metaspr);
 }
