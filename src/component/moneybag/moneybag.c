@@ -61,8 +61,6 @@ const unsigned char moneybag_skinny_metaspr[] = {
   2,   15, 0x3a, 0x00,
   -6,  23, 0x49, 0x00,
   2,   23, 0x4a, 0x00,
-  -1,  -1, 0x00, 0x00, //pad
-  -1,  -1, 0x00, 0x00, //pad
   128
 };
 
