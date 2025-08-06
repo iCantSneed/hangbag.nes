@@ -40,6 +40,6 @@ void noose_tick()
   {
     player_noose_activated = TRUE;
     noose_y = NOOSE_INITIAL_Y;
-    noose_delta = 1;
+    noose_delta = player_power;
   }
 }
