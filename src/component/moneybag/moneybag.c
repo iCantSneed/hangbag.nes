@@ -66,8 +66,6 @@ const unsigned char moneybag_skinny_metaspr[] = {
   128
 };
 
-#define MONEYBAG_SPR_IDX 4*13
-
 #define MONEYBAG_GROUND_Y_POS 0xc900
 #define MONEYBAG_GROUND_FAT_Y_DELTA 0x0200
 #define MONEYBAG_GRAVITY 0x29
@@ -111,7 +109,7 @@ void fastcall airborne_adjust_position()
 
 void jump_action_prepare_jump()
 {
-  oam_meta_spr(MSB(moneybag_x_pos), MSB(moneybag_y_pos), MONEYBAG_SPR_IDX, moneybag_normal_metaspr);
+  oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_normal_metaspr);
   moneybag_x_velocity = (rand16() & 0x01ff) + 0x3f;
   if (LSB(moneybag_x_velocity) < 64) // 25% probability that the velocity will be reversed
   {
@@ -129,7 +127,7 @@ void jump_action_prepare_jump()
 void jump_action_jumping()
 {
   airborne_adjust_position();
-  oam_meta_spr(MSB(moneybag_x_pos), MSB(moneybag_y_pos), MONEYBAG_SPR_IDX, moneybag_skinny_metaspr);
+  oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_skinny_metaspr);
   if (MSB(moneybag_y_velocity) > 0)
   {
     next_jump_action = &jump_action_falling;
@@ -139,7 +137,7 @@ void jump_action_jumping()
 void jump_action_falling()
 {
   airborne_adjust_position();
-  oam_meta_spr(MSB(moneybag_x_pos), MSB(moneybag_y_pos), MONEYBAG_SPR_IDX, moneybag_normal_metaspr);
+  oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_normal_metaspr);
   if (MSB(moneybag_y_pos) >= MSB(MONEYBAG_GROUND_Y_POS))
   {
     moneybag_y_pos = MONEYBAG_GROUND_Y_POS + MONEYBAG_GROUND_FAT_Y_DELTA;
@@ -149,7 +147,7 @@ void jump_action_falling()
 
 void jump_action_landed()
 {
-  oam_meta_spr(MSB(moneybag_x_pos), MSB(moneybag_y_pos), MONEYBAG_SPR_IDX, moneybag_fat_metaspr);
+  oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_fat_metaspr);
   ++idle_frame;
   if (idle_frame == MONEYBAG_IDLE_FRAMES)
   {

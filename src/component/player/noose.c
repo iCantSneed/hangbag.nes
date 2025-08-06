@@ -17,7 +17,6 @@ unsigned char noose_metaspr[] = {
   128
 };
 
-#define NOOSE_SPR_ID 4*27
 #define NOOSE_INITIAL_Y (KIWI_Y + 7)
 #define NOOSE_MAX_Y (8*28 - 9)
 
@@ -35,7 +34,7 @@ void noose_tick()
     {
       noose_delta = -noose_delta;
     }
-    oam_meta_spr(player_x_pos, noose_y, NOOSE_SPR_ID, noose_metaspr);
+    oam_meta_spr_clip(player_x_pos, noose_y, noose_metaspr);
   }
   else if (pad0 & PAD_A)
   {

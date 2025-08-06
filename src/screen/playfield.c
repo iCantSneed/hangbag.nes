@@ -58,6 +58,7 @@ void fastcall screen_playfield()
 
   while (1)
   {
+    oam_clear_fast();
     controller_tick();
     player_tick();
     moneybag_tick();

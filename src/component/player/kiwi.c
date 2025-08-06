@@ -25,8 +25,6 @@ const unsigned char kiwi_metaspr[] = {
 #define PAL_KIWI_03 0x37
 #define PAL_KIWI_13 0x39
 
-#define KIWI_SPR_IDX 4*1
-
 #define KIWI_LEFT_X (8*2+11-2)
 
 void fastcall kiwi_init()
@@ -58,5 +56,5 @@ void fastcall kiwi_tick()
       }
     }
   }
-  oam_meta_spr(player_x_pos, KIWI_Y, KIWI_SPR_IDX, kiwi_metaspr);
+  oam_meta_spr_clip(player_x_pos, KIWI_Y, kiwi_metaspr);
 }
