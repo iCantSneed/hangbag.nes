@@ -7,6 +7,7 @@
 
 unsigned char noose_y;
 unsigned char noose_delta;
+unsigned char rope_y;
 
 #pragma bss-name (push,"RODATA")
 
@@ -15,6 +16,10 @@ unsigned char noose_metaspr[] = {
   1,  -7, 0x0c, OAM_FLIP_H,
   -7, 1,  0x0c, OAM_FLIP_V,
   1,  1,  0x0c, OAM_FLIP_H | OAM_FLIP_V,
+  128
+};
+unsigned char rope_metaspr[] = {
+  -1, -15, 0x0d, 0,
   128
 };
 
@@ -47,7 +52,13 @@ void fastcall noose_tick()
     {
       noose_delta = -noose_delta;
     }
+
     oam_meta_spr_clip(player_x_pos, noose_y, noose_metaspr);
+    rope_y = noose_y;
+    for (; rope_y > KIWI_Y; rope_y -= 8)
+    {
+      oam_meta_spr_clip(player_x_pos, rope_y, rope_metaspr);
+    }
   }
   else if (pad0 & PAD_A)
   {
