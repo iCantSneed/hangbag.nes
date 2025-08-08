@@ -50,7 +50,7 @@ void fastcall powerbar_init()
   pal_col(12+3, PAL_POWERBAR_33);
 }
 
-void powerbar_tick()
+void fastcall powerbar_tick()
 {
   if (!player_noose_activated)
   {
@@ -67,5 +67,5 @@ void powerbar_tick()
       power_idx_delta = -power_idx_delta;
     }
   }
-  oam_meta_spr_clip(power_gauge_x, 11, power_gauge_metaspr);
+  oam_meta_spr_clip(power_gauge_x, 10, power_gauge_metaspr);
 }

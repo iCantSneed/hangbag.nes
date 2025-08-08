@@ -1,5 +1,6 @@
 #include "player_internal.h"
 #include <component/controller/controller.h>
+#include <component/moneybag/moneybag.h>
 #include <neslib/neslib.h>
 
 #pragma bss-name (push,"ZEROPAGE")
@@ -19,13 +20,25 @@ unsigned char noose_metaspr[] = {
 
 #define NOOSE_INITIAL_Y (KIWI_Y + 7)
 #define NOOSE_MAX_Y (8*28 - 9)
+#define NOOSE_X_TOLERANCE 8
+#define NOOSE_Y_TOLERANCE 4
 
-void noose_tick()
+void fastcall noose_tick()
 {
   if (player_noose_activated)
   {
     noose_y += noose_delta;
-    if (noose_y <= NOOSE_INITIAL_Y)
+    if (
+      moneybag_is_grounded() &&
+      player_x_pos >= MSB(moneybag_x_pos) - NOOSE_X_TOLERANCE &&
+      player_x_pos <= MSB(moneybag_x_pos) + NOOSE_X_TOLERANCE &&
+      noose_y >= MONEYBAG_IDLE_Y_POS - NOOSE_Y_TOLERANCE &&
+      noose_y <= MONEYBAG_IDLE_Y_POS + NOOSE_Y_TOLERANCE
+    )
+    {
+      asm ("brk");
+    }
+    else if (noose_y <= NOOSE_INITIAL_Y)
     {
       player_noose_activated = FALSE;
       return;
