@@ -87,7 +87,7 @@ void fastcall moneybag_tick()
     moneybag_x_pos = player_x_pos << 8;
     oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_skinny_metaspr);
   }
-  else
+  else if (game_state == GAME_STATE_PLAYING)
   {
     next_jump_action();
   }

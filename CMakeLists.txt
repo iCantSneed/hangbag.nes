@@ -19,7 +19,7 @@ find_program(_AR ar65)
 set(CMAKE_AR "${_AR}" CACHE FILEPATH "Archiver path override (prevents issues with cmake)")
 
 # Overridable default flag values.
-set(CC65_TARGET_FLAG "" CACHE STRING "Target flag for CC65")
+set(CC65_TARGET_FLAG "-Wc --eagerly-inline-funcs" CACHE STRING "Target flag for CC65")
 set(CC65_DEBUG_FLAG "-g -DDEBUG --asm-define DEBUG -Oisr" CACHE STRING "Debug flags for CC65")
 set(CC65_OPT_MAX_FLAG "-Oisr" CACHE STRING "Max Optimization flags for CC65")
 set(CC65_OPT_MIN_SIZE "-O" CACHE STRING "Optimization flags for Min Size Build CC65")
@@ -111,6 +111,7 @@ add_executable(${PROJECT_NAME}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/player.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/powerbar.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/score/score.c"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/component/textbox/textbox.c"
 
   "${CMAKE_CURRENT_SOURCE_DIR}/src/screen/playfield.c"
 

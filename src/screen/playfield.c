@@ -3,6 +3,7 @@
 #include <component/moneybag/moneybag.h>
 #include <component/player/player.h>
 #include <component/score/score.h>
+#include <component/textbox/textbox.h>
 #include <neslib/neslib.h>
 
 #pragma bss-name (push,"ZEROPAGE")
@@ -13,8 +14,9 @@ unsigned char i;
 
 void fastcall screen_playfield()
 {
-  game_state = GAME_STATE_PLAYING;
   pal_col(0, 0x00);
+  gamestate_init();
+  textbox_init();
   score_init();
   player_init();
   moneybag_init();
@@ -61,6 +63,8 @@ void fastcall screen_playfield()
   while (1)
   {
     oam_clear_fast();
+    textbox_tick();
+    gamestate_tick();
     controller_tick();
     player_tick();
     moneybag_tick();

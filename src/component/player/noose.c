@@ -65,7 +65,7 @@ void fastcall noose_tick()
       oam_meta_spr_clip(player_x_pos, rope_y, rope_metaspr);
     }
   }
-  else if (pad0 & PAD_A)
+  else if (game_state == GAME_STATE_PLAYING && (pad0 & PAD_A))
   {
     player_noose_activated = TRUE;
     noose_y = NOOSE_INITIAL_Y;

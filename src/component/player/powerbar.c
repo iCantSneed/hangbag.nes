@@ -1,4 +1,5 @@
 #include "player_internal.h"
+#include <component/gamestate/gamestate.h>
 #include <neslib/neslib.h>
 
 #pragma bss-name (push,"ZEROPAGE")
@@ -52,7 +53,7 @@ void fastcall powerbar_init()
 
 void fastcall powerbar_tick()
 {
-  if (!player_noose_activated)
+  if (!player_noose_activated && game_state == GAME_STATE_PLAYING)
   {
     power_idx += power_idx_delta;
     power_gauge_x += power_gauge_x_delta;
