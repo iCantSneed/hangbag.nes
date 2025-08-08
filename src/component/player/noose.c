@@ -1,5 +1,7 @@
+#include "player.h"
 #include "player_internal.h"
 #include <component/controller/controller.h>
+#include <component/gamestate/gamestate.h>
 #include <component/moneybag/moneybag.h>
 #include <neslib/neslib.h>
 
@@ -32,28 +34,31 @@ void fastcall noose_tick()
 {
   if (player_noose_activated)
   {
-    noose_y += noose_delta;
-    if (
-      moneybag_is_grounded() &&
-      player_x_pos >= MSB(moneybag_x_pos) - NOOSE_X_TOLERANCE &&
-      player_x_pos <= MSB(moneybag_x_pos) + NOOSE_X_TOLERANCE &&
-      noose_y >= MONEYBAG_IDLE_Y_POS - NOOSE_Y_TOLERANCE &&
-      noose_y <= MONEYBAG_IDLE_Y_POS + NOOSE_Y_TOLERANCE
-    )
+    if (game_state == GAME_STATE_PLAYING)
     {
-      asm ("brk");
+      noose_y += noose_delta;
+      if (
+        moneybag_is_grounded() &&
+        player_x_pos >= MSB(moneybag_x_pos) - NOOSE_X_TOLERANCE &&
+        player_x_pos <= MSB(moneybag_x_pos) + NOOSE_X_TOLERANCE &&
+        noose_y >= MONEYBAG_IDLE_Y_POS - NOOSE_Y_TOLERANCE &&
+        noose_y <= MONEYBAG_IDLE_Y_POS + NOOSE_Y_TOLERANCE
+      )
+      {
+        game_state = GAME_STATE_COMPLETED;
+      }
+      else if (noose_y <= NOOSE_INITIAL_Y)
+      {
+        player_noose_activated = FALSE;
+        return;
+      }
+      if (noose_y >= NOOSE_MAX_Y)
+      {
+        noose_delta = -noose_delta;
+      }
+      oam_meta_spr_clip(player_x_pos, noose_y, noose_metaspr);
     }
-    else if (noose_y <= NOOSE_INITIAL_Y)
-    {
-      player_noose_activated = FALSE;
-      return;
-    }
-    if (noose_y >= NOOSE_MAX_Y)
-    {
-      noose_delta = -noose_delta;
-    }
-
-    oam_meta_spr_clip(player_x_pos, noose_y, noose_metaspr);
+    
     rope_y = noose_y;
     for (; rope_y > KIWI_Y; rope_y -= 8)
     {

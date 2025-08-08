@@ -1,5 +1,7 @@
 #include "moneybag.h"
 #include "moneybag_internal.h"
+#include <component/gamestate/gamestate.h>
+#include <component/player/player.h>
 #include <neslib/neslib.h>
 
 #pragma bss-name (push,"ZEROPAGE")
@@ -80,7 +82,15 @@ void fastcall moneybag_init()
 
 void fastcall moneybag_tick()
 {
-  next_jump_action();
+  if (game_state == GAME_STATE_COMPLETED)
+  {
+    moneybag_x_pos = player_x_pos << 8;
+    oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_skinny_metaspr);
+  }
+  else
+  {
+    next_jump_action();
+  }
 }
 
 void fastcall airborne_adjust_position()

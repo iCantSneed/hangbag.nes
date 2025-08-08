@@ -1,4 +1,5 @@
 #include <component/controller/controller.h>
+#include <component/gamestate/gamestate.h>
 #include <component/moneybag/moneybag.h>
 #include <component/player/player.h>
 #include <component/score/score.h>
@@ -12,6 +13,7 @@ unsigned char i;
 
 void fastcall screen_playfield()
 {
+  game_state = GAME_STATE_PLAYING;
   pal_col(0, 0x00);
   score_init();
   player_init();
