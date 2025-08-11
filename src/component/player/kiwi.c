@@ -1,7 +1,5 @@
 #include "player.h"
 #include "player_internal.h"
-#include <component/controller/controller.h>
-#include <component/gamestate/gamestate.h>
 #include <neslib/neslib.h>
 
 #pragma bss-name (push,"RODATA")
@@ -39,23 +37,20 @@ void fastcall kiwi_init()
   pal_col(20+3, PAL_KIWI_13);
 }
 
-void fastcall kiwi_tick()
+void fastcall kiwi_tick_nooseless()
 {
-  if (!player_noose_activated && game_state == GAME_STATE_PLAYING)
+  if (pad_state(0) & PAD_LEFT)
   {
-    if (pad0 & PAD_LEFT)
+    if (player_x_pos > KIWI_LEFT_X)
     {
-      if (player_x_pos > KIWI_LEFT_X)
-      {
-        --player_x_pos;
-      }
+      --player_x_pos;
     }
-    else if (pad0 & PAD_RIGHT)
+  }
+  else if (pad_state(0) & PAD_RIGHT)
+  {
+    if (player_x_pos < KIWI_RIGHT_X)
     {
-      if (player_x_pos < KIWI_RIGHT_X)
-      {
-        ++player_x_pos;
-      }
+      ++player_x_pos;
     }
   }
 }

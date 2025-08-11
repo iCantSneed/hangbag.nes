@@ -1,14 +1,13 @@
 #include "moneybag.h"
-#include "moneybag_internal.h"
-#include <component/gamestate/gamestate.h>
 #include <component/player/player.h>
+#include <gamestate/gamestate.h>
 #include <neslib/neslib.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
+MoneybagTick moneybag_tick;
 unsigned int moneybag_x_pos, moneybag_y_pos;
 int moneybag_x_velocity, moneybag_y_velocity;
-jumpaction next_jump_action;
 unsigned char moneybag_idle_frame;
 unsigned char moneybag_x_velocity_negative;
 unsigned char const* moneybag_metaspr_render;
@@ -68,31 +67,28 @@ const unsigned char moneybag_skinny_metaspr[] = {
   128
 };
 
+#define MONEYBAG_GROUND_Y_POS 0xc900
+#define MONEYBAG_IDLE_Y_POS ((MONEYBAG_GROUND_Y_POS >> 8) + 0x02)
 #define MONEYBAG_GRAVITY 0x29
 #define MONEYBAG_LEFT_X (8*2+14-5)
 #define MONEYBAG_RIGHT_X (8*30-10)
 
+#define NOOSE_X_TOLERANCE 8
+#define NOOSE_Y_TOLERANCE 4
+
+void fastcall moneybag_tick_prepare_jump();
+void fastcall moneybag_tick_jumping();
+void fastcall moneybag_tick_falling();
+void fastcall moneybag_tick_landed();
+
 void fastcall moneybag_init()
 {
+  moneybag_tick = &moneybag_tick_prepare_jump;
   moneybag_x_pos = MONEYBAG_LEFT_X << 8;
   moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
-  next_jump_action = &jump_action_prepare_jump;
   moneybag_idle_frame = 0;
   moneybag_x_velocity_negative = FALSE;
   moneybag_metaspr_render = moneybag_normal_metaspr;
-}
-
-void fastcall moneybag_tick()
-{
-  if (game_state == GAME_STATE_COMPLETED)
-  {
-    moneybag_x_pos = player_x_pos << 8;
-    moneybag_metaspr_render = moneybag_skinny_metaspr;
-  }
-  else if (game_state == GAME_STATE_PLAYING)
-  {
-    next_jump_action();
-  }
 }
 
 void fastcall moneybag_render()
@@ -120,7 +116,7 @@ void fastcall airborne_adjust_position()
   moneybag_y_pos += moneybag_y_velocity;
 }
 
-void jump_action_prepare_jump()
+void fastcall moneybag_tick_prepare_jump()
 {
   moneybag_x_velocity = (rand16() & 0x01ff) + 0x3f;
   if (LSB(moneybag_x_velocity) < 64) // 25% probability that the velocity will be reversed
@@ -133,39 +129,55 @@ void jump_action_prepare_jump()
   }
 
   moneybag_y_velocity = -(rand16() & 0x02ff) - 0x01ff;
-  next_jump_action = &jump_action_jumping;
+  moneybag_tick = &moneybag_tick_jumping;
   moneybag_metaspr_render = moneybag_skinny_metaspr;
 }
 
-void jump_action_jumping()
+void fastcall moneybag_tick_jumping()
 {
   airborne_adjust_position();
   if (MSB(moneybag_y_velocity) > 0)
   {
-    next_jump_action = &jump_action_falling;
+    moneybag_tick = &moneybag_tick_falling;
     moneybag_metaspr_render = moneybag_normal_metaspr;
   }
 }
 
-void jump_action_falling()
+void fastcall moneybag_tick_falling()
 {
   airborne_adjust_position();
   if (MSB(moneybag_y_pos) >= MSB(MONEYBAG_GROUND_Y_POS))
   {
     moneybag_y_pos = MONEYBAG_IDLE_Y_POS << 8;
     moneybag_idle_frame = (rand8() & 15) + 15;
-    next_jump_action = &jump_action_landed;
+    moneybag_tick = &moneybag_tick_landed;
     moneybag_metaspr_render = moneybag_fat_metaspr;
   }
 }
 
-void jump_action_landed()
+void fastcall moneybag_tick_landed()
 {
   --moneybag_idle_frame;
-  if (!moneybag_idle_frame)
+  if (moneybag_idle_frame)
+  {
+    // TODO collision detection with noose is done here... not the best idea
+    if (
+      player_x_pos >= MSB(moneybag_x_pos) - NOOSE_X_TOLERANCE &&
+      player_x_pos <= MSB(moneybag_x_pos) + NOOSE_X_TOLERANCE &&
+      noose_y >= MONEYBAG_IDLE_Y_POS - NOOSE_Y_TOLERANCE &&
+      noose_y <= MONEYBAG_IDLE_Y_POS + NOOSE_Y_TOLERANCE
+    )
+    {
+      next_gamestate = gamestate_play_moneybag_hanged;
+      noose_y = NOOSE_HIDDEN_Y;
+      moneybag_x_pos = player_x_pos << 8;
+      moneybag_metaspr_render = moneybag_skinny_metaspr;
+    }
+  }
+  else
   {
     moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
-    next_jump_action = &jump_action_prepare_jump;
+    moneybag_tick = &moneybag_tick_prepare_jump;
     moneybag_metaspr_render = moneybag_normal_metaspr;
   }
 }

@@ -103,17 +103,16 @@ set(CMAKE_DEPFILE_FLAGS_C "--create-dep <DEP_FILE>")
 add_executable(${PROJECT_NAME}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c"
 
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/component/controller/controller.c"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/component/gamestate/gamestate.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/moneybag/moneybag.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/kiwi.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/noose.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/player.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/powerbar.c"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/rope.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/score/score.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/textbox/textbox.c"
 
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/screen/playfield.c"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/play.c"
 
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/crt0.s"
 )
