@@ -2,8 +2,8 @@
 #include <component/moneybag/moneybag.h>
 #include <component/player/player.h>
 #include <component/score/score.h>
-#include <component/textbox/textbox.h>
 #include <neslib/neslib.h>
+#include <neslib/vram_update.h>
 
 const unsigned char pozzed_text[] = "POZZED";
 const unsigned char unpozzed_text[] = "      ";
@@ -20,7 +20,6 @@ void fastcall gamestate_play_init()
   unsigned char i;
 
   pal_col(0, 0x00);
-  textbox_init();
   score_init();
   player_init();
   moneybag_init();
@@ -70,8 +69,7 @@ void fastcall gamestate_play_normal()
 {
   if (pad_state(0) & PAD_START)
   {
-    textbox_tick();
-    textbox_append(POZZED_POS, sizeof(pozzed_text) - 1, pozzed_text);
+    vram_update_append(POZZED_POS, sizeof(pozzed_text) - 1, pozzed_text);
     next_gamestate = gamestate_play_pozzed;
   }
 
@@ -84,8 +82,7 @@ void fastcall gamestate_play_pozzed()
 {
   if (pad_state(0) & PAD_START)
   {
-    textbox_tick();
-    textbox_append(POZZED_POS, sizeof(unpozzed_text) - 1, unpozzed_text);
+    vram_update_append(POZZED_POS, sizeof(unpozzed_text) - 1, unpozzed_text);
     next_gamestate = gamestate_play_normal;
   }
 

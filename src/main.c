@@ -1,5 +1,6 @@
 #include <gamestate/gamestate.h>
 #include <neslib/neslib.h>
+#include <neslib/vram_update.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
@@ -18,10 +19,14 @@ void main()
   pal_col(2, 0x3d);
   pal_col(3, 0x10);
 
+  // Init vram update
+  vram_update_init();
+
   next_gamestate = gamestate_play_init;
   while (1)
   {
     pad_poll(0);
+    vram_update_reset();
     next_gamestate();
     ppu_wait_nmi();
   }
