@@ -2,16 +2,32 @@
 #include <component/moneybag/moneybag.h>
 #include <component/player/player.h>
 #include <component/score/score.h>
+#include <component/textbox/textbox.h>
 #include <neslib/neslib.h>
 #include <neslib/vram_update.h>
 
+#pragma bss-name (push,"ZEROPAGE")
+
+unsigned char level_number;
+
+#pragma bss-name (push,"RODATA")
+
+// Pozzed text
 const unsigned char pozzed_text[] = "POZZED";
 const unsigned char unpozzed_text[] = "      ";
+
+// Level text
+extern const unsigned char text_level1[];
+const unsigned char* level_text[] = {
+  text_level1,
+};
 
 #define POZZED_POS (NTADR_A((16 - (sizeof(pozzed_text) - 1) / 2), 10) | (NT_UPD_HORZ << 8))
 
 void fastcall render();
 
+void fastcall gamestate_play_prepare_level();
+void fastcall gamestate_play_text();
 void fastcall gamestate_play_normal();
 void fastcall gamestate_play_pozzed();
 
@@ -19,7 +35,10 @@ void fastcall gamestate_play_init()
 {
   unsigned char i;
 
+  level_number = 0;
+
   pal_col(0, 0x00);
+  textbox_init();
   score_init();
   player_init();
   moneybag_init();
@@ -62,7 +81,22 @@ void fastcall gamestate_play_init()
   vram_fill(0b01010101, 8);
 
   ppu_on_all();
-  next_gamestate = gamestate_play_normal;
+  next_gamestate = gamestate_play_prepare_level;
+}
+
+void fastcall gamestate_play_prepare_level()
+{
+  textbox_ptr = level_text[level_number];
+  next_gamestate = gamestate_play_text;
+}
+
+void fastcall gamestate_play_text()
+{
+  if (textbox_tick())
+  {
+    next_gamestate = gamestate_play_normal;
+  }
+  render();
 }
 
 void fastcall gamestate_play_normal()

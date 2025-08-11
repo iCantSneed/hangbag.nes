@@ -1,6 +1,6 @@
 #include <neslib/neslib.h>
 
-const unsigned char score_template[] = "$ABCDEFG";
+const unsigned char score_template[] = "$0000000";
 
 #define SCORE_ROW 2
 #define SCORE_COL (32-sizeof(score_template))

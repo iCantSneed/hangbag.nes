@@ -27,6 +27,7 @@ void main()
   {
     pad_poll(0);
     vram_update_reset();
+    rand8();
     next_gamestate();
     ppu_wait_nmi();
   }
