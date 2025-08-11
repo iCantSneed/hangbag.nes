@@ -12,8 +12,13 @@ extern unsigned char player_power;
 
 void fastcall powerbar_init();
 void fastcall powerbar_tick();
+void fastcall powerbar_render();
+
 void fastcall kiwi_init();
 void fastcall kiwi_tick();
+void fastcall kiwi_render();
+
 void fastcall noose_tick();
+void fastcall noose_render();
 
 #endif // PLAYER_INTERNAL_H_

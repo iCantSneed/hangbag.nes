@@ -23,3 +23,10 @@ void fastcall player_tick()
   kiwi_tick();
   noose_tick();
 }
+
+void fastcall player_render()
+{
+  powerbar_render();
+  kiwi_render();
+  noose_render();
+}

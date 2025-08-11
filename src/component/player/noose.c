@@ -56,13 +56,6 @@ void fastcall noose_tick()
       {
         noose_delta = -noose_delta;
       }
-      oam_meta_spr_clip(player_x_pos, noose_y, noose_metaspr);
-    }
-    
-    rope_y = noose_y;
-    for (; rope_y > KIWI_Y; rope_y -= 8)
-    {
-      oam_meta_spr_clip(player_x_pos, rope_y, rope_metaspr);
     }
   }
   else if (game_state == GAME_STATE_PLAYING && (pad0 & PAD_A))
@@ -70,5 +63,21 @@ void fastcall noose_tick()
     player_noose_activated = TRUE;
     noose_y = NOOSE_INITIAL_Y;
     noose_delta = player_power;
+  }
+}
+
+void fastcall noose_render()
+{
+  if (player_noose_activated)
+  {
+    if (game_state == GAME_STATE_PLAYING)
+    {
+      oam_meta_spr_clip(player_x_pos, noose_y, noose_metaspr);
+    }
+    rope_y = noose_y;
+    for (; rope_y > KIWI_Y; rope_y -= 8)
+    {
+      oam_meta_spr_clip(player_x_pos, rope_y, rope_metaspr);
+    }
   }
 }

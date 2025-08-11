@@ -6,5 +6,6 @@ extern unsigned char player_x_pos;
 
 void fastcall player_init();
 void fastcall player_tick();
+void fastcall player_render();
 
 #endif // PLAYER_H_

@@ -12,6 +12,7 @@ extern unsigned char moneybag_idle_frame;
 
 void fastcall moneybag_init();
 void fastcall moneybag_tick();
+void fastcall moneybag_render();
 
 inline unsigned char moneybag_is_grounded()
 {

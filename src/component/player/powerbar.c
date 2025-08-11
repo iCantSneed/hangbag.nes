@@ -68,5 +68,9 @@ void fastcall powerbar_tick()
       power_idx_delta = -power_idx_delta;
     }
   }
+}
+
+void fastcall powerbar_render()
+{
   oam_meta_spr_clip(power_gauge_x, 10, power_gauge_metaspr);
 }

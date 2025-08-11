@@ -11,6 +11,7 @@ int moneybag_x_velocity, moneybag_y_velocity;
 jumpaction next_jump_action;
 unsigned char moneybag_idle_frame;
 unsigned char moneybag_x_velocity_negative;
+unsigned char const* moneybag_metaspr_render;
 
 #pragma bss-name (push,"RODATA")
 
@@ -78,6 +79,7 @@ void fastcall moneybag_init()
   next_jump_action = &jump_action_prepare_jump;
   moneybag_idle_frame = 0;
   moneybag_x_velocity_negative = FALSE;
+  moneybag_metaspr_render = moneybag_normal_metaspr;
 }
 
 void fastcall moneybag_tick()
@@ -85,12 +87,17 @@ void fastcall moneybag_tick()
   if (game_state == GAME_STATE_COMPLETED)
   {
     moneybag_x_pos = player_x_pos << 8;
-    oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_skinny_metaspr);
+    moneybag_metaspr_render = moneybag_skinny_metaspr;
   }
   else if (game_state == GAME_STATE_PLAYING)
   {
     next_jump_action();
   }
+}
+
+void fastcall moneybag_render()
+{
+  oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_metaspr_render);
 }
 
 void fastcall airborne_adjust_position()
@@ -115,7 +122,6 @@ void fastcall airborne_adjust_position()
 
 void jump_action_prepare_jump()
 {
-  oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_normal_metaspr);
   moneybag_x_velocity = (rand16() & 0x01ff) + 0x3f;
   if (LSB(moneybag_x_velocity) < 64) // 25% probability that the velocity will be reversed
   {
@@ -128,37 +134,38 @@ void jump_action_prepare_jump()
 
   moneybag_y_velocity = -(rand16() & 0x02ff) - 0x01ff;
   next_jump_action = &jump_action_jumping;
+  moneybag_metaspr_render = moneybag_skinny_metaspr;
 }
 
 void jump_action_jumping()
 {
   airborne_adjust_position();
-  oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_skinny_metaspr);
   if (MSB(moneybag_y_velocity) > 0)
   {
     next_jump_action = &jump_action_falling;
+    moneybag_metaspr_render = moneybag_normal_metaspr;
   }
 }
 
 void jump_action_falling()
 {
   airborne_adjust_position();
-  oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_normal_metaspr);
   if (MSB(moneybag_y_pos) >= MSB(MONEYBAG_GROUND_Y_POS))
   {
     moneybag_y_pos = MONEYBAG_IDLE_Y_POS << 8;
     moneybag_idle_frame = (rand8() & 15) + 15;
     next_jump_action = &jump_action_landed;
+    moneybag_metaspr_render = moneybag_fat_metaspr;
   }
 }
 
 void jump_action_landed()
 {
-  oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_fat_metaspr);
   --moneybag_idle_frame;
   if (!moneybag_idle_frame)
   {
     moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
     next_jump_action = &jump_action_prepare_jump;
+    moneybag_metaspr_render = moneybag_normal_metaspr;
   }
 }

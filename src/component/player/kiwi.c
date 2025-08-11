@@ -58,5 +58,9 @@ void fastcall kiwi_tick()
       }
     }
   }
+}
+
+void fastcall kiwi_render()
+{
   oam_meta_spr_clip(player_x_pos, KIWI_Y, kiwi_metaspr);
 }

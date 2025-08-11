@@ -62,12 +62,15 @@ void fastcall screen_playfield()
 
   while (1)
   {
-    oam_clear_fast();
     textbox_tick();
     gamestate_tick();
     controller_tick();
     player_tick();
     moneybag_tick();
+
+    oam_clear_fast();
+    player_render();
+    moneybag_render();
     ppu_wait_nmi();
   }
 }
