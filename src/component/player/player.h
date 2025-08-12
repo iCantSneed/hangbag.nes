@@ -3,7 +3,7 @@
 
 #include "../component.h"
 
-#define NOOSE_HIDDEN_Y 0xff
+#define SPRITE_HIDDEN_Y 0xff
 
 extern const Component player_component;
 

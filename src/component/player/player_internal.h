@@ -15,6 +15,10 @@ void fastcall kiwi_init();
 void fastcall kiwi_tick_nooseless();
 void fastcall kiwi_render();
 
+void fastcall lasso_reset();
+void fastcall lasso_tick_nooseless();
+void fastcall lasso_render();
+
 void fastcall noose_init_nooseless();
 void fastcall noose_init_noosed();
 unsigned char fastcall noose_tick_noosed();

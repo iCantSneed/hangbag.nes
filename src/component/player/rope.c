@@ -12,7 +12,7 @@ unsigned char rope_x;
 
 void fastcall rope_init()
 {
-  rope_start_y = NOOSE_HIDDEN_Y;
+  rope_start_y = SPRITE_HIDDEN_Y;
 }
 
 void fastcall rope_tick_noosed()
@@ -22,7 +22,7 @@ void fastcall rope_tick_noosed()
 
 void fastcall rope_render()
 {
-  if (rope_start_y == NOOSE_HIDDEN_Y)
+  if (rope_start_y == SPRITE_HIDDEN_Y)
   {
     return;
   }

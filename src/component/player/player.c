@@ -19,6 +19,7 @@ void fastcall player_init()
   player_x_pos = KIWI_RIGHT_X;
   powerbar_init();
   kiwi_init();
+  lasso_reset();
   noose_init_nooseless();
   rope_init();
 }
@@ -27,11 +28,13 @@ void fastcall player_tick_nooseless()
 {
   powerbar_tick_nooseless();
   kiwi_tick_nooseless();
+  lasso_tick_nooseless();
 
   if (pad_poll(0) & PAD_A)
   {
     player_tick = player_tick_noosed;
     noose_init_noosed();
+    lasso_reset();
   }
 }
 
@@ -48,6 +51,7 @@ void fastcall player_render()
 {
   powerbar_render();
   kiwi_render();
+  lasso_render();
   noose_render();
   rope_render();
 }

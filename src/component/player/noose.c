@@ -23,7 +23,7 @@ unsigned char noose_metaspr[] = {
 
 void fastcall noose_init_nooseless()
 {
-  noose_y = NOOSE_HIDDEN_Y;
+  noose_y = SPRITE_HIDDEN_Y;
 }
 
 void fastcall noose_init_noosed()
@@ -49,7 +49,7 @@ unsigned char fastcall noose_tick_noosed()
 
 void fastcall noose_render()
 {
-  if (noose_y == NOOSE_HIDDEN_Y)
+  if (noose_y == SPRITE_HIDDEN_Y)
   {
     return;
   }

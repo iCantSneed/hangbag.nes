@@ -169,7 +169,7 @@ void fastcall moneybag_tick_landed()
     )
     {
       next_gamestate = gamestate_play_moneybag_hanged;
-      noose_y = NOOSE_HIDDEN_Y;
+      noose_y = SPRITE_HIDDEN_Y;
       moneybag_x_pos = player_x_pos << 8;
       moneybag_metaspr_render = moneybag_skinny_metaspr;
     }
