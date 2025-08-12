@@ -7,5 +7,6 @@ extern GameState next_gamestate;
 
 void gamestate_play_init();
 void gamestate_play_moneybag_hanged();
+void gamestate_play_timesup();
 
 #endif // GAMESTATE_H_

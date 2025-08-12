@@ -3,6 +3,7 @@
 #include <component/moneybag/moneybag.h>
 #include <component/player/player.h>
 #include <component/score/score.h>
+#include <component/time/time.h>
 #include <component/textbox/textbox.h>
 #include <neslib/vram_update.h>
 
@@ -41,6 +42,7 @@ void fastcall gamestate_play_init()
 
   pal_col(0, 0x00);
   textbox_init();
+  time_init();
   score_init();
   components[0] = &player_component; components[0]->init();
   components[1] = &moneybag_component; components[1]->init();
@@ -111,6 +113,8 @@ void fastcall gamestate_play_normal()
     next_gamestate = gamestate_play_pozzed;
   }
 
+  time_tick();
+
   component_ptr = &components[0];
   for (; *component_ptr; ++component_ptr)
   {
@@ -133,6 +137,13 @@ void fastcall gamestate_play_pozzed()
 
 void fastcall gamestate_play_moneybag_hanged()
 {
+  // TODO
+  render();
+}
+
+void fastcall gamestate_play_timesup()
+{
+  // TODO
   render();
 }
 
