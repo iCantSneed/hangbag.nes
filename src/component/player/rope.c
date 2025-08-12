@@ -28,9 +28,9 @@ void fastcall rope_render()
   }
 
   rope_x = player_x_pos - 1;
-  rope_curr_y = rope_start_y - 15;
-  for (; rope_curr_y > KIWI_Y - 15; rope_curr_y -= 8)
+  rope_curr_y = rope_start_y - 23;
+  for (; rope_curr_y > KIWI_Y - 23; rope_curr_y -= 16)
   {
-    gfx_oam_spr(rope_x, rope_curr_y, 0x0d, 0);
+    gfx_oam_spr(rope_x, rope_curr_y, 0x06, 0);
   }
 }

@@ -105,14 +105,15 @@ add_executable(${PROJECT_NAME}
 set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/text.s" PROPERTIES
   OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level1.txt"
 )
-set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/crt0.s" PROPERTIES
-  OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/master.chr"
-  OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/famitone2.sinc"
-  OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/nes.cfg"
-  OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/neslib.sinc"
+set(CRT0_DEPS
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/master.chr"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/famitone2.sinc"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/nes.cfg"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/neslib.sinc"
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/crt0.s" PROPERTIES OBJECT_DEPENDS "${CRT0_DEPS}")
 target_link_options(${PROJECT_NAME} PRIVATE
   -g
   -m ${PROJECT_NAME}.map

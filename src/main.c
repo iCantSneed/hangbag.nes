@@ -10,9 +10,9 @@ GameState next_gamestate;
 
 void main()
 {
-  // Init CHR banks
-  bank_spr(0);
+  // Init CHR banks and sprite size
   bank_bg(1);
+  oam_size(1);
 
   // Init text palettes
   pal_col(1, 0x30);

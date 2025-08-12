@@ -64,5 +64,5 @@ void fastcall powerbar_tick_nooseless()
 
 void fastcall powerbar_render()
 {
-  gfx_oam_spr(power_gauge_x - 3, 10, 0x03, 0);
+  gfx_oam_spr(power_gauge_x - 3, 10, 0x02, 0);
 }

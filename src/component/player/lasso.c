@@ -10,8 +10,8 @@ unsigned char clock;
 #pragma bss-name (push,"RODATA")
 
 unsigned char lasso_metaspr[] = {
-  -7, -41, 0x0e, 0,
-  1,  -41, 0x0e, OAM_FLIP_H,
+  -7, -41, 0x0a, 0,
+  1,  -41, 0x0a, OAM_FLIP_H,
   128,
 };
 
@@ -42,6 +42,6 @@ void fastcall lasso_render()
     return;
   }
 
-  gfx_oam_spr(player_x_pos - 1, KIWI_Y - 37, 0x0d, 0);
+  gfx_oam_spr(player_x_pos - 1, KIWI_Y - 37, 0x08, 0);
   gfx_oam_metaspr(lasso_x, lasso_y, lasso_metaspr);
 }

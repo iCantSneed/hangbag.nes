@@ -11,10 +11,8 @@ unsigned char noose_delta;
 #pragma bss-name (push,"RODATA")
 
 unsigned char noose_metaspr[] = {
-  -7, -7, 0x0c, 0,
-  1,  -7, 0x0c, OAM_FLIP_H,
-  -7, 1,  0x0c, OAM_FLIP_V,
-  1,  1,  0x0c, OAM_FLIP_H | OAM_FLIP_V,
+  -7, -7, 0x04, 0,
+  1,  -7, 0x04, OAM_FLIP_H,
   128
 };
 
