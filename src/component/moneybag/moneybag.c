@@ -1,7 +1,7 @@
 #include "moneybag.h"
+#include <chr/gfx.h>
 #include <component/player/player.h>
 #include <gamestate/gamestate.h>
-#include <neslib/neslib.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
@@ -93,7 +93,7 @@ void fastcall moneybag_init()
 
 void fastcall moneybag_render()
 {
-  oam_meta_spr_clip(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_metaspr_render);
+  gfx_oam_metaspr(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_metaspr_render);
 }
 
 void fastcall airborne_adjust_position()

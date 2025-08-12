@@ -84,6 +84,8 @@ set(CMAKE_DEPFILE_FLAGS_C "--create-dep <DEP_FILE>")
 add_executable(${PROJECT_NAME}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c"
 
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/gfx.c"
+
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/moneybag/moneybag.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/kiwi.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/noose.c"
@@ -99,15 +101,14 @@ add_executable(${PROJECT_NAME}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/crt0.s"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/vram_update.c"
 )
-set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/text.s" PROPERTIES OBJECT_DEPENDS
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level1.txt"
+set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/text.s" PROPERTIES
+  OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level1.txt"
 )
-set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/crt0.s" PROPERTIES OBJECT_DEPENDS
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/master.chr"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/display.sinc"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/famitone2.sinc"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/nes.cfg"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/neslib.sinc"
+set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/crt0.s" PROPERTIES
+  OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/master.chr"
+  OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/famitone2.sinc"
+  OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/nes.cfg"
+  OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/neslib.sinc"
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")

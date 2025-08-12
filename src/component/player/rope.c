@@ -1,18 +1,14 @@
 #include "player.h"
 #include "player_internal.h"
-#include <neslib/neslib.h>
+#include <chr/gfx.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
 unsigned char rope_start_y;
 unsigned char rope_curr_y;
+unsigned char rope_x;
 
 #pragma bss-name (push,"RODATA")
-
-unsigned char rope_metaspr[] = {
-  -1, -15, 0x0d, 0,
-  128
-};
 
 void fastcall rope_init()
 {
@@ -31,9 +27,10 @@ void fastcall rope_render()
     return;
   }
 
-  rope_curr_y = rope_start_y;
-  for (; rope_curr_y > KIWI_Y; rope_curr_y -= 8)
+  rope_x = player_x_pos - 1;
+  rope_curr_y = rope_start_y - 15;
+  for (; rope_curr_y > KIWI_Y - 15; rope_curr_y -= 8)
   {
-    oam_meta_spr_clip(player_x_pos, rope_curr_y, rope_metaspr);
+    gfx_oam_spr(rope_x, rope_curr_y, 0x0d, 0);
   }
 }

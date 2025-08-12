@@ -1,7 +1,7 @@
 #include "player.h"
 #include "player_internal.h"
+#include <chr/gfx.h>
 #include <component/moneybag/moneybag.h>
-#include <neslib/neslib.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
@@ -54,5 +54,5 @@ void fastcall noose_render()
     return;
   }
   
-  oam_meta_spr_clip(player_x_pos, noose_y, noose_metaspr);
+  gfx_oam_metaspr(player_x_pos, noose_y, noose_metaspr);
 }

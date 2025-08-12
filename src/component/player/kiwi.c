@@ -1,6 +1,6 @@
 #include "player.h"
 #include "player_internal.h"
-#include <neslib/neslib.h>
+#include <chr/gfx.h>
 
 #pragma bss-name (push,"RODATA")
 
@@ -57,5 +57,5 @@ void fastcall kiwi_tick_nooseless()
 
 void fastcall kiwi_render()
 {
-  oam_meta_spr_clip(player_x_pos, KIWI_Y, kiwi_metaspr);
+  gfx_oam_metaspr(player_x_pos, KIWI_Y, kiwi_metaspr);
 }

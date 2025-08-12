@@ -1,5 +1,5 @@
 #include "player_internal.h"
-#include <neslib/neslib.h>
+#include <chr/gfx.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
@@ -19,10 +19,6 @@ const unsigned char powers[] = {
   POWER_HI,
 };
 const unsigned char power_bar_text[] = "PWR \x82\x83\x84\x85";
-const unsigned char power_gauge_metaspr[] = {
-  -3, 0, 0x03, 0,
-  128
-};
 
 #define PAL_POWERBAR_21 0x07
 #define PAL_POWERBAR_22 0x16
@@ -68,5 +64,5 @@ void fastcall powerbar_tick_nooseless()
 
 void fastcall powerbar_render()
 {
-  oam_meta_spr_clip(power_gauge_x, 10, power_gauge_metaspr);
+  gfx_oam_spr(power_gauge_x - 3, 10, 0x03, 0);
 }

@@ -237,8 +237,6 @@ detectNTSC:
 
 	jmp _main			;no parameters
 
-	.include "display.sinc"
-
 	.include "neslib.sinc"
 
 .segment "RODATA"
