@@ -5,7 +5,7 @@
 #define KIWI_Y 50
 
 extern unsigned char player_power;
-#pragma zpsym ("player_power");
+#pragma zpsym ("player_power")
 
 void fastcall powerbar_init();
 void fastcall powerbar_tick_nooseless();

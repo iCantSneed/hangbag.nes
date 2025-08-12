@@ -9,6 +9,8 @@
 #pragma bss-name (push,"ZEROPAGE")
 
 unsigned char level_number;
+const Component *components[16];
+const Component **component_ptr;
 
 #pragma bss-name (push,"RODATA")
 
@@ -40,8 +42,9 @@ void fastcall gamestate_play_init()
   pal_col(0, 0x00);
   textbox_init();
   score_init();
-  player_init();
-  moneybag_init();
+  components[0] = &player_component; components[0]->init();
+  components[1] = &moneybag_component; components[1]->init();
+  components[2] = NULL;
 
   // Prepare palette
   pal_col(4+1, 0x0f);
@@ -107,8 +110,12 @@ void fastcall gamestate_play_normal()
     next_gamestate = gamestate_play_pozzed;
   }
 
-  player_tick();
-  moneybag_tick();
+  component_ptr = &components[0];
+  for (; *component_ptr; ++component_ptr)
+  {
+    (*(*component_ptr)->tick)();
+  }
+
   render();
 }
 
@@ -131,6 +138,10 @@ void fastcall gamestate_play_moneybag_hanged()
 void fastcall render()
 {
   oam_clear_fast();
-  player_render();
-  moneybag_render();
+
+  component_ptr = &components[0];
+  for (; *component_ptr; ++component_ptr)
+  {
+    (*component_ptr)->render();
+  }
 }

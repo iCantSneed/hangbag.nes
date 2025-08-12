@@ -5,7 +5,7 @@
 
 #pragma bss-name (push,"ZEROPAGE")
 
-MoneybagTick moneybag_tick;
+Callback moneybag_tick;
 unsigned int moneybag_x_pos, moneybag_y_pos;
 int moneybag_x_velocity, moneybag_y_velocity;
 unsigned char moneybag_idle_frame;
@@ -83,7 +83,7 @@ void fastcall moneybag_tick_landed();
 
 void fastcall moneybag_init()
 {
-  moneybag_tick = &moneybag_tick_prepare_jump;
+  moneybag_tick = moneybag_tick_prepare_jump;
   moneybag_x_pos = MONEYBAG_LEFT_X << 8;
   moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
   moneybag_idle_frame = 0;
@@ -129,7 +129,7 @@ void fastcall moneybag_tick_prepare_jump()
   }
 
   moneybag_y_velocity = -(rand16() & 0x02ff) - 0x01ff;
-  moneybag_tick = &moneybag_tick_jumping;
+  moneybag_tick = moneybag_tick_jumping;
   moneybag_metaspr_render = moneybag_skinny_metaspr;
 }
 
@@ -138,7 +138,7 @@ void fastcall moneybag_tick_jumping()
   airborne_adjust_position();
   if (MSB(moneybag_y_velocity) > 0)
   {
-    moneybag_tick = &moneybag_tick_falling;
+    moneybag_tick = moneybag_tick_falling;
     moneybag_metaspr_render = moneybag_normal_metaspr;
   }
 }
@@ -150,7 +150,7 @@ void fastcall moneybag_tick_falling()
   {
     moneybag_y_pos = MONEYBAG_IDLE_Y_POS << 8;
     moneybag_idle_frame = (rand8() & 15) + 15;
-    moneybag_tick = &moneybag_tick_landed;
+    moneybag_tick = moneybag_tick_landed;
     moneybag_metaspr_render = moneybag_fat_metaspr;
   }
 }
@@ -177,7 +177,13 @@ void fastcall moneybag_tick_landed()
   else
   {
     moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
-    moneybag_tick = &moneybag_tick_prepare_jump;
+    moneybag_tick = moneybag_tick_prepare_jump;
     moneybag_metaspr_render = moneybag_normal_metaspr;
   }
 }
+
+const Component moneybag_component = {
+  moneybag_init,
+  &moneybag_tick,
+  moneybag_render,
+};

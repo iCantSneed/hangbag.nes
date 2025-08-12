@@ -3,7 +3,7 @@
 
 typedef void (*GameState)();
 extern GameState next_gamestate;
-#pragma zpsym ("next_gamestate");
+#pragma zpsym ("next_gamestate")
 
 void gamestate_play_init();
 void gamestate_play_moneybag_hanged();
