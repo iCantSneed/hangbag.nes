@@ -25,7 +25,13 @@ const unsigned char* level_text[] = {
   text_level1,
 };
 
-#define POZZED_POS (NTADR_A((16 - (sizeof(pozzed_text) - 1) / 2), 10) | (NT_UPD_HORZ << 8))
+// Level completion messages
+const unsigned char level_completed_text[] = "LEVEL COMPLETED!";
+const unsigned char time_bonus_text[] = "TIME BONUS   $0000";
+
+#define POZZED_VRAM_UPDATE_ADDR (NTADR_A((16 - (sizeof(pozzed_text) - 1) / 2), 10) | (NT_UPD_HORZ << 8))
+#define LEVEL_COMPLETED_VRAM_UPDATE_ADDR (NTADR_A((16 - (sizeof(level_completed_text) - 1) / 2), 14) | (NT_UPD_HORZ << 8))
+#define TIME_BONUS_VRAM_UPDATE_ADDR (NTADR_A((16 - (sizeof(time_bonus_text) - 1) / 2), 16) | (NT_UPD_HORZ << 8))
 
 void fastcall render();
 
@@ -33,6 +39,7 @@ void fastcall gamestate_play_prepare_level();
 void fastcall gamestate_play_text();
 void fastcall gamestate_play_normal();
 void fastcall gamestate_play_pozzed();
+void fastcall gamestate_play_level_completed();
 
 void fastcall gamestate_play_init()
 {
@@ -109,7 +116,7 @@ void fastcall gamestate_play_normal()
 {
   if (pad_state(0) & PAD_START)
   {
-    vram_update_append(POZZED_POS, sizeof(pozzed_text) - 1, pozzed_text);
+    vram_update_append(POZZED_VRAM_UPDATE_ADDR, sizeof(pozzed_text) - 1, pozzed_text);
     next_gamestate = gamestate_play_pozzed;
   }
 
@@ -128,7 +135,7 @@ void fastcall gamestate_play_pozzed()
 {
   if (pad_state(0) & PAD_START)
   {
-    vram_update_append(POZZED_POS, sizeof(unpozzed_text) - 1, unpozzed_text);
+    vram_update_append(POZZED_VRAM_UPDATE_ADDR, sizeof(unpozzed_text) - 1, unpozzed_text);
     next_gamestate = gamestate_play_normal;
   }
 
@@ -136,6 +143,18 @@ void fastcall gamestate_play_pozzed()
 }
 
 void fastcall gamestate_play_moneybag_hanged()
+{
+  // TODO
+  score_add(time_remaining);
+  vram_update_append(LEVEL_COMPLETED_VRAM_UPDATE_ADDR, sizeof(level_completed_text) - 1, level_completed_text);
+  vram_update_append(TIME_BONUS_VRAM_UPDATE_ADDR, sizeof(time_bonus_text) - 1, time_bonus_text);
+  bcd_vram_update(time_remaining, TIME_BONUS_VRAM_UPDATE_ADDR + sizeof(time_bonus_text) - 5);
+  next_gamestate = gamestate_play_level_completed;
+
+  render();
+}
+
+void fastcall gamestate_play_level_completed()
 {
   // TODO
   render();

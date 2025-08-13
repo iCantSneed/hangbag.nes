@@ -100,6 +100,7 @@ add_executable(${PROJECT_NAME}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/play.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/text.s"
 
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/bcd.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/crt0.s"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/vram_update.c"
 )
