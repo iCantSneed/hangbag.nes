@@ -238,11 +238,6 @@ void __fastcall__ memfill(void *dst, unsigned char value, unsigned int len);
 // delay for N frames
 void __fastcall__ delay(unsigned char frames);
 
-// display.sinc functions
-void __fastcall__ oam_clear_fast(void);
-void __fastcall__ oam_meta_spr_pal(unsigned char x,unsigned char y,unsigned char pal,const unsigned char *metasprite);
-void __fastcall__ oam_meta_spr_clip(signed int x,unsigned char y,const unsigned char *metasprite);
-
 
 
 #define PAD_A			0x01

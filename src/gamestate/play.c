@@ -47,6 +47,7 @@ void fastcall gamestate_play_init()
 
   level_number = 0;
 
+  ppu_off();
   pal_col(0, 0x00);
   textbox_init();
   time_init();
@@ -66,11 +67,11 @@ void fastcall gamestate_play_init()
   vram_adr(NTADR_A(0, 4));
   for (; i < 28; ++i)
   {
-    vram_put(0x80);
-    vram_put(0x80);
+    vram_put(0x01);
+    vram_put(0x01);
     vram_fill(' ', 28);
-    vram_put(0x80);
-    vram_put(0x80);
+    vram_put(0x01);
+    vram_put(0x01);
   }
   i = 0;
   vram_adr(0x23d0);
@@ -83,13 +84,13 @@ void fastcall gamestate_play_init()
 
   // Draw the grated floor
   vram_adr(NTADR_A(2, 6));
-  vram_fill(0x81, 28);
+  vram_fill(0x02, 28);
   vram_adr(0x23c8);
   vram_fill(0b01010101, 8);
 
   // Draw bricks at the bottom
   vram_adr(NTADR_A(0, 28));
-  vram_fill(0x80, 64);
+  vram_fill(0x01, 64);
   vram_adr(0x23f8);
   vram_fill(0b01010101, 8);
 
@@ -163,7 +164,7 @@ void fastcall gamestate_play_level_completed()
 void fastcall gamestate_play_timesup()
 {
   // TODO
-  render();
+  next_gamestate = gamestate_gameover_init;
 }
 
 void fastcall render()

@@ -18,7 +18,7 @@ const unsigned char powers[] = {
   POWER_MED, POWER_MED, POWER_MED, POWER_MED,
   POWER_HI,
 };
-const unsigned char power_bar_text[] = "PWR \x82\x83\x84\x85";
+const unsigned char power_bar_text[] = "PWR \x03\x04\x05\x06";
 
 #define PAL_POWERBAR_21 0x07
 #define PAL_POWERBAR_22 0x16

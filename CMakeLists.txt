@@ -97,6 +97,7 @@ add_executable(${PROJECT_NAME}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/time/time.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/textbox/textbox.c"
 
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/gameover.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/play.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/text.s"
 
