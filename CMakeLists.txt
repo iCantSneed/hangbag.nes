@@ -109,7 +109,9 @@ set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/text
   OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level1.txt"
 )
 set(CRT0_DEPS
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/master.chr"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/00-spr.chr"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/04-05-obj-common.chr"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/06-07-obj-gameover.chr"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/famitone2.sinc"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/nes.cfg"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/neslib.sinc"

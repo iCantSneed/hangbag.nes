@@ -1,4 +1,5 @@
 #include <gamestate/gamestate.h>
+#include <neslib/mmc3.h>
 #include <neslib/neslib.h>
 #include <neslib/vram_update.h>
 
@@ -10,6 +11,13 @@ GameState next_gamestate;
 
 void main()
 {
+  // Populate CHR banks
+  mmc3_bank_select(0, 0x00);
+  mmc3_bank_select(2, 0x04);
+  mmc3_bank_select(3, 0x05);
+  mmc3_bank_select(4, 0x06);
+  mmc3_bank_select(5, 0x07);
+
   // Init CHR banks and sprite size
   bank_bg(1);
   oam_size(1);
