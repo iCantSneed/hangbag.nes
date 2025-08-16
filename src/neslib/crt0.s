@@ -238,6 +238,7 @@ detectNTSC:
 	jmp _main			;no parameters
 
 	.include "neslib.sinc"
+	.include "chars.sinc"
 
 .segment "RODATA"
 
@@ -260,15 +261,3 @@ sounds_data:
 	.word nmi	;$fffa vblank nmi
 	.word start	;$fffc reset
 	.word irq	;$fffe irq / brk
-
-.segment "CHARS0"
-
-	.incbin "../chr/00-spr.chr"
-
-.segment "CHARS45"
-
-	.incbin "../chr/04-05-obj-common.chr"
-
-.segment "CHARS67"
-
-	.incbin "../chr/06-07-obj-gameover.chr"

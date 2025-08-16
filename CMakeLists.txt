@@ -99,6 +99,7 @@ add_executable(${PROJECT_NAME}
 
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/gameover.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/play.c"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/title.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/text.s"
 
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/bcd.c"
@@ -112,6 +113,8 @@ set(CRT0_DEPS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/00-spr.chr"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/04-05-obj-common.chr"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/06-07-obj-gameover.chr"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/08-09-obj-title.chr"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/chars.sinc"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/famitone2.sinc"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/nes.cfg"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/neslib.sinc"

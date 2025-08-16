@@ -15,8 +15,6 @@ void main()
   mmc3_bank_select(0, 0x00);
   mmc3_bank_select(2, 0x04);
   mmc3_bank_select(3, 0x05);
-  mmc3_bank_select(4, 0x06);
-  mmc3_bank_select(5, 0x07);
 
   // Init CHR banks and sprite size
   bank_bg(1);
@@ -30,7 +28,7 @@ void main()
   // Init vram update
   vram_update_init();
 
-  next_gamestate = gamestate_play_init;
+  next_gamestate = gamestate_title_init;
   while (1)
   {
     pad_poll(0);

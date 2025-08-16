@@ -48,6 +48,9 @@ void fastcall gamestate_play_init()
   level_number = 0;
 
   ppu_off();
+  // TODO
+  vram_adr(NTADR_A(0, 0));
+  vram_fill(0x00, 1024);
   pal_col(0, 0x00);
   textbox_init();
   time_init();

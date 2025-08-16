@@ -1,6 +1,7 @@
 #include "gamestate.h"
 #include "gameover_nametable.h"
 #include <chr/gfx.h>
+#include <neslib/mmc3.h>
 
 void fastcall gamestate_gameover_wait();
 
@@ -16,6 +17,10 @@ void fastcall gamestate_gameover_init()
   ppu_off();
   oam_clear();
   pal_bg(gameover_palette);
+
+  // Set CHR banks
+  mmc3_bank_select(4, 0x06);
+  mmc3_bank_select(5, 0x07);
 
   vram_adr(NTADR_A(0, 0));
   vram_unrle(gameover_nametable);

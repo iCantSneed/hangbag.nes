@@ -22,7 +22,7 @@ const unsigned char time_text[] = "TIME";
 void fastcall time_init()
 {
   frame_number = 0;
-  time_remaining = 0x60;
+  time_remaining = 0x99;
   vram_adr(TIME_TEXT_VRAM_ADDR);
   vram_write(time_text, sizeof(time_text) - 1);
   draw_time();

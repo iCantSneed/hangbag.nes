@@ -5,6 +5,8 @@ typedef void (*GameState)();
 extern GameState next_gamestate;
 #pragma zpsym ("next_gamestate")
 
+void fastcall gamestate_title_init();
+
 void fastcall gamestate_play_init();
 void fastcall gamestate_play_moneybag_hanged();
 void fastcall gamestate_play_timesup();
