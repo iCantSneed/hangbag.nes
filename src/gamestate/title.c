@@ -9,7 +9,8 @@ const unsigned char attribute_rle[] = {
   RLE_TAG,
   0b01010101, RLE_TAG, 15,
   0b00000101, RLE_TAG, 7,
-  0b10101010, RLE_TAG, 38,
+  0b10101111, RLE_TAG, 7,
+  0b10101010, RLE_TAG, 30,
   0b10101010, RLE_TAG, 0,
 };
 
@@ -19,7 +20,7 @@ void fastcall gamestate_title_init()
 {
   // Declare variables we'll need in the future
   const unsigned char *bigmoneybag_nametable_ptr = bigmoneybag_nametable[0];
-  int bigmoneybag_vram_addr = NTADR_A(0, 14);
+  int bigmoneybag_vram_addr = NTADR_A(0, 30 - (sizeof(bigmoneybag_nametable) / sizeof(bigmoneybag_nametable[0])));
   unsigned char i = 0;
 
   ppu_off();
@@ -41,6 +42,10 @@ void fastcall gamestate_title_init()
   pal_col(10, 0x17);
   pal_col(11, 0x07);
 
+  // Set palettes for sprite 0 hit
+  pal_col(13, 0x0f);
+  pal_col(17, 0x0f);
+
   // Draw title
   vram_adr(NTADR_A(0, 0));
   vram_unrle(title_nametable);
@@ -59,7 +64,14 @@ void fastcall gamestate_title_init()
   vram_adr(NTADR_A(0, 30));
   vram_unrle(attribute_rle);
 
-  ppu_on_bg();
+  // Place the sprite 0 on the horizontal line
+  // Remember that sprite Y-position is off by 1
+  oam_spr(0, 8 * (30 - sizeof(bigmoneybag_nametable) / sizeof(bigmoneybag_nametable[0])) + 7 - 1, 0x00, 0, 0);
+
+  // Set nametable mirroring
+  mcc3_nametable_arrangement(1);
+
+  ppu_on_all();
   next_gamestate = gamestate_title_wait;
 }
 
@@ -69,4 +81,5 @@ void fastcall gamestate_title_wait()
   {
     next_gamestate = gamestate_play_init;
   }
+  split(nesclock(), 0);
 }
