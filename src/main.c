@@ -11,10 +11,8 @@ GameState next_gamestate;
 
 void main()
 {
-  // Populate CHR banks
+  // Populate common CHR banks
   mmc3_bank_select(0, 0x00);
-  mmc3_bank_select(2, 0x04);
-  mmc3_bank_select(3, 0x05);
 
   // Init CHR banks and sprite size
   bank_bg(1);

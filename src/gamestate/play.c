@@ -5,6 +5,7 @@
 #include <component/score/score.h>
 #include <component/time/time.h>
 #include <component/textbox/textbox.h>
+#include <neslib/mmc3.h>
 #include <neslib/vram_update.h>
 
 #pragma bss-name (push,"ZEROPAGE")
@@ -48,6 +49,9 @@ void fastcall gamestate_play_init()
   level_number = 0;
 
   ppu_off();
+  mmc3_bank_select(2, 0x04);
+  mmc3_bank_select(3, 0x05);
+
   // TODO
   vram_adr(NTADR_A(0, 0));
   vram_fill(0x00, 1024);

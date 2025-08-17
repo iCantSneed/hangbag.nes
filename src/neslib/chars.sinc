@@ -10,6 +10,6 @@
 
 	.incbin "../chr/06-07-obj-gameover.chr"
 
-.segment "CHARS89"
+.segment "CHARS89AB"
 
-	.incbin "../chr/08-09-obj-title.chr"
+	.incbin "../chr/08-09-0a-0b-obj-title.chr"
