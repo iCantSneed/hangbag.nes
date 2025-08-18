@@ -3,6 +3,10 @@
 #include <component/lynchman/lynchman.h>
 #include <component/score/score.h>
 
+#pragma bss-name (push,"ZEROPAGE")
+
+unsigned char idx;
+
 #pragma bss-name (push,"RODATA")
 
 const unsigned char pyrite_metaspr[] = {
@@ -21,7 +25,7 @@ unsigned char fastcall get_x_pos(unsigned char adjusted_idx)
   return 23 + adjusted_idx * 16;
 }
 
-void fastcall pyrite_init(unsigned char)
+void fastcall pyrite_init(void)
 {
   // TODO this will init the palette for every sprite, which is wasteful, but whatever
   pal_col(24+1, 0x07);
@@ -29,16 +33,11 @@ void fastcall pyrite_init(unsigned char)
   pal_col(24+3, 0x29);
 }
 
-void fastcall pyrite_tick_nothing(unsigned char)
-{
-  // Do nothing.
-}
-
-unsigned char fastcall pyrite_check_collide(unsigned char idx)
+unsigned char fastcall pyrite_check_collide(void)
 {
   unsigned char x_pos, y_pos;
 
-  --idx;
+  idx = lynchable_active_idx - 1;
   x_pos = get_x_pos(idx);
   y_pos = starting_y_pos[idx];
   return (
@@ -49,21 +48,19 @@ unsigned char fastcall pyrite_check_collide(unsigned char idx)
   );
 }
 
-void fastcall pyrite_render(unsigned char idx)
+void fastcall pyrite_render(void)
 {
-  if (idx == lynchable_attached_idx)
+  if (lynchable_active_idx == lynchable_attached_idx)
   {
     gfx_oam_metaspr(noose_x, noose_y, pyrite_metaspr);
     return;
   }
 
-  --idx;
+  idx = lynchable_active_idx - 1;
   gfx_oam_metaspr(get_x_pos(idx), starting_y_pos[idx], pyrite_metaspr);
 }
 
-void fastcall pyrite_deinit(unsigned char)
+void fastcall pyrite_deinit(void)
 {
   score_add(0x01);
 }
-
-void (*fastcall pyrite_tick)(unsigned char) = pyrite_tick_nothing;

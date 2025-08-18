@@ -18,6 +18,9 @@ extern unsigned char noose_y;
 extern unsigned char lynchable_attached_idx;
 #pragma zpsym ("lynchable_attached_idx")
 
+extern unsigned char lynchable_active_idx;
+#pragma zpsym ("lynchable_active_idx")
+
 void fastcall lynchman_init(void);
 void fastcall lynchman_append(LynchableObject);
 void fastcall lynchman_tick(void);

@@ -35,7 +35,7 @@ const LevelLynchable level_lynchable_objects[] = {
   {1, LYNCHABLE_MONEYBAG}, {0, 0},
   {1, LYNCHABLE_MONEYBAG}, {14, LYNCHABLE_PYRITE}, {0, 0},
 };
-const LevelLynchable *lynchable_object_ptr;
+unsigned char lynchable_object_idx;
 
 void fastcall render(void);
 
@@ -48,7 +48,7 @@ void fastcall gamestate_play_level_completed(void);
 void fastcall gamestate_play_init(void)
 {
   level_number = 0;
-  lynchable_object_ptr = &level_lynchable_objects[0];
+  lynchable_object_idx = 0;
 
   ppu_off();
   mmc3_bank_select(2, 0x04);
@@ -75,15 +75,15 @@ void fastcall gamestate_play_prepare_level(void)
   player_init();
 
   lynchman_init();
-  for (; lynchable_object_ptr->count; ++lynchable_object_ptr)
+  for (; level_lynchable_objects[lynchable_object_idx].count; ++lynchable_object_idx)
   {
     i = 0;
-    for (; i < lynchable_object_ptr->count; ++i)
+    for (; i < level_lynchable_objects[lynchable_object_idx].count; ++i)
     {
-      lynchman_append(lynchable_object_ptr->lynchable);
+      lynchman_append(level_lynchable_objects[lynchable_object_idx].lynchable);
     }
   }
-  ++lynchable_object_ptr;
+  ++lynchable_object_idx;
 
   ppu_on_bg();
   textbox_ptr = level_text[level_number];
