@@ -1,7 +1,6 @@
 #include "moneybag.h"
 #include <chr/gfx.h>
 #include <component/lynchman/lynchman.h>
-#include <component/player/player.h>
 #include <gamestate/gamestate.h>
 
 #pragma bss-name (push,"ZEROPAGE")
@@ -172,4 +171,5 @@ const Lynchable moneybag_lynchable = {
   &moneybag_tick,
   moneybag_check_collide,
   moneybag_render,
+  NULL, // moneybag cannot be destroyed!
 };

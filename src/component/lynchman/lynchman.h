@@ -18,5 +18,6 @@ void fastcall lynchman_init();
 void fastcall lynchman_append(const Lynchable*);
 void fastcall lynchman_tick();
 void fastcall lynchman_render();
+void fastcall lynchman_remove_attached();
 
 #endif // LYNCHMAN_H_

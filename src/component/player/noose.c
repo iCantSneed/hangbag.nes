@@ -5,7 +5,7 @@
 
 #pragma bss-name (push,"ZEROPAGE")
 
-unsigned char noose_delta;
+signed char noose_delta;
 
 #pragma bss-name (push,"RODATA")
 
@@ -35,9 +35,10 @@ unsigned char fastcall noose_tick_noosed()
   if (noose_y <= NOOSE_INITIAL_Y)
   {
     noose_init_nooseless();
+    lynchman_remove_attached();
     return TRUE;
   }
-  if (noose_y >= NOOSE_MAX_Y)
+  if (noose_y >= NOOSE_MAX_Y || ((lynchable_attached_idx != NO_LYNCHABLE_ATTACHED) && (noose_delta > 0))) // FIXME inefficient!
   {
     noose_delta = -noose_delta;
   }

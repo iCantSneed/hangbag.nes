@@ -75,3 +75,13 @@ void fastcall lynchman_render()
       render_idx = 0;
     }
 }
+
+void fastcall lynchman_remove_attached()
+{
+  if (lynchable_attached_idx != NO_LYNCHABLE_ATTACHED)
+  {
+    lynchables[lynchable_attached_idx]->deinit(lynchable_attached_idx);
+    lynchables[lynchable_attached_idx] = NULL;
+    lynchable_attached_idx = NO_LYNCHABLE_ATTACHED;
+  }
+}

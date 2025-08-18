@@ -35,7 +35,7 @@ const LynchableObject level_lynchable_objects[] = {
   {1, &moneybag_lynchable}, {0, 0},
   {1, &moneybag_lynchable}, {14, &pyrite_lynchable}, {0, 0},
 };
-const LynchableObject *lynchable_object_ptr = &level_lynchable_objects[0];
+const LynchableObject *lynchable_object_ptr;
 
 void fastcall render();
 
@@ -48,6 +48,7 @@ void fastcall gamestate_play_level_completed();
 void fastcall gamestate_play_init()
 {
   level_number = 0;
+  lynchable_object_ptr = &level_lynchable_objects[0];
 
   ppu_off();
   mmc3_bank_select(2, 0x04);
