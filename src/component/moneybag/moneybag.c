@@ -5,7 +5,7 @@
 
 #pragma bss-name (push,"ZEROPAGE")
 
-void (*moneybag_tick)();
+Tick moneybag_tick;
 unsigned int moneybag_x_pos, moneybag_y_pos;
 int moneybag_x_velocity, moneybag_y_velocity;
 unsigned char moneybag_idle_frame;
@@ -140,23 +140,7 @@ void fastcall moneybag_tick_falling()
 void fastcall moneybag_tick_landed()
 {
   --moneybag_idle_frame;
-  if (moneybag_idle_frame)
-  {
-    // TODO collision detection with noose is done here... not the best idea
-    if (
-      player_x_pos >= MSB(moneybag_x_pos) - NOOSE_X_TOLERANCE &&
-      player_x_pos <= MSB(moneybag_x_pos) + NOOSE_X_TOLERANCE &&
-      noose_y >= MONEYBAG_IDLE_Y_POS - NOOSE_Y_TOLERANCE &&
-      noose_y <= MONEYBAG_IDLE_Y_POS + NOOSE_Y_TOLERANCE
-    )
-    {
-      next_gamestate = gamestate_play_moneybag_hanged;
-      noose_y = SPRITE_HIDDEN_Y;
-      moneybag_x_pos = player_x_pos << 8;
-      moneybag_metaspr_render = moneybag_skinny_metaspr;
-    }
-  }
-  else
+  if (!moneybag_idle_frame)
   {
     moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
     moneybag_tick = moneybag_tick_prepare_jump;
@@ -164,8 +148,28 @@ void fastcall moneybag_tick_landed()
   }
 }
 
+unsigned char fastcall moneybag_check_collide()
+{
+  if (
+    moneybag_idle_frame &&
+    player_x_pos >= MSB(moneybag_x_pos) - NOOSE_X_TOLERANCE &&
+    player_x_pos <= MSB(moneybag_x_pos) + NOOSE_X_TOLERANCE &&
+    noose_y >= MONEYBAG_IDLE_Y_POS - NOOSE_Y_TOLERANCE &&
+    noose_y <= MONEYBAG_IDLE_Y_POS + NOOSE_Y_TOLERANCE
+  )
+  {
+    next_gamestate = gamestate_play_moneybag_hanged;
+    noose_y = SPRITE_HIDDEN_Y;
+    moneybag_x_pos = player_x_pos << 8;
+    moneybag_metaspr_render = moneybag_skinny_metaspr;
+    return TRUE;
+  }
+  return FALSE;
+}
+
 const Lynchable moneybag_lynchable = {
   moneybag_init,
   &moneybag_tick,
+  moneybag_check_collide,
   moneybag_render,
 };
