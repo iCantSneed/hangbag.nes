@@ -1,11 +1,11 @@
 #include "player.h"
 #include "player_internal.h"
+#include <component/lynchman/lynchman.h>
 #include <neslib/neslib.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
 void (*player_tick)();
-unsigned char player_x_pos;
 unsigned char player_power;
 
 #pragma bss-name (push,"RODATA")
@@ -16,7 +16,7 @@ void fastcall player_tick_noosed();
 void fastcall player_init()
 {
   player_tick = player_tick_nooseless;
-  player_x_pos = KIWI_RIGHT_X;
+  noose_x = KIWI_RIGHT_X;
   powerbar_init();
   kiwi_init();
   lasso_reset();

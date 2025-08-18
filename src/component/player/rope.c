@@ -1,6 +1,6 @@
-#include "player.h"
 #include "player_internal.h"
 #include <chr/gfx.h>
+#include <component/lynchman/lynchman.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
@@ -27,7 +27,7 @@ void fastcall rope_render()
     return;
   }
 
-  rope_x = player_x_pos - 1;
+  rope_x = noose_x - 1;
   rope_curr_y = rope_start_y - 23;
   for (; rope_curr_y > KIWI_Y - 23; rope_curr_y -= 16)
   {

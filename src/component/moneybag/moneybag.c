@@ -1,5 +1,6 @@
 #include "moneybag.h"
 #include <chr/gfx.h>
+#include <component/lynchman/lynchman.h>
 #include <component/player/player.h>
 #include <gamestate/gamestate.h>
 
@@ -152,15 +153,14 @@ unsigned char fastcall moneybag_check_collide()
 {
   if (
     moneybag_idle_frame &&
-    player_x_pos >= MSB(moneybag_x_pos) - NOOSE_X_TOLERANCE &&
-    player_x_pos <= MSB(moneybag_x_pos) + NOOSE_X_TOLERANCE &&
+    noose_x >= MSB(moneybag_x_pos) - NOOSE_X_TOLERANCE &&
+    noose_x <= MSB(moneybag_x_pos) + NOOSE_X_TOLERANCE &&
     noose_y >= MONEYBAG_IDLE_Y_POS - NOOSE_Y_TOLERANCE &&
     noose_y <= MONEYBAG_IDLE_Y_POS + NOOSE_Y_TOLERANCE
   )
   {
     next_gamestate = gamestate_play_moneybag_hanged;
-    noose_y = SPRITE_HIDDEN_Y;
-    moneybag_x_pos = player_x_pos << 8;
+    moneybag_x_pos = noose_x << 8;
     moneybag_metaspr_render = moneybag_skinny_metaspr;
     return TRUE;
   }

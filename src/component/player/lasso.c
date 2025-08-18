@@ -1,6 +1,6 @@
-#include "player.h"
 #include "player_internal.h"
 #include <chr/gfx.h>
+#include <component/lynchman/lynchman.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
@@ -23,7 +23,7 @@ void fastcall lasso_reset()
 void fastcall lasso_tick_nooseless()
 {
   clock = nesclock() & 0b1100;
-  lasso_x = player_x_pos;
+  lasso_x = noose_x;
   lasso_y = KIWI_Y;
   if (!(clock & 0b0100))
   {
@@ -42,6 +42,6 @@ void fastcall lasso_render()
     return;
   }
 
-  gfx_oam_spr(player_x_pos - 1, KIWI_Y - 37, 0x08, 0);
+  gfx_oam_spr(noose_x - 1, KIWI_Y - 37, 0x08, 0);
   gfx_oam_metaspr(lasso_x, lasso_y, lasso_metaspr);
 }

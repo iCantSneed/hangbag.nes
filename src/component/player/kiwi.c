@@ -1,6 +1,6 @@
-#include "player.h"
 #include "player_internal.h"
 #include <chr/gfx.h>
+#include <component/lynchman/lynchman.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
@@ -44,17 +44,17 @@ void fastcall kiwi_tick_nooseless()
 {
   if (pad_state(0) & PAD_LEFT)
   {
-    if (player_x_pos > KIWI_LEFT_X)
+    if (noose_x > KIWI_LEFT_X)
     {
-      --player_x_pos;
+      --noose_x;
     }
     kiwi_walk_frame = (kiwi_walk_frame + 1) & KIWI_WALK_MASK;
   }
   else if (pad_state(0) & PAD_RIGHT)
   {
-    if (player_x_pos < KIWI_RIGHT_X)
+    if (noose_x < KIWI_RIGHT_X)
     {
-      ++player_x_pos;
+      ++noose_x;
     }
     kiwi_walk_frame = (kiwi_walk_frame + 1) & KIWI_WALK_MASK;
   }
@@ -66,5 +66,5 @@ void fastcall kiwi_tick_nooseless()
 
 void fastcall kiwi_render()
 {
-  gfx_oam_metaspr(player_x_pos, KIWI_Y, (kiwi_walk_frame > (KIWI_WALK_MASK >> 1)) ? kiwi_walk_metaspr : kiwi_normal_metaspr);
+  gfx_oam_metaspr(noose_x, KIWI_Y, (kiwi_walk_frame > (KIWI_WALK_MASK >> 1)) ? kiwi_walk_metaspr : kiwi_normal_metaspr);
 }

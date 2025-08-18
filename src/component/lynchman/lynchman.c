@@ -8,8 +8,7 @@ unsigned char insertion_idx;
 unsigned char render_idx;
 const Lynchable **ptr;
 unsigned char lynchable_attached_idx;
-
-#define NO_LYNCHABLE_ATTACHED 0xff
+unsigned char noose_x, noose_y;
 
 void fastcall lynchman_init()
 {

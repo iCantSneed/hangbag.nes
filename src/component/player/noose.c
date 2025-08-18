@@ -1,11 +1,10 @@
-#include "player.h"
 #include "player_internal.h"
 #include <chr/gfx.h>
+#include <component/lynchman/lynchman.h>
 #include <component/moneybag/moneybag.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
-unsigned char noose_y;
 unsigned char noose_delta;
 
 #pragma bss-name (push,"RODATA")
@@ -47,10 +46,10 @@ unsigned char fastcall noose_tick_noosed()
 
 void fastcall noose_render()
 {
-  if (noose_y == SPRITE_HIDDEN_Y)
+  if (lynchable_attached_idx != NO_LYNCHABLE_ATTACHED)
   {
     return;
   }
   
-  gfx_oam_metaspr(player_x_pos, noose_y, noose_metaspr);
+  gfx_oam_metaspr(noose_x, noose_y, noose_metaspr);
 }
