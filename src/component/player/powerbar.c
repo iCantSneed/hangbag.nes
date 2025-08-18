@@ -18,7 +18,6 @@ const unsigned char powers[] = {
   POWER_MED, POWER_MED, POWER_MED, POWER_MED,
   POWER_HI,
 };
-const unsigned char power_bar_text[] = "PWR \x03\x04\x05\x06";
 
 #define PAL_POWERBAR_21 0x07
 #define PAL_POWERBAR_22 0x16
@@ -34,11 +33,6 @@ void fastcall powerbar_init()
   power_gauge_x = 40;
   power_gauge_x_delta = 1;
 
-  vram_adr(NTADR_A(1, 2));
-  vram_write(power_bar_text, sizeof(power_bar_text) - 1);
-  vram_adr(0x23c1);
-  vram_put(0b11100000);
-  vram_put(0b00100000);
   pal_col(8+1, PAL_POWERBAR_21);
   pal_col(8+2, PAL_POWERBAR_22);
   pal_col(12+1, PAL_POWERBAR_31);

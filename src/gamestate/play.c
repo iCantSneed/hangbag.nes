@@ -1,4 +1,5 @@
 #include "gamestate.h"
+#include "play_nametable.h"
 #include <chr/gfx.h>
 #include <component/lynchman/lynchman.h>
 #include <component/moneybag/moneybag.h>
@@ -43,8 +44,6 @@ void fastcall gamestate_play_level_completed();
 
 void fastcall gamestate_play_init()
 {
-  unsigned char i;
-
   level_number = 0;
 
   ppu_off();
@@ -67,37 +66,8 @@ void fastcall gamestate_play_init()
   pal_col(4+2, 0x15);
   pal_col(4+3, 0x05);
 
-  // Draw bricks on the side
-  i = 4;
-  vram_adr(NTADR_A(0, 4));
-  for (; i < 28; ++i)
-  {
-    vram_put(0x01);
-    vram_put(0x01);
-    vram_fill(' ', 28);
-    vram_put(0x01);
-    vram_put(0x01);
-  }
-  i = 0;
-  vram_adr(0x23d0);
-  for (; i < 5; ++i)
-  {
-    vram_put(0b00010001);
-    vram_fill(0, 6);
-    vram_put(0b01000100);
-  }
-
-  // Draw the grated floor
-  vram_adr(NTADR_A(2, 6));
-  vram_fill(0x02, 28);
-  vram_adr(0x23c8);
-  vram_fill(0b01010101, 8);
-
-  // Draw bricks at the bottom
-  vram_adr(NTADR_A(0, 28));
-  vram_fill(0x01, 64);
-  vram_adr(0x23f8);
-  vram_fill(0b01010101, 8);
+  // Draw nametable
+  vram_unrle(play_nametable);
 
   ppu_on_all();
   next_gamestate = gamestate_play_prepare_level;
