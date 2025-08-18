@@ -50,10 +50,19 @@ void fastcall gamestate_play_init()
   mmc3_bank_select(2, 0x04);
   mmc3_bank_select(3, 0x05);
 
-  // TODO
-  vram_adr(NTADR_A(0, 0));
-  vram_fill(0x00, 1024);
+  // Prepare palette
   pal_col(0, 0x00);
+  pal_col(4+1, 0x0f);
+  pal_col(4+2, 0x15);
+  pal_col(4+3, 0x05);
+
+  gamestate_play_prepare_level();
+}
+
+void fastcall gamestate_play_prepare_level()
+{
+  vram_adr(NTADR_A(0, 0));
+  vram_unrle(play_nametable);
   textbox_init();
   time_init();
   score_init();
@@ -61,20 +70,7 @@ void fastcall gamestate_play_init()
   lynchman_init();
   lynchman_append(&moneybag_lynchable);
 
-  // Prepare palette
-  pal_col(4+1, 0x0f);
-  pal_col(4+2, 0x15);
-  pal_col(4+3, 0x05);
-
-  // Draw nametable
-  vram_unrle(play_nametable);
-
   ppu_on_all();
-  next_gamestate = gamestate_play_prepare_level;
-}
-
-void fastcall gamestate_play_prepare_level()
-{
   textbox_ptr = level_text[level_number];
   next_gamestate = gamestate_play_text;
 }
@@ -128,7 +124,13 @@ void fastcall gamestate_play_moneybag_hanged()
 
 void fastcall gamestate_play_level_completed()
 {
-  // TODO
+  if (pad_state(0) & PAD_A)
+  {
+    ppu_off();
+    // TODO ++level_number;
+    next_gamestate = gamestate_play_prepare_level;
+  }
+
   render();
 }
 
