@@ -107,8 +107,9 @@ add_executable(${PROJECT_NAME}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/crt0.s"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/vram_update.c"
 )
-set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/text.s" PROPERTIES
-  OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level1.txt"
+set(TEXT_DEPTS
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level1.txt"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level2.txt"
 )
 set(CRT0_DEPS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/00-spr.chr"
@@ -122,6 +123,7 @@ set(CRT0_DEPS
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/text.s" PROPERTIES OBJECT_DEPENDS "${TEXT_DEPS}")
 set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/crt0.s" PROPERTIES OBJECT_DEPENDS "${CRT0_DEPS}")
 target_link_options(${PROJECT_NAME} PRIVATE
   -g

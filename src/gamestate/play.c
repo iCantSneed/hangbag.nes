@@ -16,15 +16,11 @@ unsigned char level_number;
 
 #pragma bss-name (push,"RODATA")
 
+extern const unsigned char* level_text[];
+
 // Pozzed text
 const unsigned char pozzed_text[] = "POZZED";
 const unsigned char unpozzed_text[] = "      ";
-
-// Level text
-extern const unsigned char text_level1[];
-const unsigned char* level_text[] = {
-  text_level1,
-};
 
 // Level completion messages
 const unsigned char level_completed_text[] = "LEVEL COMPLETED!";
@@ -127,7 +123,7 @@ void fastcall gamestate_play_level_completed()
   if (pad_state(0) & PAD_A)
   {
     ppu_off();
-    // TODO ++level_number;
+    ++level_number;
     next_gamestate = gamestate_play_prepare_level;
   }
 
