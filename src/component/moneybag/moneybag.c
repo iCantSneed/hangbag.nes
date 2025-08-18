@@ -1,16 +1,18 @@
-#include "moneybag.h"
 #include <chr/gfx.h>
 #include <component/lynchman/lynchman.h>
 #include <gamestate/gamestate.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
-void (*fastcall moneybag_tick)(void);
 unsigned int moneybag_x_pos, moneybag_y_pos;
 int moneybag_x_velocity, moneybag_y_velocity;
 unsigned char moneybag_idle_frame;
 unsigned char moneybag_x_velocity_negative;
 unsigned char const* moneybag_metaspr_render;
+
+#pragma bss-name (push,"DATA")
+
+void (*fastcall moneybag_tick)(void);
 
 #pragma bss-name (push,"RODATA")
 
@@ -152,10 +154,10 @@ unsigned char fastcall moneybag_check_collide(void)
 {
   if (
     moneybag_idle_frame &&
-    noose_x >= MSB(moneybag_x_pos) - NOOSE_X_TOLERANCE &&
-    noose_x <= MSB(moneybag_x_pos) + NOOSE_X_TOLERANCE &&
-    noose_y >= MONEYBAG_IDLE_Y_POS - NOOSE_Y_TOLERANCE &&
-    noose_y <= MONEYBAG_IDLE_Y_POS + NOOSE_Y_TOLERANCE
+    noose_x >= (unsigned char)(MSB(moneybag_x_pos) - NOOSE_X_TOLERANCE) &&
+    noose_x <= (unsigned char)(MSB(moneybag_x_pos) + NOOSE_X_TOLERANCE) &&
+    noose_y >= (unsigned char)(MONEYBAG_IDLE_Y_POS - NOOSE_Y_TOLERANCE) &&
+    noose_y <= (unsigned char)(MONEYBAG_IDLE_Y_POS + NOOSE_Y_TOLERANCE)
   )
   {
     next_gamestate = gamestate_play_moneybag_hanged;

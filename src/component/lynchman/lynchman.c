@@ -1,7 +1,5 @@
 #include "lynchable.h"
 #include "lynchman.h"
-#include <component/moneybag/moneybag.h>
-#include <component/pyrite/pyrite.h>
 #include <neslib/neslib.h>
 
 #pragma bss-name (push,"ZEROPAGE")

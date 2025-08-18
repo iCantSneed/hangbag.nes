@@ -1,4 +1,3 @@
-#include "pyrite.h"
 #include <chr/gfx.h>
 #include <component/lynchman/lynchman.h>
 #include <component/score/score.h>
@@ -6,6 +5,7 @@
 #pragma bss-name (push,"ZEROPAGE")
 
 unsigned char idx;
+unsigned char x_pos, y_pos;
 
 #pragma bss-name (push,"RODATA")
 
@@ -15,15 +15,15 @@ const unsigned char pyrite_metaspr[] = {
   128
 };
 
+const unsigned char starting_x_pos[] = {
+  0x17, 0x27, 0x37, 0x47, 0x57, 0x67, 0x77,
+  0x87, 0x97, 0xa7, 0xb7, 0xc7, 0xd7, 0xe7,
+};
+
 const unsigned char starting_y_pos[] = {
   0x50, 0x60, 0x70, 0x80, 0x80, 0x70, 0x60,
   0x60, 0x70, 0x80, 0x80, 0x70, 0x60, 0x50,
 };
-
-unsigned char fastcall get_x_pos(unsigned char adjusted_idx)
-{
-  return 23 + adjusted_idx * 16;
-}
 
 void fastcall pyrite_init(void)
 {
@@ -35,16 +35,14 @@ void fastcall pyrite_init(void)
 
 unsigned char fastcall pyrite_check_collide(void)
 {
-  unsigned char x_pos, y_pos;
-
   idx = lynchable_active_idx - 1;
-  x_pos = get_x_pos(idx);
+  x_pos = starting_x_pos[idx];
   y_pos = starting_y_pos[idx];
   return (
     noose_y >= y_pos &&
-    noose_y <= y_pos + 16 &&
-    noose_x >= x_pos - 8 &&
-    noose_x <= x_pos + 8
+    noose_y <= (unsigned char)(y_pos + 16) &&
+    noose_x >= (unsigned char)(x_pos - 8) &&
+    noose_x <= (unsigned char)(x_pos + 8)
   );
 }
 
@@ -57,7 +55,7 @@ void fastcall pyrite_render(void)
   }
 
   idx = lynchable_active_idx - 1;
-  gfx_oam_metaspr(get_x_pos(idx), starting_y_pos[idx], pyrite_metaspr);
+  gfx_oam_metaspr(starting_x_pos[idx], starting_y_pos[idx], pyrite_metaspr);
 }
 
 void fastcall pyrite_deinit(void)

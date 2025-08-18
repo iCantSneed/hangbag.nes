@@ -2,9 +2,7 @@
 #include "play_nametable.h"
 #include <chr/gfx.h>
 #include <component/lynchman/lynchman.h>
-#include <component/moneybag/moneybag.h>
 #include <component/player/player.h>
-#include <component/pyrite/pyrite.h>
 #include <component/score/score.h>
 #include <component/time/time.h>
 #include <component/textbox/textbox.h>

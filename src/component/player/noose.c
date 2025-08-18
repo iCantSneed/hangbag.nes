@@ -1,7 +1,6 @@
 #include "player_internal.h"
 #include <chr/gfx.h>
 #include <component/lynchman/lynchman.h>
-#include <component/moneybag/moneybag.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
