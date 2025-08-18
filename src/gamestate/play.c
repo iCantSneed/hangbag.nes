@@ -1,5 +1,6 @@
 #include "gamestate.h"
 #include <chr/gfx.h>
+#include <component/lynchman/lynchman.h>
 #include <component/moneybag/moneybag.h>
 #include <component/player/player.h>
 #include <component/score/score.h>
@@ -11,8 +12,6 @@
 #pragma bss-name (push,"ZEROPAGE")
 
 unsigned char level_number;
-const Component *components[16];
-const Component **component_ptr, **component_render_start_ptr;
 
 #pragma bss-name (push,"RODATA")
 
@@ -59,10 +58,9 @@ void fastcall gamestate_play_init()
   textbox_init();
   time_init();
   score_init();
-  components[0] = &player_component; components[0]->init();
-  components[1] = &moneybag_component; components[1]->init();
-  components[2] = NULL;
-  component_render_start_ptr = &components[0];
+  player_init();
+  lynchman_init();
+  lynchman_append(&moneybag_lynchable);
 
   // Prepare palette
   pal_col(4+1, 0x0f);
@@ -129,12 +127,8 @@ void fastcall gamestate_play_normal()
   }
 
   time_tick();
-
-  component_ptr = &components[0];
-  for (; *component_ptr; ++component_ptr)
-  {
-    (*(*component_ptr)->tick)();
-  }
+  player_tick();
+  lynchman_tick();
 
   render();
 }
@@ -178,22 +172,8 @@ void fastcall render()
 {
   gfx_oam_start();
 
-  component_ptr = component_render_start_ptr;
-  do
-  {
-    (*component_ptr)->render();
-    ++component_ptr;
-    if (!*component_ptr)
-    {
-      component_ptr = &components[0];
-    }
-  } while (component_ptr != component_render_start_ptr);
-  
-  ++component_render_start_ptr;
-  if (!*component_render_start_ptr)
-  {
-    component_render_start_ptr = &components[0];
-  }
+  player_render();
+  lynchman_render();
 
   gfx_oam_end();
 }

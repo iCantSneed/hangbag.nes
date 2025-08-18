@@ -4,7 +4,7 @@
 
 #pragma bss-name (push,"ZEROPAGE")
 
-Callback player_tick;
+void (*player_tick)();
 unsigned char player_x_pos;
 unsigned char player_power;
 
@@ -55,9 +55,3 @@ void fastcall player_render()
   noose_render();
   rope_render();
 }
-
-const Component player_component = {
-  player_init,
-  &player_tick,
-  player_render,
-};

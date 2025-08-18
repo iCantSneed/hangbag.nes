@@ -5,7 +5,7 @@
 
 #pragma bss-name (push,"ZEROPAGE")
 
-Callback moneybag_tick;
+void (*moneybag_tick)();
 unsigned int moneybag_x_pos, moneybag_y_pos;
 int moneybag_x_velocity, moneybag_y_velocity;
 unsigned char moneybag_idle_frame;
@@ -164,7 +164,7 @@ void fastcall moneybag_tick_landed()
   }
 }
 
-const Component moneybag_component = {
+const Lynchable moneybag_lynchable = {
   moneybag_init,
   &moneybag_tick,
   moneybag_render,
