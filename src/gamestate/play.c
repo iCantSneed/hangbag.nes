@@ -85,7 +85,7 @@ void fastcall gamestate_play_prepare_level()
   }
   ++lynchable_object_ptr;
 
-  ppu_on_all();
+  ppu_on_bg();
   textbox_ptr = level_text[level_number];
   next_gamestate = gamestate_play_text;
 }
@@ -94,6 +94,7 @@ void fastcall gamestate_play_text()
 {
   if (textbox_tick())
   {
+    ppu_on_all();
     next_gamestate = gamestate_play_normal;
   }
   render();
