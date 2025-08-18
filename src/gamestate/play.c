@@ -4,17 +4,14 @@
 #include <component/lynchman/lynchman.h>
 #include <component/moneybag/moneybag.h>
 #include <component/player/player.h>
+#include <component/pyrite/pyrite.h>
 #include <component/score/score.h>
 #include <component/time/time.h>
 #include <component/textbox/textbox.h>
 #include <neslib/mmc3.h>
 #include <neslib/vram_update.h>
 
-#pragma bss-name (push,"ZEROPAGE")
-
 unsigned char level_number;
-
-#pragma bss-name (push,"RODATA")
 
 extern const unsigned char* level_text[];
 
@@ -29,6 +26,16 @@ const unsigned char time_bonus_text[] = "TIME BONUS   $0000";
 #define POZZED_VRAM_UPDATE_ADDR (NTADR_A((16 - (sizeof(pozzed_text) - 1) / 2), 10) | (NT_UPD_HORZ << 8))
 #define LEVEL_COMPLETED_VRAM_UPDATE_ADDR (NTADR_A((16 - (sizeof(level_completed_text) - 1) / 2), 14) | (NT_UPD_HORZ << 8))
 #define TIME_BONUS_VRAM_UPDATE_ADDR (NTADR_A((16 - (sizeof(time_bonus_text) - 1) / 2), 16) | (NT_UPD_HORZ << 8))
+
+typedef struct {
+  unsigned char count;
+  const Lynchable* lynchable;
+} LynchableObject;
+const LynchableObject level_lynchable_objects[] = {
+  {1, &moneybag_lynchable}, {0, 0},
+  {1, &moneybag_lynchable}, {14, &pyrite_lynchable}, {0, 0},
+};
+const LynchableObject *lynchable_object_ptr = &level_lynchable_objects[0];
 
 void fastcall render();
 
@@ -57,14 +64,25 @@ void fastcall gamestate_play_init()
 
 void fastcall gamestate_play_prepare_level()
 {
+  unsigned char i;
+
   vram_adr(NTADR_A(0, 0));
   vram_unrle(play_nametable);
   textbox_init();
   time_init();
   score_init();
   player_init();
+
   lynchman_init();
-  lynchman_append(&moneybag_lynchable);
+  for (; lynchable_object_ptr->count; ++lynchable_object_ptr)
+  {
+    i = 0;
+    for (; i < lynchable_object_ptr->count; ++i)
+    {
+      lynchman_append(lynchable_object_ptr->lynchable);
+    }
+  }
+  ++lynchable_object_ptr;
 
   ppu_on_all();
   textbox_ptr = level_text[level_number];

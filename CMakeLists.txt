@@ -94,6 +94,7 @@ add_executable(${PROJECT_NAME}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/player.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/powerbar.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/player/rope.c"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/component/pyrite/pyrite.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/score/score.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/time/time.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/textbox/textbox.c"
