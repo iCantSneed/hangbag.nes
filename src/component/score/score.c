@@ -25,7 +25,12 @@ void fastcall score_init()
 
 void fastcall score_add(Bcd delta)
 {
-  // TODO
-  bcd_add(&score[2], delta);
+  if (bcd_add(&score[2], delta))
+  {
+    if (bcd_add_with_carry(&score[1], 0x00))
+    {
+      bcd_add_with_carry(&score[0], 0x00);
+    }
+  }
   score_draw();
 }

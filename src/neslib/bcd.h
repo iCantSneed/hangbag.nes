@@ -3,7 +3,8 @@
 
 typedef unsigned char Bcd;
 
-Bcd fastcall bcd_add(Bcd* num, Bcd delta);
+unsigned char fastcall bcd_add(Bcd* num_ptr, Bcd delta);
+unsigned char fastcall bcd_add_with_carry(Bcd* num_ptr, Bcd delta);
 unsigned char fastcall bcd_decrement(Bcd* num_ptr);
 void fastcall bcd_vram_update(Bcd num, unsigned int vram_update_addr);
 
