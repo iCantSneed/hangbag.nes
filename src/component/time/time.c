@@ -16,14 +16,14 @@ Bcd time_remaining;
 
 #define draw_time() { bcd_vram_update(time_remaining, TIME_REMAIN_VRAM_UPDATE_ADDR); }
 
-void fastcall time_init()
+void fastcall time_init(void)
 {
   frame_number = 0;
   time_remaining = 0x99;
   draw_time();
 }
 
-void fastcall time_tick()
+void fastcall time_tick(void)
 {
   ++frame_number;
   if (frame_number == FRAMES_PER_SECOND)

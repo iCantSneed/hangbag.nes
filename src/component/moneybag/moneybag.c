@@ -5,7 +5,7 @@
 
 #pragma bss-name (push,"ZEROPAGE")
 
-Tick moneybag_tick;
+void (*fastcall moneybag_tick)(unsigned char);
 unsigned int moneybag_x_pos, moneybag_y_pos;
 int moneybag_x_velocity, moneybag_y_velocity;
 unsigned char moneybag_idle_frame;
@@ -58,12 +58,12 @@ const unsigned char moneybag_skinny_metaspr[] = {
 #define NOOSE_X_TOLERANCE 8
 #define NOOSE_Y_TOLERANCE 4
 
-void fastcall moneybag_tick_prepare_jump();
-void fastcall moneybag_tick_jumping();
-void fastcall moneybag_tick_falling();
-void fastcall moneybag_tick_landed();
+void fastcall moneybag_tick_prepare_jump(unsigned char);
+void fastcall moneybag_tick_jumping(unsigned char);
+void fastcall moneybag_tick_falling(unsigned char);
+void fastcall moneybag_tick_landed(unsigned char);
 
-void fastcall moneybag_init()
+void fastcall moneybag_init(unsigned char)
 {
   moneybag_tick = moneybag_tick_prepare_jump;
   moneybag_x_pos = MONEYBAG_LEFT_X << 8;
@@ -73,12 +73,12 @@ void fastcall moneybag_init()
   moneybag_metaspr_render = moneybag_normal_metaspr;
 }
 
-void fastcall moneybag_render()
+void fastcall moneybag_render(unsigned char)
 {
   gfx_oam_metaspr(MSB(moneybag_x_pos), MSB(moneybag_y_pos), moneybag_metaspr_render);
 }
 
-void fastcall airborne_adjust_position()
+void fastcall airborne_adjust_position(void)
 {
   moneybag_x_pos += moneybag_x_velocity;
   if (MSB(moneybag_x_pos) < MONEYBAG_LEFT_X)
@@ -98,7 +98,7 @@ void fastcall airborne_adjust_position()
   moneybag_y_pos += moneybag_y_velocity;
 }
 
-void fastcall moneybag_tick_prepare_jump()
+void fastcall moneybag_tick_prepare_jump(unsigned char)
 {
   moneybag_x_velocity = (rand16() & 0x01ff) + 0x3f;
   if (LSB(moneybag_x_velocity) < 64) // 25% probability that the velocity will be reversed
@@ -115,7 +115,7 @@ void fastcall moneybag_tick_prepare_jump()
   moneybag_metaspr_render = moneybag_skinny_metaspr;
 }
 
-void fastcall moneybag_tick_jumping()
+void fastcall moneybag_tick_jumping(unsigned char)
 {
   airborne_adjust_position();
   if (MSB(moneybag_y_velocity) > 0)
@@ -125,7 +125,7 @@ void fastcall moneybag_tick_jumping()
   }
 }
 
-void fastcall moneybag_tick_falling()
+void fastcall moneybag_tick_falling(unsigned char)
 {
   airborne_adjust_position();
   if (MSB(moneybag_y_pos) >= MSB(MONEYBAG_GROUND_Y_POS))
@@ -137,7 +137,7 @@ void fastcall moneybag_tick_falling()
   }
 }
 
-void fastcall moneybag_tick_landed()
+void fastcall moneybag_tick_landed(unsigned char)
 {
   --moneybag_idle_frame;
   if (!moneybag_idle_frame)
@@ -148,7 +148,7 @@ void fastcall moneybag_tick_landed()
   }
 }
 
-unsigned char fastcall moneybag_check_collide()
+unsigned char fastcall moneybag_check_collide(unsigned char)
 {
   if (
     moneybag_idle_frame &&
@@ -165,11 +165,3 @@ unsigned char fastcall moneybag_check_collide()
   }
   return FALSE;
 }
-
-const Lynchable moneybag_lynchable = {
-  moneybag_init,
-  &moneybag_tick,
-  moneybag_check_collide,
-  moneybag_render,
-  NULL, // moneybag cannot be destroyed!
-};

@@ -17,17 +17,17 @@ unsigned char curr_char;
 
 const unsigned char blank_line[] = "                          ";
 
-char fastcall textbox_tick_write();
-char fastcall textbox_tick_clear();
+char fastcall textbox_tick_write(void);
+char fastcall textbox_tick_clear(void);
 
-void fastcall textbox_init()
+void fastcall textbox_init(void)
 {
   textbox_tick = textbox_tick_write;
   text_vram_addr = TEXT_VRAM_ADDR_INIT;
   line_count = 0;
 }
 
-char fastcall textbox_tick_write()
+char fastcall textbox_tick_write(void)
 {
   curr_char = *textbox_ptr;
   if (curr_char == 0x00)
@@ -58,7 +58,7 @@ char fastcall textbox_tick_write()
   return FALSE;
 }
 
-char fastcall textbox_tick_clear()
+char fastcall textbox_tick_clear(void)
 {
   vram_update_append(text_vram_addr, sizeof(blank_line) - 1, blank_line);
   --line_count;

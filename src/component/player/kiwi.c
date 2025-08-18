@@ -29,7 +29,7 @@ const unsigned char kiwi_walk_metaspr[] = KIWI_METASPR(0x4a, 0x4c);
 
 #define KIWI_WALK_MASK 0b1111
 
-void fastcall kiwi_init()
+void fastcall kiwi_init(void)
 {
   kiwi_walk_frame = 0;
   pal_col(16+1, PAL_KIWI_X1);
@@ -40,7 +40,7 @@ void fastcall kiwi_init()
   pal_col(20+3, PAL_KIWI_13);
 }
 
-void fastcall kiwi_tick_nooseless()
+void fastcall kiwi_tick_nooseless(void)
 {
   if (pad_state(0) & PAD_LEFT)
   {
@@ -64,7 +64,7 @@ void fastcall kiwi_tick_nooseless()
   }
 }
 
-void fastcall kiwi_render()
+void fastcall kiwi_render(void)
 {
   gfx_oam_metaspr(noose_x, KIWI_Y, (kiwi_walk_frame > (KIWI_WALK_MASK >> 1)) ? kiwi_walk_metaspr : kiwi_normal_metaspr);
 }

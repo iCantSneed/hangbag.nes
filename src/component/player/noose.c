@@ -18,18 +18,18 @@ unsigned char noose_metaspr[] = {
 #define NOOSE_INITIAL_Y (KIWI_Y + 7)
 #define NOOSE_MAX_Y (8*28 - 9)
 
-void fastcall noose_init_nooseless()
+void fastcall noose_init_nooseless(void)
 {
   noose_y = SPRITE_HIDDEN_Y;
 }
 
-void fastcall noose_init_noosed()
+void fastcall noose_init_noosed(void)
 {
   noose_y = NOOSE_INITIAL_Y;
   noose_delta = player_power;
 }
 
-unsigned char fastcall noose_tick_noosed()
+unsigned char fastcall noose_tick_noosed(void)
 {
   noose_y += noose_delta;
   if (noose_y <= NOOSE_INITIAL_Y)
@@ -45,7 +45,7 @@ unsigned char fastcall noose_tick_noosed()
   return FALSE;
 }
 
-void fastcall noose_render()
+void fastcall noose_render(void)
 {
   if (lynchable_attached_idx != NO_LYNCHABLE_ATTACHED)
   {

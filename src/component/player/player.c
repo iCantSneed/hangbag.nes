@@ -5,15 +5,15 @@
 
 #pragma bss-name (push,"ZEROPAGE")
 
-void (*player_tick)();
+void (*player_tick)(void);
 unsigned char player_power;
 
 #pragma bss-name (push,"RODATA")
 
-void fastcall player_tick_nooseless();
-void fastcall player_tick_noosed();
+void fastcall player_tick_nooseless(void);
+void fastcall player_tick_noosed(void);
 
-void fastcall player_init()
+void fastcall player_init(void)
 {
   player_tick = player_tick_nooseless;
   noose_x = KIWI_RIGHT_X;
@@ -24,7 +24,7 @@ void fastcall player_init()
   rope_init();
 }
 
-void fastcall player_tick_nooseless()
+void fastcall player_tick_nooseless(void)
 {
   powerbar_tick_nooseless();
   kiwi_tick_nooseless();
@@ -38,7 +38,7 @@ void fastcall player_tick_nooseless()
   }
 }
 
-void fastcall player_tick_noosed()
+void fastcall player_tick_noosed(void)
 {
   if (noose_tick_noosed())
   {
@@ -47,7 +47,7 @@ void fastcall player_tick_noosed()
   rope_tick_noosed();
 }
 
-void fastcall player_render()
+void fastcall player_render(void)
 {
   powerbar_render();
   kiwi_render();

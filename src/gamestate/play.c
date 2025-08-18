@@ -29,23 +29,23 @@ const unsigned char time_bonus_text[] = "TIME BONUS   $0000";
 
 typedef struct {
   unsigned char count;
-  const Lynchable* lynchable;
-} LynchableObject;
-const LynchableObject level_lynchable_objects[] = {
-  {1, &moneybag_lynchable}, {0, 0},
-  {1, &moneybag_lynchable}, {14, &pyrite_lynchable}, {0, 0},
+  const LynchableObject lynchable;
+} LevelLynchable;
+const LevelLynchable level_lynchable_objects[] = {
+  {1, LYNCHABLE_MONEYBAG}, {0, 0},
+  {1, LYNCHABLE_MONEYBAG}, {14, LYNCHABLE_PYRITE}, {0, 0},
 };
-const LynchableObject *lynchable_object_ptr;
+const LevelLynchable *lynchable_object_ptr;
 
-void fastcall render();
+void fastcall render(void);
 
-void fastcall gamestate_play_prepare_level();
-void fastcall gamestate_play_text();
-void fastcall gamestate_play_normal();
-void fastcall gamestate_play_pozzed();
-void fastcall gamestate_play_level_completed();
+void fastcall gamestate_play_prepare_level(void);
+void fastcall gamestate_play_text(void);
+void fastcall gamestate_play_normal(void);
+void fastcall gamestate_play_pozzed(void);
+void fastcall gamestate_play_level_completed(void);
 
-void fastcall gamestate_play_init()
+void fastcall gamestate_play_init(void)
 {
   level_number = 0;
   lynchable_object_ptr = &level_lynchable_objects[0];
@@ -63,7 +63,7 @@ void fastcall gamestate_play_init()
   gamestate_play_prepare_level();
 }
 
-void fastcall gamestate_play_prepare_level()
+void fastcall gamestate_play_prepare_level(void)
 {
   unsigned char i;
 
@@ -90,7 +90,7 @@ void fastcall gamestate_play_prepare_level()
   next_gamestate = gamestate_play_text;
 }
 
-void fastcall gamestate_play_text()
+void fastcall gamestate_play_text(void)
 {
   if (textbox_tick())
   {
@@ -100,7 +100,7 @@ void fastcall gamestate_play_text()
   render();
 }
 
-void fastcall gamestate_play_normal()
+void fastcall gamestate_play_normal(void)
 {
   if (pad_state(0) & PAD_START)
   {
@@ -115,7 +115,7 @@ void fastcall gamestate_play_normal()
   render();
 }
 
-void fastcall gamestate_play_pozzed()
+void fastcall gamestate_play_pozzed(void)
 {
   if (pad_state(0) & PAD_START)
   {
@@ -126,7 +126,7 @@ void fastcall gamestate_play_pozzed()
   render();
 }
 
-void fastcall gamestate_play_moneybag_hanged()
+void fastcall gamestate_play_moneybag_hanged(void)
 {
   // TODO
   score_add(time_remaining);
@@ -138,7 +138,7 @@ void fastcall gamestate_play_moneybag_hanged()
   render();
 }
 
-void fastcall gamestate_play_level_completed()
+void fastcall gamestate_play_level_completed(void)
 {
   if (pad_state(0) & PAD_A)
   {
@@ -150,13 +150,13 @@ void fastcall gamestate_play_level_completed()
   render();
 }
 
-void fastcall gamestate_play_timesup()
+void fastcall gamestate_play_timesup(void)
 {
   // TODO
   next_gamestate = gamestate_gameover_init;
 }
 
-void fastcall render()
+void fastcall render(void)
 {
   gfx_oam_start();
 

@@ -4,12 +4,12 @@
 unsigned char vram_update[64];
 unsigned char vram_update_idx;
 
-void fastcall vram_update_init()
+void fastcall vram_update_init(void)
 {
   set_vram_update(vram_update);
 }
 
-void fastcall vram_update_reset()
+void fastcall vram_update_reset(void)
 {
   vram_update[0] = NT_UPD_EOF;
   vram_update_idx = 0;

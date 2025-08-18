@@ -3,7 +3,7 @@
 #include <chr/gfx.h>
 #include <neslib/mmc3.h>
 
-void fastcall gamestate_gameover_wait();
+void fastcall gamestate_gameover_wait(void);
 
 const unsigned char gameover_palette[16] = {
   0x0f, 0x06, 0x16, 0x07,
@@ -12,7 +12,7 @@ const unsigned char gameover_palette[16] = {
   0,    0x07, 0x17, 0x37,
 };
 
-void fastcall gamestate_gameover_init()
+void fastcall gamestate_gameover_init(void)
 {
   ppu_off();
   oam_clear();
@@ -29,7 +29,7 @@ void fastcall gamestate_gameover_init()
   next_gamestate = gamestate_gameover_wait;
 }
 
-void fastcall gamestate_gameover_wait()
+void fastcall gamestate_gameover_wait(void)
 {
   // TODO
 }

@@ -10,17 +10,17 @@ unsigned char rope_x;
 
 #pragma bss-name (push,"RODATA")
 
-void fastcall rope_init()
+void fastcall rope_init(void)
 {
   rope_start_y = SPRITE_HIDDEN_Y;
 }
 
-void fastcall rope_tick_noosed()
+void fastcall rope_tick_noosed(void)
 {
   rope_start_y = noose_y;
 }
 
-void fastcall rope_render()
+void fastcall rope_render(void)
 {
   if (rope_start_y == SPRITE_HIDDEN_Y)
   {

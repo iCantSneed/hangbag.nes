@@ -14,9 +14,9 @@ const unsigned char attribute_rle[] = {
   0b10101010, RLE_TAG, 0,
 };
 
-void fastcall gamestate_title_wait();
+void fastcall gamestate_title_wait(void);
 
-void fastcall gamestate_title_init()
+void fastcall gamestate_title_init(void)
 {
   // Declare variables we'll need in the future
   const unsigned char *bigmoneybag_nametable_ptr = bigmoneybag_nametable[0];
@@ -75,7 +75,7 @@ void fastcall gamestate_title_init()
   next_gamestate = gamestate_title_wait;
 }
 
-void fastcall gamestate_title_wait()
+void fastcall gamestate_title_wait(void)
 {
   if (pad_state(0) & PAD_START)
   {

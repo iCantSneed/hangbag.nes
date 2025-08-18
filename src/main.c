@@ -9,7 +9,7 @@ GameState next_gamestate;
 
 #pragma bss-name (push,"RODATA")
 
-void main()
+void main(void)
 {
   // Populate common CHR banks
   mmc3_bank_select(0, 0x00);

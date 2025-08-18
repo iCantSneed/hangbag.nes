@@ -29,7 +29,7 @@ void fastcall pyrite_init(unsigned char)
   pal_col(24+3, 0x29);
 }
 
-void fastcall pyrite_tick(unsigned char)
+void fastcall pyrite_tick_nothing(unsigned char)
 {
   // Do nothing.
 }
@@ -66,12 +66,4 @@ void fastcall pyrite_deinit(unsigned char)
   score_add(0x01);
 }
 
-Tick pyrite_tick_ptr = pyrite_tick;
-
-const Lynchable pyrite_lynchable = {
-  pyrite_init,
-  &pyrite_tick_ptr,
-  pyrite_check_collide,
-  pyrite_render,
-  pyrite_deinit,
-};
+void (*fastcall pyrite_tick)(unsigned char) = pyrite_tick_nothing;

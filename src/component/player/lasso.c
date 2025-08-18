@@ -15,12 +15,12 @@ unsigned char lasso_metaspr[] = {
   128,
 };
 
-void fastcall lasso_reset()
+void fastcall lasso_reset(void)
 {
   lasso_y = SPRITE_HIDDEN_Y;
 }
 
-void fastcall lasso_tick_nooseless()
+void fastcall lasso_tick_nooseless(void)
 {
   clock = nesclock() & 0b1100;
   lasso_x = noose_x;
@@ -35,7 +35,7 @@ void fastcall lasso_tick_nooseless()
   }
 }
 
-void fastcall lasso_render()
+void fastcall lasso_render(void)
 {
   if (lasso_y == SPRITE_HIDDEN_Y)
   {
