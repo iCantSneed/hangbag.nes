@@ -24,14 +24,6 @@ const unsigned char starting_y_pos[] = {
   0x60, 0x70, 0x80, 0x80, 0x70, 0x60, 0x50,
 };
 
-void fastcall pyrite_init(void)
-{
-  // TODO this will init the palette for every sprite, which is wasteful, but whatever
-  pal_col(24+1, 0x07);
-  pal_col(24+2, 0x27);
-  pal_col(24+3, 0x29);
-}
-
 unsigned char fastcall pyrite_check_collide(void)
 {
   x_pos = starting_x_pos[lynchable_active_idx];

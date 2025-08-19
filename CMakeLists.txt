@@ -86,6 +86,7 @@ add_executable(${PROJECT_NAME}
 
   "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/gfx.c"
 
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/component/health/health.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/lynchman/lynchman.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/lynchman/lynchman_funcs.s"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/moneybag/moneybag.c"

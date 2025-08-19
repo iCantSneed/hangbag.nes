@@ -4,6 +4,16 @@
 #include <neslib/mmc3.h>
 #include <neslib/neslib.h>
 
+#define BACKGROUND_COLOR 0x0f
+static const unsigned char palette[32] = {
+  BACKGROUND_COLOR, TEXT_PALETTE, // text
+  0, 0x02, 0x36, 0x26,            // logo
+  0, 0x37, 0x17, 0x07,            // moneybag
+  0, BACKGROUND_COLOR, 0, 0,      // sprite 0 hit
+
+  0, BACKGROUND_COLOR, 0, 0,      // sprite 0 hit
+};
+
 #define RLE_TAG 0xff
 const unsigned char attribute_rle[] = {
   RLE_TAG,
@@ -24,27 +34,13 @@ void fastcall gamestate_title_init(void)
   unsigned char i = 0;
 
   ppu_off();
-  pal_col(0, 0x0f);
+  pal_all(palette);
 
   // Set CHR banks
   mmc3_bank_select(2, 0x08);
   mmc3_bank_select(3, 0x09);
   mmc3_bank_select(4, 0x0a);
   mmc3_bank_select(5, 0x0b);
-
-  // Set logo palette
-  pal_col(5, 0x02);
-  pal_col(6, 0x36);
-  pal_col(7, 0x26);
-
-  // Set moneybag palette
-  pal_col(9, 0x37);
-  pal_col(10, 0x17);
-  pal_col(11, 0x07);
-
-  // Set palettes for sprite 0 hit
-  pal_col(13, 0x0f);
-  pal_col(17, 0x0f);
 
   // Draw title
   vram_adr(NTADR_A(0, 0));

@@ -18,11 +18,6 @@ void main(void)
   bank_bg(1);
   oam_size(1);
 
-  // Init text palettes
-  pal_col(1, 0x30);
-  pal_col(2, 0x3d);
-  pal_col(3, 0x10);
-
   // Init vram update
   vram_update_init();
 

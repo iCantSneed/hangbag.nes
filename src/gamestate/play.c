@@ -13,6 +13,17 @@ unsigned char level_number;
 
 extern const unsigned char* level_text[];
 
+static const unsigned char palette[32] = {
+  0x00, TEXT_PALETTE,  // text
+  0, 0x0f, 0x15, 0x05, // scenery
+  0, 0x07, 0x16, 0x27, // powerbar, health
+  0, 0x16, 0x28, 0x19, // powerbar
+
+  0, 0x0f, 0x17, 0x37, // kiwi, moneybag
+  0, 0x0f, 0x17, 0x39, // kiwi
+  0, 0x07, 0x27, 0x29, // pyrite
+};
+
 // Pozzed text
 const unsigned char pozzed_text[] = "POZZED";
 const unsigned char unpozzed_text[] = "      ";
@@ -49,14 +60,9 @@ void fastcall gamestate_play_init(void)
   lynchable_object_idx = 0;
 
   ppu_off();
+  pal_all(palette);
   mmc3_bank_select(2, 0x04);
   mmc3_bank_select(3, 0x05);
-
-  // Prepare palette
-  pal_col(0, 0x00);
-  pal_col(4+1, 0x0f);
-  pal_col(4+2, 0x15);
-  pal_col(4+3, 0x05);
 
   gamestate_play_prepare_level();
 }
@@ -149,6 +155,12 @@ void fastcall gamestate_play_level_completed(void)
 }
 
 void fastcall gamestate_play_timesup(void)
+{
+  // TODO
+  next_gamestate = gamestate_gameover_init;
+}
+
+void fastcall gamestate_play_dead(void)
 {
   // TODO
   next_gamestate = gamestate_gameover_init;

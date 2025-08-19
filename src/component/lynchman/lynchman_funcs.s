@@ -1,20 +1,23 @@
+do_nothing:
+  rts
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
   .export _lynchable_inits_lo, _lynchable_inits_hi
-  .import _moneybag_init, _pyrite_init
+  .import _moneybag_init
 
 _lynchable_inits_lo:
-  .byte <_pyrite_init, <_moneybag_init
+  .byte <do_nothing, <_moneybag_init
 _lynchable_inits_hi:
-  .byte >_pyrite_init, >_moneybag_init
+  .byte >do_nothing, >_moneybag_init
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   .export _lynchable_ticks_lo, _lynchable_ticks_hi
   .import _moneybag_tick
 
-no_tick_do:
-  rts
 no_tick:
-  .addr no_tick_do
+  .addr do_nothing
 _lynchable_ticks_lo:
   .byte <no_tick, <_moneybag_tick
 _lynchable_ticks_hi:

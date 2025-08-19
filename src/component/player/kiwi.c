@@ -20,11 +20,6 @@ unsigned char kiwi_walk_frame;
 const unsigned char kiwi_normal_metaspr[] = KIWI_METASPR(0x46, 0x48);
 const unsigned char kiwi_walk_metaspr[] = KIWI_METASPR(0x4a, 0x4c);
 
-#define PAL_KIWI_X1 0x0f
-#define PAL_KIWI_X2 0x17
-#define PAL_KIWI_03 0x37
-#define PAL_KIWI_13 0x39
-
 #define KIWI_LEFT_X (8*2+11-2)
 
 #define KIWI_WALK_MASK 0b1111
@@ -32,12 +27,6 @@ const unsigned char kiwi_walk_metaspr[] = KIWI_METASPR(0x4a, 0x4c);
 void fastcall kiwi_init(void)
 {
   kiwi_walk_frame = 0;
-  pal_col(16+1, PAL_KIWI_X1);
-  pal_col(16+2, PAL_KIWI_X2);
-  pal_col(16+3, PAL_KIWI_03);
-  pal_col(20+1, PAL_KIWI_X1);
-  pal_col(20+2, PAL_KIWI_X2);
-  pal_col(20+3, PAL_KIWI_13);
 }
 
 void fastcall kiwi_tick_nooseless(void)

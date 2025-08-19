@@ -19,12 +19,6 @@ const unsigned char powers[] = {
   POWER_HI,
 };
 
-#define PAL_POWERBAR_21 0x07
-#define PAL_POWERBAR_22 0x16
-#define PAL_POWERBAR_31 0x16
-#define PAL_POWERBAR_32 0x28
-#define PAL_POWERBAR_33 0x19
-
 void fastcall powerbar_init(void)
 {
   player_power = powers[0];
@@ -32,12 +26,6 @@ void fastcall powerbar_init(void)
   power_idx_delta = 1;
   power_gauge_x = 40;
   power_gauge_x_delta = 1;
-
-  pal_col(8+1, PAL_POWERBAR_21);
-  pal_col(8+2, PAL_POWERBAR_22);
-  pal_col(12+1, PAL_POWERBAR_31);
-  pal_col(12+2, PAL_POWERBAR_32);
-  pal_col(12+3, PAL_POWERBAR_33);
 }
 
 void fastcall powerbar_tick_nooseless(void)
