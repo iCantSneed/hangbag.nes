@@ -9,10 +9,14 @@ int moneybag_x_velocity, moneybag_y_velocity;
 unsigned char moneybag_idle_frame;
 unsigned char moneybag_x_velocity_negative;
 unsigned char const* moneybag_metaspr_render;
+enum {
+  MONEYBAG_TICK_PREPARE_JUMP,
+  MONEYBAG_TICK_JUMPING,
+  MONEYBAG_TICK_FALLING,
+  MONEYBAG_TICK_LANDED,
 
-#pragma bss-name (push,"DATA")
-
-void (*fastcall moneybag_tick)(void);
+  MONEYBAG_TICK_EOF,
+} moneybag_tick_state;
 
 #pragma bss-name (push,"RODATA")
 
@@ -60,14 +64,9 @@ const unsigned char moneybag_skinny_metaspr[] = {
 #define NOOSE_X_TOLERANCE 8
 #define NOOSE_Y_TOLERANCE 4
 
-void fastcall moneybag_tick_prepare_jump(void);
-void fastcall moneybag_tick_jumping(void);
-void fastcall moneybag_tick_falling(void);
-void fastcall moneybag_tick_landed(void);
-
 void fastcall moneybag_init(void)
 {
-  moneybag_tick = moneybag_tick_prepare_jump;
+  moneybag_tick_state = MONEYBAG_TICK_PREPARE_JUMP;
   moneybag_x_pos = MONEYBAG_LEFT_X << 8;
   moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
   moneybag_idle_frame = 0;
@@ -100,8 +99,17 @@ void fastcall airborne_adjust_position(void)
   moneybag_y_pos += moneybag_y_velocity;
 }
 
-void fastcall moneybag_tick_prepare_jump(void)
+void fastcall moneybag_tick(void)
 {
+  static const void *const tick_jumptable[MONEYBAG_TICK_EOF] = {
+    &&moneybag_tick_prepare_jump,
+    &&moneybag_tick_jumping,
+    &&moneybag_tick_falling,
+    &&moneybag_tick_landed,
+  };
+  goto *tick_jumptable[moneybag_tick_state];
+
+moneybag_tick_prepare_jump:
   moneybag_x_velocity = (rand16() & 0x01ff) + 0x3f;
   if (LSB(moneybag_x_velocity) < 64) // 25% probability that the velocity will be reversed
   {
@@ -113,41 +121,39 @@ void fastcall moneybag_tick_prepare_jump(void)
   }
 
   moneybag_y_velocity = -(rand16() & 0x02ff) - 0x01ff;
-  moneybag_tick = moneybag_tick_jumping;
+  moneybag_tick_state = MONEYBAG_TICK_JUMPING;
   moneybag_metaspr_render = moneybag_skinny_metaspr;
-}
+  return;
 
-void fastcall moneybag_tick_jumping(void)
-{
+moneybag_tick_jumping:
   airborne_adjust_position();
   if (MSB(moneybag_y_velocity) > 0)
   {
-    moneybag_tick = moneybag_tick_falling;
+    moneybag_tick_state = MONEYBAG_TICK_FALLING;
     moneybag_metaspr_render = moneybag_normal_metaspr;
   }
-}
+  return;
 
-void fastcall moneybag_tick_falling(void)
-{
+moneybag_tick_falling:
   airborne_adjust_position();
   if (MSB(moneybag_y_pos) >= MSB(MONEYBAG_GROUND_Y_POS))
   {
     moneybag_y_pos = MONEYBAG_IDLE_Y_POS << 8;
     moneybag_idle_frame = (rand8() & 15) + 15;
-    moneybag_tick = moneybag_tick_landed;
+    moneybag_tick_state = MONEYBAG_TICK_LANDED;
     moneybag_metaspr_render = moneybag_fat_metaspr;
   }
-}
+  return;
 
-void fastcall moneybag_tick_landed(void)
-{
+moneybag_tick_landed:
   --moneybag_idle_frame;
   if (!moneybag_idle_frame)
   {
     moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
-    moneybag_tick = moneybag_tick_prepare_jump;
+    moneybag_tick_state = MONEYBAG_TICK_PREPARE_JUMP;
     moneybag_metaspr_render = moneybag_normal_metaspr;
   }
+  return;
 }
 
 unsigned char fastcall moneybag_check_collide(void)

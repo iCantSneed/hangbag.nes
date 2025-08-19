@@ -16,12 +16,10 @@ _lynchable_inits_hi:
   .export _lynchable_ticks_lo, _lynchable_ticks_hi
   .import _moneybag_tick
 
-no_tick:
-  .addr do_nothing
 _lynchable_ticks_lo:
-  .byte <no_tick, <_moneybag_tick
+  .byte <do_nothing, <_moneybag_tick
 _lynchable_ticks_hi:
-  .byte >no_tick, >_moneybag_tick
+  .byte >do_nothing, >_moneybag_tick
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

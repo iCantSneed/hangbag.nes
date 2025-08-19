@@ -49,7 +49,7 @@ void fastcall lynchman_tick(void)
     lynchable_object = lynchables[lynchable_active_idx];
     if (lynchable_object != LYNCHABLE_NONE)
     {
-      (*(Tick*)MAKE_PTR(ticks))();
+      ((Tick)MAKE_PTR(ticks))();
     }
   }
 

@@ -76,9 +76,9 @@ void fastcall gamestate_play_prepare_level(void)
   textbox_init();
   time_init();
   score_init();
+  lynchman_init();
   player_init();
 
-  lynchman_init();
   for (; level_lynchable_objects[lynchable_object_idx].count; ++lynchable_object_idx)
   {
     i = 0;
