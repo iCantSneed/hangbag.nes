@@ -19,7 +19,6 @@ void fastcall player_init(void)
   powerbar_init();
   kiwi_init();
   lasso_reset();
-  rope_init();
 
   player_make_nooseless();
 }
@@ -27,6 +26,7 @@ void fastcall player_init(void)
 void fastcall player_make_nooseless()
 {
   noose_init_nooseless();
+  rope_init();
   lynchman_remove_attached();
   player_tick = player_tick_nooseless;
 }

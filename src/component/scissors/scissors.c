@@ -1,6 +1,7 @@
 #include <component/lynchman/lynchman.h>
 #include <component/moneybag/moneybag.h>
 #include <component/player/player.h>
+#include <component/health/health.h>
 #include <chr/gfx.h>
 
 #define MAX_SCISSOR_COUNT 3
@@ -13,7 +14,10 @@ unsigned char scissors_y[MAX_SCISSOR_COUNT];
 static unsigned char idx;
 static struct {
   union {
-    unsigned char active_scissors_y;
+    struct {
+      unsigned char active_scissors_x;
+      unsigned char active_scissors_y;
+    };
   };
 } ephemeral;
 
@@ -82,7 +86,21 @@ void fastcall scissors_tick(void)
 
 unsigned char fastcall scissors_check_collide(void)
 {
-  // TODO
+  set_idx_to_active_lynchable();
+  ephemeral.active_scissors_x = scissors_x[idx];
+  ephemeral.active_scissors_y = scissors_y[idx];
+  if (
+    noose_y >= (unsigned char)(ephemeral.active_scissors_y - 8) &&
+    noose_y <= (unsigned char)(ephemeral.active_scissors_y + 8) &&
+    noose_x >= (unsigned char)(ephemeral.active_scissors_x - 4) &&
+    noose_x <= (unsigned char)(ephemeral.active_scissors_x + 4)
+  )
+  {
+    health_damage();
+    player_make_nooseless();
+    lynchman_destroy_active();
+    scissors_lynchable_id[idx] = NO_LYNCHABLE_ATTACHED;
+  }
   return FALSE;
 }
 

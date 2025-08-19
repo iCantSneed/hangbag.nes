@@ -1,6 +1,7 @@
 #include "gamestate.h"
 #include "play_nametable.h"
 #include <chr/gfx.h>
+#include <component/health/health.h>
 #include <component/lynchman/lynchman.h>
 #include <component/player/player.h>
 #include <component/score/score.h>
@@ -77,6 +78,7 @@ void fastcall gamestate_play_prepare_level(void)
   textbox_init();
   time_init();
   score_init();
+  health_init();
   lynchman_init();
   player_init();
 

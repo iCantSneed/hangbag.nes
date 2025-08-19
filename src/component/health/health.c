@@ -10,18 +10,18 @@ unsigned char health;
 
 #define HEALTH_X 18
 #define HEALTH_Y 2
-#define HEALTH_UPDATE_VRAM_ADDR (NTADR_A(HEALTH_X, HEALTH_Y) | NT_UPD_HORZ)
+#define HEALTH_UPDATE_VRAM_ADDR (NTADR_A(HEALTH_X, HEALTH_Y) | (NT_UPD_HORZ << 8))
 #define STARTING_HEALTH 2
 #define HEALTH_TILE 0x07
 
 const unsigned char health_damage_update_vram[] = { 0x00 };
 
-void fastcall health_init()
+void fastcall health_init(void)
 {
   health = STARTING_HEALTH;
 }
 
-void fastcall health_damage()
+void fastcall health_damage(void)
 {
   vram_update_append(HEALTH_UPDATE_VRAM_ADDR + health, sizeof(health_damage_update_vram), health_damage_update_vram);
   if (health)
