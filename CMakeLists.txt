@@ -114,6 +114,7 @@ add_executable(${PROJECT_NAME}
 set(TEXT_DEPTS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level1.txt"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level2.txt"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level3.txt"
 )
 set(CRT0_DEPS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/00-spr.chr"

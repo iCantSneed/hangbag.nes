@@ -99,6 +99,7 @@ void fastcall gamestate_play_text(void)
 {
   if (textbox_tick())
   {
+    render(); // TODO needed to get sprites in position for whatever reason
     ppu_on_all();
     next_gamestate = gamestate_play_normal;
   }
