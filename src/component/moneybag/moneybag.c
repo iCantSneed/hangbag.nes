@@ -1,5 +1,6 @@
 #include <chr/gfx.h>
 #include <component/lynchman/lynchman.h>
+#include <component/scissors/scissors.h>
 #include <gamestate/gamestate.h>
 
 #pragma bss-name (push,"ZEROPAGE")
@@ -8,6 +9,7 @@ unsigned int moneybag_x_pos, moneybag_y_pos;
 int moneybag_x_velocity, moneybag_y_velocity;
 unsigned char moneybag_idle_frame;
 unsigned char moneybag_x_velocity_negative;
+unsigned char moneybag_scissor_threshold;
 unsigned char const* moneybag_metaspr_render;
 enum {
   MONEYBAG_TICK_PREPARE_JUMP,
@@ -15,7 +17,7 @@ enum {
   MONEYBAG_TICK_FALLING,
   MONEYBAG_TICK_LANDED,
 
-  MONEYBAG_TICK_EOF,
+  MONEYBAG_TICK_EOF
 } moneybag_tick_state;
 
 #pragma bss-name (push,"RODATA")
@@ -64,7 +66,7 @@ const unsigned char moneybag_skinny_metaspr[] = {
 #define NOOSE_X_TOLERANCE 8
 #define NOOSE_Y_TOLERANCE 4
 
-void fastcall moneybag_init(void)
+void fastcall moneybag_reset(void)
 {
   moneybag_tick_state = MONEYBAG_TICK_PREPARE_JUMP;
   moneybag_x_pos = MONEYBAG_LEFT_X << 8;
@@ -72,6 +74,16 @@ void fastcall moneybag_init(void)
   moneybag_idle_frame = 0;
   moneybag_x_velocity_negative = FALSE;
   moneybag_metaspr_render = moneybag_normal_metaspr;
+}
+
+void fastcall moneybag_init_regular(void)
+{
+  moneybag_scissor_threshold = 0xff;
+}
+
+void fastcall moneybag_init_aggro(void)
+{
+  moneybag_scissor_threshold = 0xfc;
 }
 
 void fastcall moneybag_render(void)
@@ -123,7 +135,7 @@ moneybag_tick_prepare_jump:
   moneybag_y_velocity = -(rand16() & 0x02ff) - 0x01ff;
   moneybag_tick_state = MONEYBAG_TICK_JUMPING;
   moneybag_metaspr_render = moneybag_skinny_metaspr;
-  return;
+  goto moneybag_posttick;
 
 moneybag_tick_jumping:
   airborne_adjust_position();
@@ -132,7 +144,7 @@ moneybag_tick_jumping:
     moneybag_tick_state = MONEYBAG_TICK_FALLING;
     moneybag_metaspr_render = moneybag_normal_metaspr;
   }
-  return;
+  goto moneybag_posttick;
 
 moneybag_tick_falling:
   airborne_adjust_position();
@@ -143,7 +155,7 @@ moneybag_tick_falling:
     moneybag_tick_state = MONEYBAG_TICK_LANDED;
     moneybag_metaspr_render = moneybag_fat_metaspr;
   }
-  return;
+  goto moneybag_posttick;
 
 moneybag_tick_landed:
   --moneybag_idle_frame;
@@ -152,6 +164,13 @@ moneybag_tick_landed:
     moneybag_y_pos = MONEYBAG_GROUND_Y_POS;
     moneybag_tick_state = MONEYBAG_TICK_PREPARE_JUMP;
     moneybag_metaspr_render = moneybag_normal_metaspr;
+  }
+  goto moneybag_posttick;
+
+moneybag_posttick:
+  if (rand8() > moneybag_scissor_threshold)
+  {
+    scissors_spawn_at_moneybag();
   }
   return;
 }

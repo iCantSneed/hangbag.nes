@@ -4,7 +4,7 @@
 
 #pragma bss-name (push,"ZEROPAGE")
 
-unsigned char x_pos, y_pos;
+unsigned char pyrite_x, pyrite_y;
 
 #pragma bss-name (push,"RODATA")
 
@@ -26,13 +26,13 @@ const unsigned char starting_y_pos[] = {
 
 unsigned char fastcall pyrite_check_collide(void)
 {
-  x_pos = starting_x_pos[lynchable_active_idx];
-  y_pos = starting_y_pos[lynchable_active_idx];
+  pyrite_x = starting_x_pos[lynchable_active_idx];
+  pyrite_y = starting_y_pos[lynchable_active_idx];
   return (
-    noose_y >= y_pos &&
-    noose_y <= (unsigned char)(y_pos + 16) &&
-    noose_x >= (unsigned char)(x_pos - 8) &&
-    noose_x <= (unsigned char)(x_pos + 8)
+    noose_y >= pyrite_y &&
+    noose_y <= (unsigned char)(pyrite_y + 16) &&
+    noose_x >= (unsigned char)(pyrite_x - 8) &&
+    noose_x <= (unsigned char)(pyrite_x + 8)
   );
 }
 

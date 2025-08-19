@@ -2,22 +2,29 @@
 #include "lynchman.h"
 #include <neslib/neslib.h>
 
+#define LYNCHABLE_COUNT 24
+
 #pragma bss-name (push,"ZEROPAGE")
 
-LynchableObject lynchables[16];
-struct {
-  union {
-    unsigned char render_idx;
-  };
-} data;
+LynchableObject lynchables[LYNCHABLE_COUNT];
 unsigned char lynchable_attached_idx;
 unsigned char noose_x, noose_y;
-LynchableObject lynchable_object;
 unsigned char lynchable_active_idx;
+static LynchableObject lynchable_object;
+static unsigned char render_idx;
+static struct {
+  union {
+    struct {
+      unsigned char insertion_idx;
+      unsigned char prev_active_idx;
+    };
+  };
+} ephemeral;
 
 #pragma bss-name (push,"RODATA")
 
 #define DEF_PTRS(WHAT) extern unsigned char lynchable_ ## WHAT ##_lo[], lynchable_ ## WHAT ##_hi[]
+DEF_PTRS(resets);
 DEF_PTRS(inits);
 DEF_PTRS(ticks);
 DEF_PTRS(check_collides);
@@ -31,20 +38,30 @@ void fastcall lynchman_init(void)
   lynchable_active_idx = 0;
   lynchable_attached_idx = NO_LYNCHABLE_ATTACHED;
   memfill(lynchables, LYNCHABLE_NONE, sizeof(lynchables));
+
+  lynchable_object = 0;
+  for (; lynchable_object < LYNCHABLE_NONE; ++lynchable_object)
+  {
+    ((Reset)MAKE_PTR(resets))();
+  }
 }
 
 void fastcall lynchman_append(LynchableObject lynchable)
 {
+  ephemeral.insertion_idx = 0;
+  for (; lynchables[ephemeral.insertion_idx] != LYNCHABLE_NONE; ++ephemeral.insertion_idx) {}
+  ephemeral.prev_active_idx = lynchable_active_idx;
+  lynchable_active_idx = ephemeral.insertion_idx;
   lynchable_object = lynchable;
   lynchables[lynchable_active_idx] = lynchable_object;
   ((Init)MAKE_PTR(inits))();
-  ++lynchable_active_idx;
+  lynchable_active_idx = ephemeral.prev_active_idx;
 }
 
 void fastcall lynchman_tick(void)
 {
   lynchable_active_idx = 0;
-  for (; lynchable_active_idx < sizeof(lynchables) / sizeof(lynchables[0]); ++lynchable_active_idx)
+  for (; lynchable_active_idx < LYNCHABLE_COUNT; ++lynchable_active_idx)
   {
     lynchable_object = lynchables[lynchable_active_idx];
     if (lynchable_object != LYNCHABLE_NONE)
@@ -56,7 +73,7 @@ void fastcall lynchman_tick(void)
   if (lynchable_attached_idx == NO_LYNCHABLE_ATTACHED)
   {
     lynchable_active_idx = 0;
-    for (; lynchable_active_idx < sizeof(lynchables) / sizeof(lynchables[0]); ++lynchable_active_idx)
+    for (; lynchable_active_idx < LYNCHABLE_COUNT; ++lynchable_active_idx)
     {
       lynchable_object = lynchables[lynchable_active_idx];
       if (lynchable_object != LYNCHABLE_NONE && ((CheckCollide)MAKE_PTR(check_collides))())
@@ -70,7 +87,7 @@ void fastcall lynchman_tick(void)
 
 void fastcall lynchman_render(void)
 {
-  lynchable_active_idx = data.render_idx;
+  lynchable_active_idx = render_idx;
   do
   {
     lynchable_object = lynchables[lynchable_active_idx];
@@ -79,17 +96,17 @@ void fastcall lynchman_render(void)
       ((Render)MAKE_PTR(renders))();
     }
     ++lynchable_active_idx;
-    if (lynchable_active_idx >= sizeof(lynchables) / sizeof(lynchables[0]))
+    if (lynchable_active_idx >= LYNCHABLE_COUNT)
     {
       lynchable_active_idx = 0;
     }
-  } while (lynchable_active_idx != data.render_idx);
+  } while (lynchable_active_idx != render_idx);
 
-  ++data.render_idx;
-    if (data.render_idx >= sizeof(lynchables) / sizeof(lynchables[0]))
-    {
-      data.render_idx = 0;
-    }
+  ++render_idx;
+  if (render_idx >= LYNCHABLE_COUNT)
+  {
+    render_idx = 0;
+  }
 }
 
 void fastcall lynchman_remove_attached(void)
@@ -102,4 +119,9 @@ void fastcall lynchman_remove_attached(void)
     lynchables[lynchable_attached_idx] = LYNCHABLE_NONE;
     lynchable_attached_idx = NO_LYNCHABLE_ATTACHED;
   }
+}
+
+void fastcall lynchman_destroy_active(void)
+{
+  lynchables[lynchable_active_idx] = LYNCHABLE_NONE;
 }

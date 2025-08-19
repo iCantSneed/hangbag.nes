@@ -5,8 +5,10 @@
 
 typedef enum {
   LYNCHABLE_PYRITE,
-  LYNCHABLE_MONEYBAG,
-  LYNCHABLE_NONE = 0xff
+  LYNCHABLE_MONEYBAG_REGULAR,
+  LYNCHABLE_MONEYBAG_AGGRO,
+  LYNCHABLE_SCISSORS,
+  LYNCHABLE_NONE,
 } LynchableObject;
 
 extern unsigned char noose_x;
@@ -26,5 +28,6 @@ void fastcall lynchman_append(LynchableObject);
 void fastcall lynchman_tick(void);
 void fastcall lynchman_render(void);
 void fastcall lynchman_remove_attached(void);
+void fastcall lynchman_destroy_active(void);
 
 #endif // LYNCHMAN_H_

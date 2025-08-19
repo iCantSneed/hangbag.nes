@@ -20,7 +20,7 @@ static const unsigned char palette[32] = {
   0, 0x16, 0x28, 0x19, // powerbar
 
   0, 0x0f, 0x17, 0x37, // kiwi, moneybag
-  0, 0x0f, 0x17, 0x39, // kiwi
+  0, 0x0f, 0x17, 0x39, // kiwi, scissors
   0, 0x07, 0x27, 0x29, // pyrite
 };
 
@@ -41,8 +41,9 @@ typedef struct {
   const LynchableObject lynchable;
 } LevelLynchable;
 const LevelLynchable level_lynchable_objects[] = {
-  {1, LYNCHABLE_MONEYBAG}, {0, 0},
-  {14, LYNCHABLE_PYRITE}, {1, LYNCHABLE_MONEYBAG}, {0, 0},
+  {1, LYNCHABLE_MONEYBAG_REGULAR}, {0, 0},
+  {14, LYNCHABLE_PYRITE}, {1, LYNCHABLE_MONEYBAG_REGULAR}, {0, 0},
+  {14, LYNCHABLE_PYRITE}, {1, LYNCHABLE_MONEYBAG_AGGRO}, {0, 0},
 };
 unsigned char lynchable_object_idx;
 
@@ -101,7 +102,6 @@ void fastcall gamestate_play_text(void)
     ppu_on_all();
     next_gamestate = gamestate_play_normal;
   }
-  render();
 }
 
 void fastcall gamestate_play_normal(void)

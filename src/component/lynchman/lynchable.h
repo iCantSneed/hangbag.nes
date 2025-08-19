@@ -1,6 +1,7 @@
 #if !defined(LYNCHABLE_H_)
 #define LYNCHABLE_H_
 
+typedef void (*Reset)(void);
 typedef void (*Init)(void);
 typedef void (*Tick)(void);
 typedef unsigned char (*CheckCollide)(void);
