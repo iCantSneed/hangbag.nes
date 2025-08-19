@@ -4,7 +4,6 @@
 
 #pragma bss-name (push,"ZEROPAGE")
 
-unsigned char idx;
 unsigned char x_pos, y_pos;
 
 #pragma bss-name (push,"RODATA")
@@ -35,9 +34,8 @@ void fastcall pyrite_init(void)
 
 unsigned char fastcall pyrite_check_collide(void)
 {
-  idx = lynchable_active_idx - 1;
-  x_pos = starting_x_pos[idx];
-  y_pos = starting_y_pos[idx];
+  x_pos = starting_x_pos[lynchable_active_idx];
+  y_pos = starting_y_pos[lynchable_active_idx];
   return (
     noose_y >= y_pos &&
     noose_y <= (unsigned char)(y_pos + 16) &&
@@ -54,8 +52,7 @@ void fastcall pyrite_render(void)
     return;
   }
 
-  idx = lynchable_active_idx - 1;
-  gfx_oam_metaspr(starting_x_pos[idx], starting_y_pos[idx], pyrite_metaspr);
+  gfx_oam_metaspr(starting_x_pos[lynchable_active_idx], starting_y_pos[lynchable_active_idx], pyrite_metaspr);
 }
 
 void fastcall pyrite_deinit(void)

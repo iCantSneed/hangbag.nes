@@ -4,8 +4,8 @@
 #define NO_LYNCHABLE_ATTACHED 0xff
 
 typedef enum {
-  LYNCHABLE_MONEYBAG,
   LYNCHABLE_PYRITE,
+  LYNCHABLE_MONEYBAG,
   LYNCHABLE_NONE = 0xff
 } LynchableObject;
 

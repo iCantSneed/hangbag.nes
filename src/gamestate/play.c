@@ -31,7 +31,7 @@ typedef struct {
 } LevelLynchable;
 const LevelLynchable level_lynchable_objects[] = {
   {1, LYNCHABLE_MONEYBAG}, {0, 0},
-  {1, LYNCHABLE_MONEYBAG}, {14, LYNCHABLE_PYRITE}, {0, 0},
+  {14, LYNCHABLE_PYRITE}, {1, LYNCHABLE_MONEYBAG}, {0, 0},
 };
 unsigned char lynchable_object_idx;
 
