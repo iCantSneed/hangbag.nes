@@ -1,3 +1,4 @@
+#include "player.h"
 #include "player_internal.h"
 #include <chr/gfx.h>
 #include <component/lynchman/lynchman.h>
@@ -28,20 +29,18 @@ void fastcall noose_init_noosed(void)
   noose_delta = player_power;
 }
 
-unsigned char fastcall noose_tick_noosed(void)
+void fastcall noose_tick_noosed(void)
 {
   noose_y += noose_delta;
   if (noose_y <= NOOSE_INITIAL_Y)
   {
-    noose_init_nooseless();
-    lynchman_remove_attached();
-    return TRUE;
+    player_make_nooseless();
+    return;
   }
   if (noose_y >= NOOSE_MAX_Y || ((lynchable_attached_idx != NO_LYNCHABLE_ATTACHED) && (noose_delta > 0))) // FIXME inefficient!
   {
     noose_delta = -noose_delta;
   }
-  return FALSE;
 }
 
 void fastcall noose_render(void)

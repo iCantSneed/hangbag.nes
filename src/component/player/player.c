@@ -15,13 +15,20 @@ void fastcall player_tick_noosed(void);
 
 void fastcall player_init(void)
 {
-  player_tick = player_tick_nooseless;
   noose_x = KIWI_RIGHT_X;
   powerbar_init();
   kiwi_init();
   lasso_reset();
-  noose_init_nooseless();
   rope_init();
+
+  player_make_nooseless();
+}
+
+void fastcall player_make_nooseless()
+{
+  noose_init_nooseless();
+  lynchman_remove_attached();
+  player_tick = player_tick_nooseless;
 }
 
 void fastcall player_tick_nooseless(void)
@@ -40,10 +47,7 @@ void fastcall player_tick_nooseless(void)
 
 void fastcall player_tick_noosed(void)
 {
-  if (noose_tick_noosed())
-  {
-    player_tick = player_tick_nooseless;
-  }
+  noose_tick_noosed();
   rope_tick_noosed();
 }
 

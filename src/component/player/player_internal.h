@@ -22,7 +22,7 @@ void fastcall lasso_render(void);
 
 void fastcall noose_init_nooseless(void);
 void fastcall noose_init_noosed(void);
-unsigned char fastcall noose_tick_noosed(void);
+void fastcall noose_tick_noosed(void);
 void fastcall noose_render(void);
 
 void fastcall rope_init(void);
