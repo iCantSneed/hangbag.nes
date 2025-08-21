@@ -1,4 +1,4 @@
-  .export _level_text, _level_text_size
+  .export _level_text, _level_text_size, _thanks_text
 
 text_level1:
   .incbin "level1.txt"
@@ -15,3 +15,8 @@ text_level3:
 .endproc
 _level_text_size:
   .byte .sizeof(_level_text) / 2
+
+_thanks_text:
+  ; Size must be a multiple of 32
+  .incbin "thanks.txt"
+  .byte 0

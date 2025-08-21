@@ -116,6 +116,7 @@ set(TEXT_DEPTS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level1.txt"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level2.txt"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level3.txt"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/thanks.txt"
 )
 set(CRT0_DEPS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/00-spr.chr"
