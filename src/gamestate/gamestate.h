@@ -16,4 +16,6 @@ void fastcall gamestate_play_dead(void);
 
 void fastcall gamestate_gameover_init(void);
 
+void fastcall gamestate_winrar_init(void);
+
 #endif // GAMESTATE_H_

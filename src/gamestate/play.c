@@ -13,6 +13,7 @@
 unsigned char level_number;
 
 extern const unsigned char* level_text[];
+extern const unsigned char level_text_size;
 
 static const unsigned char palette[32] = {
   0x00, TEXT_PALETTE,  // text
@@ -150,8 +151,15 @@ void fastcall gamestate_play_level_completed(void)
   if (pad_state(0) & PAD_A)
   {
     ppu_off();
-    ++level_number;
-    next_gamestate = gamestate_play_prepare_level;
+    if (level_number == level_text_size - 1)
+    {
+      next_gamestate = gamestate_winrar_init;
+    }
+    else
+    {
+      ++level_number;
+      next_gamestate = gamestate_play_prepare_level;
+    }
   }
 
   render();
