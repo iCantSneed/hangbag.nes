@@ -68,6 +68,7 @@ void fastcall gamestate_title_init(void)
   mcc3_nametable_arrangement(1);
 
   ppu_on_all();
+  music_play(0);
   next_gamestate = gamestate_title_wait;
 }
 

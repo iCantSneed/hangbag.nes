@@ -125,9 +125,10 @@ set(CRT0_DEPS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/08-09-0a-0b-obj-title.chr"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/chr/0c-0d-0e-0f-obj-winrar.chr"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/chars.sinc"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/famitone2.sinc"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/famitone5.sinc"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/nes.cfg"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/neslib.sinc"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/sfx/music.s"
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")

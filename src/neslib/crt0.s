@@ -1,10 +1,6 @@
 ; Startup code for cc65 and Shiru's NES library
 ; based on code by Groepaz/Hitmen <groepaz@gmx.net>, Ullrich von Bassewitz <uz@cc65.org>
 
-
-FT_DPCM_OFF			= $c000		;$c000..$ffc0, 64-byte steps
-FT_SFX_STREAMS			= 4		;number of sound effects played at once, 1..4
-
 .define FT_DPCM_ENABLE  0			;undefine to exclude all DMC code
 .define FT_SFX_ENABLE   1			;undefine to exclude all sound effects code
 
@@ -22,14 +18,6 @@ FT_SFX_STREAMS			= 4		;number of sound effects played at once, 1..4
 	.import NES_MAPPER,NES_PRG_BANKS,NES_CHR_BANKS,NES_MIRRORING
 
 	.include "zeropage.inc"
-
-
-
-FT_BASE_ADR		=$0100	;page in RAM, should be $xx00
-
-.define FT_THREAD       1	;undefine if you call sound effects in the same thread as sound update
-.define FT_PAL_SUPPORT	1   ;undefine to exclude PAL support
-.define FT_NTSC_SUPPORT	1   ;undefine to exclude NTSC support
 
 
 PPU_CTRL	=$2000
@@ -73,7 +61,6 @@ PPU_CTRL_VAR:		.res 1
 PPU_CTRL_VAR1:		.res 1
 PPU_MASK_VAR: 		.res 1
 RAND_SEED: 		.res 2
-FT_TEMP: 		.res 3
 
 TEMP: 			.res 11
 
@@ -243,7 +230,7 @@ detectNTSC:
 .segment "RODATA"
 
 music_data:
-;	.include "music.sinc"
+  .include "../sfx/music.s"
 
 .if(FT_SFX_ENABLE)
 sounds_data:
