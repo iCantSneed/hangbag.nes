@@ -2,6 +2,7 @@
 #define LYNCHMAN_H_
 
 #define NO_LYNCHABLE_ATTACHED 0xff
+#define NOOSE_Y_INACTIVE 0xff
 
 typedef enum {
   LYNCHABLE_PYRITEMAN,

@@ -8,6 +8,15 @@ const unsigned char pyrite_metaspr[] = {
   128
 };
 
+void fastcall pyrite_tick(void)
+{
+  if (noose_y == NOOSE_Y_INACTIVE)
+  {
+    score_add(0x01);
+    lynchman_destroy_active();
+  }
+}
+
 // FIXME dumb hack
 unsigned char fastcall pyrite_check_collide(void)
 {
@@ -17,9 +26,4 @@ unsigned char fastcall pyrite_check_collide(void)
 void fastcall pyrite_render(void)
 {
   gfx_oam_metaspr(noose_x, noose_y, pyrite_metaspr);
-}
-
-void fastcall pyrite_deinit(void)
-{
-  score_add(0x01);
 }

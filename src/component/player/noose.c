@@ -20,7 +20,7 @@ unsigned char noose_metaspr[] = {
 
 void fastcall noose_init_nooseless(void)
 {
-  noose_y = SPRITE_HIDDEN_Y;
+  noose_y = NOOSE_Y_INACTIVE;
 }
 
 void fastcall noose_init_noosed(void)

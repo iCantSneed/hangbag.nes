@@ -29,7 +29,6 @@ DEF_PTRS(inits);
 DEF_PTRS(ticks);
 DEF_PTRS(check_collides);
 DEF_PTRS(renders);
-DEF_PTRS(deinits);
 
 #define MAKE_PTR(WHAT) (lynchable_ ## WHAT ##_lo[lynchable_object] | (lynchable_ ## WHAT ##_hi[lynchable_object] << 8))
 
@@ -112,18 +111,6 @@ void fastcall lynchman_render(void)
     }
     lynchable_object = lynchables[render_idx];
   } while (lynchable_object == LYNCHABLE_NONE);
-}
-
-void fastcall lynchman_remove_attached(void)
-{
-  if (lynchable_attached_idx != NO_LYNCHABLE_ATTACHED)
-  {
-    lynchable_active_idx = lynchable_attached_idx;
-    lynchable_object = lynchables[lynchable_attached_idx];
-    ((Deinit)MAKE_PTR(deinits))();
-    lynchables[lynchable_attached_idx] = LYNCHABLE_NONE;
-    lynchable_attached_idx = NO_LYNCHABLE_ATTACHED;
-  }
 }
 
 void fastcall lynchman_destroy_active(void)

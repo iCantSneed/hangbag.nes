@@ -25,12 +25,12 @@ _lynchable_inits_hi:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   .export _lynchable_ticks_lo, _lynchable_ticks_hi
-  .import _moneybag_tick, _scissors_tick, _lardhajj_tick
+  .import _moneybag_tick, _scissors_tick, _lardhajj_tick, _pyrite_tick
 
 _lynchable_ticks_lo:
-  .byte <do_nothing, <_moneybag_tick, <_moneybag_tick, <_scissors_tick, <_lardhajj_tick, <do_nothing
+  .byte <do_nothing, <_moneybag_tick, <_moneybag_tick, <_scissors_tick, <_lardhajj_tick, <_pyrite_tick
 _lynchable_ticks_hi:
-  .byte >do_nothing, >_moneybag_tick, >_moneybag_tick, >_scissors_tick, >_lardhajj_tick, >do_nothing
+  .byte >do_nothing, >_moneybag_tick, >_moneybag_tick, >_scissors_tick, >_lardhajj_tick, >_pyrite_tick
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -51,13 +51,3 @@ _lynchable_renders_lo:
   .byte <do_nothing, <_moneybag_render, <_moneybag_render, <_scissors_render, <_lardhajj_render, <_pyrite_render
 _lynchable_renders_hi:
   .byte >do_nothing, >_moneybag_render, >_moneybag_render, >_scissors_render, >_lardhajj_render, >_pyrite_render
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  .export _lynchable_deinits_lo, _lynchable_deinits_hi
-  .import _pyrite_deinit
-
-_lynchable_deinits_lo:
-  .byte 0, 0, 0, 0, 0, <_pyrite_deinit
-_lynchable_deinits_hi:
-  .byte 0, 0, 0, 0, 0, >_pyrite_deinit
