@@ -4,14 +4,21 @@
 #define NOOSE_Y_INACTIVE 0xff
 
 typedef enum {
-  LYNCHABLE_PYRITEMAN,
+  LYNCHABLE_NONE,
+  LYNCHABLE_LARDHAJJ,
+
   LYNCHABLE_MONEYBAG_REGULAR,
   LYNCHABLE_MONEYBAG_AGGRO,
-  LYNCHABLE_SCISSORS,
-  LYNCHABLE_LARDHAJJ,
-  LYNCHABLE_PYRITE,
   LYNCHABLE_MONEYBAG_HANGRY,
-  LYNCHABLE_NONE
+
+  LYNCHABLE_PYRITE,
+  LYNCHABLE_PYRITEMAN,
+
+  LYNCHABLE_SCISSORS_0,
+  LYNCHABLE_SCISSORS_1,
+  LYNCHABLE_SCISSORS_2,
+
+  LYNCHABLE_END
 } LynchableObject;
 
 typedef enum {
@@ -28,9 +35,6 @@ extern unsigned char noose_y;
 
 extern NooseState next_noose_state;
 #pragma zpsym ("next_noose_state")
-
-extern unsigned char lynchable_active_idx;
-#pragma zpsym ("lynchable_active_idx")
 
 void fastcall lynchman_init(void);
 void fastcall lynchman_append(LynchableObject);

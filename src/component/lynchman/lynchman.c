@@ -16,7 +16,6 @@ static struct {
   union {
     struct {
       unsigned char insertion_idx;
-      unsigned char prev_active_idx;
     };
   };
 } ephemeral;
@@ -40,7 +39,7 @@ void fastcall lynchman_init(void)
   memfill(lynchables, LYNCHABLE_NONE, sizeof(lynchables));
 
   lynchable_object = 0;
-  for (; lynchable_object < LYNCHABLE_NONE; ++lynchable_object)
+  for (; lynchable_object < LYNCHABLE_END; ++lynchable_object)
   {
     ((Reset)MAKE_PTR(resets))();
   }
@@ -50,12 +49,10 @@ void fastcall lynchman_append(LynchableObject lynchable)
 {
   ephemeral.insertion_idx = 0;
   for (; lynchables[ephemeral.insertion_idx] != LYNCHABLE_NONE; ++ephemeral.insertion_idx) {}
-  ephemeral.prev_active_idx = lynchable_active_idx;
   lynchable_active_idx = ephemeral.insertion_idx;
   lynchable_object = lynchable;
   lynchables[lynchable_active_idx] = lynchable_object;
   ((Init)MAKE_PTR(inits))();
-  lynchable_active_idx = ephemeral.prev_active_idx;
 }
 
 void fastcall lynchman_tick(void)
@@ -98,6 +95,7 @@ void fastcall lynchman_render(void)
     }
   } while (lynchable_active_idx != render_idx);
 
+  // TODO optimize this by setting the next render_idx in the loop above
   do
   {
     ++render_idx;
