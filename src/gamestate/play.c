@@ -18,12 +18,12 @@ extern const unsigned char level_text_size;
 static const unsigned char palette[32] = {
   0x00, TEXT_PALETTE,  // text
   0, 0x0f, 0x15, 0x05, // scenery
-  0, 0x07, 0x16, 0x27, // powerbar, health
+  0, 0x07, 0x16, 0x27, // powerbar, health, pyrite
   0, 0x16, 0x28, 0x19, // powerbar
 
   0, 0x0f, 0x17, 0x37, // kiwi, moneybag, lardhajj
   0, 0x0f, 0x17, 0x39, // kiwi, scissors
-  0, 0x07, 0x27, 0x29, // pyrite
+  0, 0x07, 0x16, 0x27, // pyrite
 };
 
 // Pozzed text
@@ -38,15 +38,11 @@ const unsigned char time_bonus_text[] = "TIME BONUS   $0000";
 #define LEVEL_COMPLETED_VRAM_UPDATE_ADDR (NTADR_A((16 - (sizeof(level_completed_text) - 1) / 2), 14) | (NT_UPD_HORZ << 8))
 #define TIME_BONUS_VRAM_UPDATE_ADDR (NTADR_A((16 - (sizeof(time_bonus_text) - 1) / 2), 16) | (NT_UPD_HORZ << 8))
 
-typedef struct {
-  unsigned char count;
-  const LynchableObject lynchable;
-} LevelLynchable;
-const LevelLynchable level_lynchable_objects[] = {
-  {1, LYNCHABLE_MONEYBAG_REGULAR}, {0, 0},
-  {14, LYNCHABLE_PYRITE}, {1, LYNCHABLE_MONEYBAG_REGULAR}, {0, 0},
-  {14, LYNCHABLE_PYRITE}, {1, LYNCHABLE_MONEYBAG_AGGRO}, {0, 0},
-  {14, LYNCHABLE_PYRITE}, {1, LYNCHABLE_MONEYBAG_AGGRO}, {1, LYNCHABLE_LARDHAJJ}, {0, 0},
+const LynchableObject level_lynchable_objects[] = {
+  LYNCHABLE_MONEYBAG_REGULAR, LYNCHABLE_NONE,
+  LYNCHABLE_PYRITEMAN, LYNCHABLE_MONEYBAG_REGULAR, LYNCHABLE_NONE,
+  LYNCHABLE_PYRITEMAN, LYNCHABLE_MONEYBAG_AGGRO, LYNCHABLE_NONE,
+  LYNCHABLE_PYRITEMAN, LYNCHABLE_MONEYBAG_AGGRO, LYNCHABLE_LARDHAJJ, LYNCHABLE_NONE,
 };
 unsigned char lynchable_object_idx;
 
@@ -73,8 +69,6 @@ void fastcall gamestate_play_init(void)
 
 void fastcall gamestate_play_prepare_level(void)
 {
-  unsigned char i;
-
   vram_adr(NTADR_A(0, 0));
   vram_unrle(play_nametable);
   textbox_init();
@@ -83,16 +77,6 @@ void fastcall gamestate_play_prepare_level(void)
   health_init();
   lynchman_init();
   player_init();
-
-  for (; level_lynchable_objects[lynchable_object_idx].count; ++lynchable_object_idx)
-  {
-    i = 0;
-    for (; i < level_lynchable_objects[lynchable_object_idx].count; ++i)
-    {
-      lynchman_append(level_lynchable_objects[lynchable_object_idx].lynchable);
-    }
-  }
-  ++lynchable_object_idx;
 
   ppu_on_bg();
   textbox_ptr = level_text[level_number];
@@ -103,6 +87,14 @@ void fastcall gamestate_play_text(void)
 {
   if (textbox_tick())
   {
+    ppu_off();
+
+    for (; level_lynchable_objects[lynchable_object_idx] != LYNCHABLE_NONE; ++lynchable_object_idx)
+    {
+      lynchman_append(level_lynchable_objects[lynchable_object_idx]);
+    }
+    ++lynchable_object_idx;
+
     render(); // TODO needed to get sprites in position for whatever reason
     ppu_on_all();
     next_gamestate = gamestate_play_normal;
