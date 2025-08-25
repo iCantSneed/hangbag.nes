@@ -21,12 +21,12 @@ const unsigned char nametable_rle[158]={
 0x00,0x02,0x07,0x09,0x0a,0x09,0x0a,0x00,0x02,0x05,0x01,0x01,0x02,0x00
 };
 
-#define RLE_TAG 0x00
+#define RLE_TAG 0xff
 static const unsigned char attribute_rle[] = {
   RLE_TAG,
-  0b10011001,
-  0b10101010, RLE_TAG, 5,
-  0b01100110,
+  0b10011001, 0b10101010, 0b10101010,
+  0b00000000, 0b00000000, // need to account for the POZZED text
+  0b10101010, 0b10101010, 0b01100110,
   0b10011001,
   0b10101010, RLE_TAG, 5,
   0b01100110,

@@ -31,12 +31,28 @@ const unsigned char pozzed_text[] = "POZZED";
 const unsigned char unpozzed_text[] = "      ";
 
 // Level completion messages
-const unsigned char level_completed_text[] = "LEVEL COMPLETED!";
-const unsigned char time_bonus_text[] = "TIME BONUS   $0000";
+const unsigned char level_completed_nametable_rle[67]={
+0x02,0x01,0x01,0x00,0x02,0x05,0x4c,0x45,0x56,0x45,0x4c,0x00,0x43,0x4f,0x4d,0x50,
+0x4c,0x45,0x54,0x45,0x44,0x21,0x00,0x02,0x05,0x01,0x02,0x03,0x00,0x02,0x1b,0x01,
+0x02,0x03,0x00,0x02,0x04,0x54,0x49,0x4d,0x45,0x00,0x42,0x4f,0x4e,0x55,0x53,0x00,
+0x02,0x02,0x24,0x30,0x02,0x03,0x00,0x02,0x04,0x01,0x02,0x03,0x00,0x02,0x1b,0x01,
+0x01,0x02,0x00
+};
+#define RLE_TAG 0xff
+const unsigned char level_completed_attributes_rle[] = {
+  RLE_TAG,
+  0b00010001,
+  0b00000000, RLE_TAG, 5,
+  0b01000100,
+  0b00010001,
+  0b00000000, RLE_TAG, 5,
+  0b01000100, RLE_TAG, 0
+};
 
 #define POZZED_VRAM_UPDATE_ADDR (NTADR_A((16 - (sizeof(pozzed_text) - 1) / 2), 10) | (NT_UPD_HORZ << 8))
-#define LEVEL_COMPLETED_VRAM_UPDATE_ADDR (NTADR_A((16 - (sizeof(level_completed_text) - 1) / 2), 14) | (NT_UPD_HORZ << 8))
-#define TIME_BONUS_VRAM_UPDATE_ADDR (NTADR_A((16 - (sizeof(time_bonus_text) - 1) / 2), 16) | (NT_UPD_HORZ << 8))
+#define LEVEL_COMPLETED_NAMETABLE_VRAM_ADDR NTADR_A(0, 14)
+#define LEVEL_COMPLETED_ATTRIBUTES_VRAM_ADDR 0x23d8
+#define TIME_BONUS_VRAM_UPDATE_ADDR (NTADR_A(21, 16) | (NT_UPD_HORZ << 8))
 
 const LynchableObject level_lynchable_objects[] = {
   LYNCHABLE_MONEYBAG_REGULAR, LYNCHABLE_NONE,
@@ -130,12 +146,16 @@ void fastcall gamestate_play_pozzed(void)
 void fastcall gamestate_play_moneybag_hanged(void)
 {
   // TODO
+  ppu_off();
   score_add(time_remaining);
-  vram_update_append(LEVEL_COMPLETED_VRAM_UPDATE_ADDR, sizeof(level_completed_text) - 1, level_completed_text);
-  vram_update_append(TIME_BONUS_VRAM_UPDATE_ADDR, sizeof(time_bonus_text) - 1, time_bonus_text);
-  bcd_vram_update(time_remaining, TIME_BONUS_VRAM_UPDATE_ADDR + sizeof(time_bonus_text) - 5);
-  next_gamestate = gamestate_play_level_completed;
+  vram_adr(LEVEL_COMPLETED_NAMETABLE_VRAM_ADDR);
+  vram_unrle(level_completed_nametable_rle);
+  vram_adr(LEVEL_COMPLETED_ATTRIBUTES_VRAM_ADDR);
+  vram_unrle(level_completed_attributes_rle);
+  bcd_vram_update(time_remaining, TIME_BONUS_VRAM_UPDATE_ADDR);
 
+  ppu_on_all();
+  next_gamestate = gamestate_play_level_completed;
   render();
 }
 
