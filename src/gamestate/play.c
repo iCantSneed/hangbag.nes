@@ -21,7 +21,7 @@ static const unsigned char palette[32] = {
   0, 0x07, 0x16, 0x27, // powerbar, health
   0, 0x16, 0x28, 0x19, // powerbar
 
-  0, 0x0f, 0x17, 0x37, // kiwi, moneybag
+  0, 0x0f, 0x17, 0x37, // kiwi, moneybag, lardhajj
   0, 0x0f, 0x17, 0x39, // kiwi, scissors
   0, 0x07, 0x27, 0x29, // pyrite
 };
@@ -46,6 +46,7 @@ const LevelLynchable level_lynchable_objects[] = {
   {1, LYNCHABLE_MONEYBAG_REGULAR}, {0, 0},
   {14, LYNCHABLE_PYRITE}, {1, LYNCHABLE_MONEYBAG_REGULAR}, {0, 0},
   {14, LYNCHABLE_PYRITE}, {1, LYNCHABLE_MONEYBAG_AGGRO}, {0, 0},
+  {14, LYNCHABLE_PYRITE}, {1, LYNCHABLE_MONEYBAG_AGGRO}, {1, LYNCHABLE_LARDHAJJ}, {0, 0},
 };
 unsigned char lynchable_object_idx;
 

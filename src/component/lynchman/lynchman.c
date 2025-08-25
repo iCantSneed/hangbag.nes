@@ -37,6 +37,7 @@ void fastcall lynchman_init(void)
 {
   lynchable_active_idx = 0;
   lynchable_attached_idx = NO_LYNCHABLE_ATTACHED;
+  render_idx = 0;
   memfill(lynchables, LYNCHABLE_NONE, sizeof(lynchables));
 
   lynchable_object = 0;
@@ -102,11 +103,15 @@ void fastcall lynchman_render(void)
     }
   } while (lynchable_active_idx != render_idx);
 
-  ++render_idx;
-  if (render_idx >= LYNCHABLE_COUNT)
+  do
   {
-    render_idx = 0;
-  }
+    ++render_idx;
+    if (render_idx >= LYNCHABLE_COUNT)
+    {
+      render_idx = 0;
+    }
+    lynchable_object = lynchables[render_idx];
+  } while (lynchable_object == LYNCHABLE_NONE);
 }
 
 void fastcall lynchman_remove_attached(void)
