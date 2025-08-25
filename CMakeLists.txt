@@ -114,7 +114,7 @@ add_executable(${PROJECT_NAME}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/crt0.s"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/vram_update.c"
 )
-set(TEXT_DEPTS
+set(TEXT_DEPS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level1.txt"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level2.txt"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level3.txt"
