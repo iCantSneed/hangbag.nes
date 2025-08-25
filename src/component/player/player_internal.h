@@ -5,9 +5,6 @@
 #define KIWI_Y 50
 #define SPRITE_HIDDEN_Y 0xff
 
-extern unsigned char player_power;
-#pragma zpsym ("player_power")
-
 void fastcall player_make_nooseless(void);
 
 void fastcall powerbar_init(void);

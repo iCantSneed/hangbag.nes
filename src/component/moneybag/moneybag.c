@@ -1,5 +1,6 @@
 #include <chr/gfx.h>
 #include <component/lynchman/lynchman.h>
+#include <component/player/player.h>
 #include <component/scissors/scissors.h>
 #include <gamestate/gamestate.h>
 
@@ -10,6 +11,7 @@ int moneybag_x_velocity, moneybag_y_velocity;
 unsigned char moneybag_idle_frame;
 unsigned char moneybag_x_velocity_negative;
 unsigned char moneybag_scissor_threshold;
+unsigned char moneybag_power_threshold;
 unsigned char const* moneybag_metaspr_render;
 enum {
   MONEYBAG_TICK_PREPARE_JUMP,
@@ -66,6 +68,10 @@ const unsigned char moneybag_skinny_metaspr[] = {
 #define NOOSE_X_TOLERANCE 8
 #define NOOSE_Y_TOLERANCE 4
 
+#define SCISSORS_THRESHOLD_NORMAL 0xff
+#define SCISSORS_THRESHOLD_AGGRO 0xfc
+#define POWER_THRESHOLD_NORMAL 0
+
 void fastcall moneybag_reset(void)
 {
   moneybag_tick_state = MONEYBAG_TICK_PREPARE_JUMP;
@@ -78,12 +84,20 @@ void fastcall moneybag_reset(void)
 
 void fastcall moneybag_init_regular(void)
 {
-  moneybag_scissor_threshold = 0xff;
+  moneybag_scissor_threshold = SCISSORS_THRESHOLD_NORMAL;
+  moneybag_power_threshold = POWER_THRESHOLD_NORMAL;
 }
 
 void fastcall moneybag_init_aggro(void)
 {
-  moneybag_scissor_threshold = 0xfc;
+  moneybag_scissor_threshold = SCISSORS_THRESHOLD_AGGRO;
+  moneybag_power_threshold = POWER_THRESHOLD_NORMAL;
+}
+
+void fastcall moneybag_init_hangry(void)
+{
+  moneybag_scissor_threshold = SCISSORS_THRESHOLD_AGGRO;
+  moneybag_power_threshold = PLAYER_POWER_CRAP;
 }
 
 void fastcall moneybag_render(void)
@@ -185,6 +199,10 @@ NooseState fastcall moneybag_check_collide(void)
     noose_y <= (unsigned char)(MONEYBAG_IDLE_Y_POS + NOOSE_Y_TOLERANCE)
   )
   {
+    if (moneybag_power_threshold >= player_power)
+    {
+      return NOOSE_STATE_HURT;
+    }
     next_gamestate = gamestate_play_moneybag_hanged;
     moneybag_x_pos = noose_x << 8;
     moneybag_metaspr_render = moneybag_skinny_metaspr;

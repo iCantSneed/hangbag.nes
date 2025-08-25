@@ -12,9 +12,12 @@ text_level3:
 text_level4:
   .incbin "level4.txt"
   .byte 0
+text_level5:
+  .incbin "level5.txt"
+  .byte 0
 
 .proc _level_text
-  .addr text_level1, text_level2, text_level3, text_level4
+  .addr text_level1, text_level2, text_level3, text_level4, text_level5
 .endproc
 _level_text_size:
   .byte .sizeof(_level_text) / 2

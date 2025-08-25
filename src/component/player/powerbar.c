@@ -1,3 +1,4 @@
+#include "player.h"
 #include "player_internal.h"
 #include <chr/gfx.h>
 
@@ -8,12 +9,11 @@ unsigned char power_gauge_x, power_gauge_x_delta;
 
 #pragma bss-name (push,"RODATA")
 
-#define POWER_CRAP 3
 #define POWER_LOW 4
 #define POWER_MED 5
 #define POWER_HI 6
 const unsigned char powers[] = {
-  POWER_CRAP, POWER_CRAP, POWER_CRAP, POWER_CRAP, POWER_CRAP, POWER_CRAP,
+  PLAYER_POWER_CRAP, PLAYER_POWER_CRAP, PLAYER_POWER_CRAP, PLAYER_POWER_CRAP, PLAYER_POWER_CRAP, PLAYER_POWER_CRAP,
   POWER_LOW, POWER_LOW, POWER_LOW, POWER_LOW, POWER_LOW,
   POWER_MED, POWER_MED, POWER_MED, POWER_MED,
   POWER_HI,
