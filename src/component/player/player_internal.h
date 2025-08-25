@@ -8,6 +8,8 @@
 extern unsigned char player_power;
 #pragma zpsym ("player_power")
 
+void fastcall player_make_nooseless(void);
+
 void fastcall powerbar_init(void);
 void fastcall powerbar_tick_nooseless(void);
 void fastcall powerbar_render(void);

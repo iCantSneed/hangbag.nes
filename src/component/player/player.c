@@ -27,8 +27,7 @@ void fastcall player_make_nooseless()
 {
   noose_init_nooseless();
   rope_init();
-  // TODO
-  lynchable_attached_idx = NO_LYNCHABLE_ATTACHED;
+  next_noose_state = NOOSE_STATE_UNCHANGED;
   player_tick = player_tick_nooseless;
 }
 

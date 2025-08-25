@@ -1,6 +1,7 @@
 #include "player.h"
 #include "player_internal.h"
 #include <chr/gfx.h>
+#include <component/health/health.h>
 #include <component/lynchman/lynchman.h>
 
 #pragma bss-name (push,"ZEROPAGE")
@@ -37,15 +38,20 @@ void fastcall noose_tick_noosed(void)
     player_make_nooseless();
     return;
   }
-  if (noose_y >= NOOSE_MAX_Y || ((lynchable_attached_idx != NO_LYNCHABLE_ATTACHED) && (noose_delta > 0))) // FIXME inefficient!
+  if (noose_y >= NOOSE_MAX_Y || ((next_noose_state != NOOSE_STATE_UNCHANGED) && (noose_delta > 0))) // FIXME inefficient!
   {
     noose_delta = -noose_delta;
+  }
+  if (next_noose_state == NOOSE_STATE_HURT)
+  {
+    health_damage();
+    player_make_nooseless();
   }
 }
 
 void fastcall noose_render(void)
 {
-  if (lynchable_attached_idx != NO_LYNCHABLE_ATTACHED)
+  if (next_noose_state != NOOSE_STATE_UNCHANGED)
   {
     return;
   }

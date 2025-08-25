@@ -1,4 +1,5 @@
 #include <chr/gfx.h>
+#include <component/lynchman/lynchman.h>
 
 #pragma bss-name (push,"ZEROPAGE")
 
@@ -44,10 +45,10 @@ void fastcall lardhajj_tick(void)
   }
 }
 
-unsigned char fastcall lardhajj_check_collide(void)
+NooseState fastcall lardhajj_check_collide(void)
 {
   // TODO
-  return FALSE;
+  return NOOSE_STATE_UNCHANGED;
 }
 
 void fastcall lardhajj_render(void)

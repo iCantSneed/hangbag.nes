@@ -1,7 +1,6 @@
 #if !defined(LYNCHMAN_H_)
 #define LYNCHMAN_H_
 
-#define NO_LYNCHABLE_ATTACHED 0xff
 #define NOOSE_Y_INACTIVE 0xff
 
 typedef enum {
@@ -11,8 +10,14 @@ typedef enum {
   LYNCHABLE_SCISSORS,
   LYNCHABLE_LARDHAJJ,
   LYNCHABLE_PYRITE,
-  LYNCHABLE_NONE,
+  LYNCHABLE_NONE
 } LynchableObject;
+
+typedef enum {
+  NOOSE_STATE_UNCHANGED,
+  NOOSE_STATE_ATTACHED,
+  NOOSE_STATE_HURT,
+} NooseState;
 
 extern unsigned char noose_x;
 #pragma zpsym ("noose_x")
@@ -20,8 +25,8 @@ extern unsigned char noose_x;
 extern unsigned char noose_y;
 #pragma zpsym ("noose_y")
 
-extern unsigned char lynchable_attached_idx;
-#pragma zpsym ("lynchable_attached_idx")
+extern NooseState next_noose_state;
+#pragma zpsym ("next_noose_state")
 
 extern unsigned char lynchable_active_idx;
 #pragma zpsym ("lynchable_active_idx")

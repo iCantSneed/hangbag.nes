@@ -1,3 +1,5 @@
+no_check_collide:
+  lda #$00
 do_nothing:
   rts
 
@@ -35,12 +37,12 @@ _lynchable_ticks_hi:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   .export _lynchable_check_collides_lo, _lynchable_check_collides_hi
-  .import _pyriteman_check_collide, _moneybag_check_collide, _scissors_check_collide, _lardhajj_check_collide, _pyrite_check_collide
+  .import _pyriteman_check_collide, _moneybag_check_collide, _scissors_check_collide, _lardhajj_check_collide
 
 _lynchable_check_collides_lo:
-  .byte <_pyriteman_check_collide, <_moneybag_check_collide, <_moneybag_check_collide, <_scissors_check_collide, <_lardhajj_check_collide, <_pyrite_check_collide
+  .byte <_pyriteman_check_collide, <_moneybag_check_collide, <_moneybag_check_collide, <_scissors_check_collide, <_lardhajj_check_collide, <no_check_collide
 _lynchable_check_collides_hi:
-  .byte >_pyriteman_check_collide, >_moneybag_check_collide, >_moneybag_check_collide, >_scissors_check_collide, >_lardhajj_check_collide, >_pyrite_check_collide
+  .byte >_pyriteman_check_collide, >_moneybag_check_collide, >_moneybag_check_collide, >_scissors_check_collide, >_lardhajj_check_collide, >no_check_collide
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

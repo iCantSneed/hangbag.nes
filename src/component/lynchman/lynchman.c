@@ -7,7 +7,7 @@
 #pragma bss-name (push,"ZEROPAGE")
 
 LynchableObject lynchables[LYNCHABLE_COUNT];
-unsigned char lynchable_attached_idx;
+NooseState next_noose_state;
 unsigned char noose_x, noose_y;
 unsigned char lynchable_active_idx;
 static LynchableObject lynchable_object;
@@ -35,7 +35,7 @@ DEF_PTRS(renders);
 void fastcall lynchman_init(void)
 {
   lynchable_active_idx = 0;
-  lynchable_attached_idx = NO_LYNCHABLE_ATTACHED;
+  next_noose_state = NOOSE_STATE_UNCHANGED;
   render_idx = 0;
   memfill(lynchables, LYNCHABLE_NONE, sizeof(lynchables));
 
@@ -70,17 +70,13 @@ void fastcall lynchman_tick(void)
     }
   }
 
-  if (lynchable_attached_idx == NO_LYNCHABLE_ATTACHED)
+  lynchable_active_idx = 0;
+  for (; lynchable_active_idx < LYNCHABLE_COUNT && next_noose_state == NOOSE_STATE_UNCHANGED; ++lynchable_active_idx)
   {
-    lynchable_active_idx = 0;
-    for (; lynchable_active_idx < LYNCHABLE_COUNT; ++lynchable_active_idx)
+    lynchable_object = lynchables[lynchable_active_idx];
+    if (lynchable_object != LYNCHABLE_NONE)
     {
-      lynchable_object = lynchables[lynchable_active_idx];
-      if (lynchable_object != LYNCHABLE_NONE && ((CheckCollide)MAKE_PTR(check_collides))())
-      {
-        lynchable_attached_idx = lynchable_active_idx;
-        break;
-      }
+      next_noose_state = ((CheckCollide)MAKE_PTR(check_collides))();
     }
   }
 }

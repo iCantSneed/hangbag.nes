@@ -36,6 +36,7 @@ const unsigned char scissors_closed_metaspr[] = {
 };
 
 #define SCISSORS_Y_DELTA 2
+#define NO_LYNCHABLE_ATTACHED 0xff
 
 void fastcall scissors_spawn_at_moneybag(void)
 {
@@ -84,7 +85,7 @@ void fastcall scissors_tick(void)
   }
 }
 
-unsigned char fastcall scissors_check_collide(void)
+NooseState fastcall scissors_check_collide(void)
 {
   set_idx_to_active_lynchable();
   ephemeral.active_scissors_x = scissors_x[idx];
@@ -96,12 +97,11 @@ unsigned char fastcall scissors_check_collide(void)
     noose_x <= (unsigned char)(ephemeral.active_scissors_x + 4)
   )
   {
-    health_damage();
-    player_make_nooseless();
     lynchman_destroy_active();
     scissors_lynchable_id[idx] = NO_LYNCHABLE_ATTACHED;
+    return NOOSE_STATE_HURT;
   }
-  return FALSE;
+  return NOOSE_STATE_UNCHANGED;
 }
 
 void fastcall scissors_render(void)

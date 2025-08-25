@@ -9,6 +9,4 @@ extern void (*player_tick)(void);
 void player_init(void);
 void player_render(void);
 
-void player_make_nooseless(void);
-
 #endif // PLAYER_H_

@@ -175,7 +175,7 @@ moneybag_posttick:
   return;
 }
 
-unsigned char fastcall moneybag_check_collide(void)
+NooseState fastcall moneybag_check_collide(void)
 {
   if (
     moneybag_idle_frame &&
@@ -188,7 +188,7 @@ unsigned char fastcall moneybag_check_collide(void)
     next_gamestate = gamestate_play_moneybag_hanged;
     moneybag_x_pos = noose_x << 8;
     moneybag_metaspr_render = moneybag_skinny_metaspr;
-    return TRUE;
+    return NOOSE_STATE_ATTACHED;
   }
-  return FALSE;
+  return NOOSE_STATE_UNCHANGED;
 }

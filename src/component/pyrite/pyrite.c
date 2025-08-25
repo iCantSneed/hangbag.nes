@@ -17,12 +17,6 @@ void fastcall pyrite_tick(void)
   }
 }
 
-// FIXME dumb hack
-unsigned char fastcall pyrite_check_collide(void)
-{
-  return TRUE;
-}
-
 void fastcall pyrite_render(void)
 {
   gfx_oam_metaspr(noose_x, noose_y, pyrite_metaspr);

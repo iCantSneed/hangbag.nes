@@ -60,7 +60,7 @@ void fastcall pyriteman_init(void)
   vram_unrle(attribute_rle);
 }
 
-unsigned char fastcall pyriteman_check_collide(void)
+NooseState fastcall pyriteman_check_collide(void)
 {
   // Noose x 16-31 => 0, 32-47 => 1, ...
   target_block_x = (noose_x & 0b11110000) >> 4;
@@ -80,8 +80,7 @@ unsigned char fastcall pyriteman_check_collide(void)
 
     pyrite_block_y[target_block_idx] = PYRITE_BLOCK_NONE;
     lynchman_append(LYNCHABLE_PYRITE);
-    // FIXME dumb hack
-    return FALSE;
+    return NOOSE_STATE_ATTACHED;
   }
-  return FALSE;
+  return NOOSE_STATE_UNCHANGED;
 }
