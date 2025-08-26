@@ -6,33 +6,33 @@ do_nothing:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   .export _lynchable_resets_lo, _lynchable_resets_hi
-  .import _pyriteman_reset, _moneybag_reset, _scissors_reset, _lardhajj_reset
+  .import _moneybag_reset, _scissors_reset, _lardhajj_reset
 
 _lynchable_resets_lo:
   .byte <do_nothing, <_lardhajj_reset
   .byte <_moneybag_reset, <do_nothing, <do_nothing
-  .byte <do_nothing, <_pyriteman_reset
+  .byte <do_nothing, <do_nothing, <do_nothing
   .byte <_scissors_reset, <do_nothing, <do_nothing
 _lynchable_resets_hi:
   .byte >do_nothing, >_lardhajj_reset
   .byte >_moneybag_reset, >do_nothing, >do_nothing
-  .byte >do_nothing, >_pyriteman_reset
+  .byte >do_nothing, >do_nothing, >do_nothing
   .byte >_scissors_reset, >do_nothing, >do_nothing
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   .export _lynchable_inits_lo, _lynchable_inits_hi
-  .import _pyriteman_init, _moneybag_init_regular, _moneybag_init_aggro, _scissors_init, _moneybag_init_hangry
+  .import _pyriteman_init_long, _pyriteman_init_short, _moneybag_init_regular, _moneybag_init_aggro, _scissors_init, _moneybag_init_hangry
 
 _lynchable_inits_lo:
   .byte <do_nothing, <do_nothing
   .byte <_moneybag_init_regular, <_moneybag_init_aggro, <_moneybag_init_hangry
-  .byte <do_nothing, <_pyriteman_init
+  .byte <do_nothing, <_pyriteman_init_long, <_pyriteman_init_short
   .byte <_scissors_init, <_scissors_init, <_scissors_init
 _lynchable_inits_hi:
   .byte >do_nothing, >do_nothing
   .byte >_moneybag_init_regular, >_moneybag_init_aggro, >_moneybag_init_hangry
-  .byte >do_nothing, >_pyriteman_init
+  .byte >do_nothing, >_pyriteman_init_long, >_pyriteman_init_short
   .byte >_scissors_init, >_scissors_init, >_scissors_init
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -43,12 +43,12 @@ _lynchable_inits_hi:
 _lynchable_ticks_lo:
   .byte <do_nothing, <_lardhajj_tick
   .byte <_moneybag_tick, <_moneybag_tick, <_moneybag_tick
-  .byte <_pyrite_tick, <do_nothing
+  .byte <_pyrite_tick, <do_nothing, <do_nothing
   .byte <_scissors_tick_0, <_scissors_tick_1, <_scissors_tick_2
 _lynchable_ticks_hi:
   .byte >do_nothing, >_lardhajj_tick
   .byte >_moneybag_tick, >_moneybag_tick, >_moneybag_tick
-  .byte >_pyrite_tick, >do_nothing
+  .byte >_pyrite_tick, >do_nothing, >do_nothing
   .byte >_scissors_tick_0, >_scissors_tick_1, >_scissors_tick_2
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -59,13 +59,13 @@ _lynchable_ticks_hi:
 _lynchable_check_collides_lo:
   .byte <no_check_collide, <_lardhajj_check_collide
   .byte <_moneybag_check_collide, <_moneybag_check_collide, <_moneybag_check_collide
-  .byte <no_check_collide, <_pyriteman_check_collide
+  .byte <no_check_collide, <_pyriteman_check_collide, <_pyriteman_check_collide
   .byte <_scissors_check_collide_0, <_scissors_check_collide_1, <_scissors_check_collide_2
 
 _lynchable_check_collides_hi:
   .byte >no_check_collide, >_lardhajj_check_collide
   .byte >_moneybag_check_collide, >_moneybag_check_collide, >_moneybag_check_collide
-  .byte >no_check_collide, >_pyriteman_check_collide
+  .byte >no_check_collide, >_pyriteman_check_collide, >_pyriteman_check_collide
   .byte >_scissors_check_collide_0, >_scissors_check_collide_1, >_scissors_check_collide_2
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -76,10 +76,10 @@ _lynchable_check_collides_hi:
 _lynchable_renders_lo:
   .byte <do_nothing, <_lardhajj_render
   .byte <_moneybag_render, <_moneybag_render, <_moneybag_render
-  .byte <_pyrite_render, <do_nothing
+  .byte <_pyrite_render, <do_nothing, <do_nothing
   .byte <_scissors_render_0, <_scissors_render_1, <_scissors_render_2
 _lynchable_renders_hi:
   .byte >do_nothing, >_lardhajj_render
   .byte >_moneybag_render, >_moneybag_render, >_moneybag_render
-  .byte >_pyrite_render, >do_nothing
+  .byte >_pyrite_render, >do_nothing, >do_nothing
   .byte >_scissors_render_0, >_scissors_render_1, >_scissors_render_2

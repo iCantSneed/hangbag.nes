@@ -120,6 +120,7 @@ set(TEXT_DEPS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level3.txt"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level4.txt"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level5.txt"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level6.txt"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/thanks.txt"
 )
 set(CRT0_DEPS

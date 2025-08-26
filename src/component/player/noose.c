@@ -51,7 +51,7 @@ void fastcall noose_tick_noosed(void)
 
 void fastcall noose_render(void)
 {
-  if (next_noose_state != NOOSE_STATE_UNCHANGED)
+  if (next_noose_state == NOOSE_STATE_ATTACHED)
   {
     return;
   }
