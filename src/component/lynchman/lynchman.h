@@ -19,6 +19,8 @@ typedef enum {
   LYNCHABLE_SCISSORS_1,
   LYNCHABLE_SCISSORS_2,
 
+  LYNCHABLE_LAWYER0,
+
   LYNCHABLE_END
 } LynchableObject;
 

@@ -88,6 +88,7 @@ add_executable(${PROJECT_NAME}
 
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/health/health.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/lardhajj/lardhajj.c"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/component/lawyer/lawyer.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/lynchman/lynchman.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/lynchman/lynchman_funcs.s"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/component/moneybag/moneybag.c"
@@ -121,6 +122,7 @@ set(TEXT_DEPS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level4.txt"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level5.txt"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level6.txt"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/level7.txt"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/gamestate/text/thanks.txt"
 )
 set(CRT0_DEPS

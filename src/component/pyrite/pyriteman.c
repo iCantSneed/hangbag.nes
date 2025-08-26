@@ -57,9 +57,9 @@ static const unsigned char long_attribute_rle[] = {
 
 static const unsigned char short_attribute_rle[] = {
   RLE_TAG,
-  0b01010101, 0b10011001,
+  0b10010101, 0b10011001, // account for lawyer 0
   0b10101010, RLE_TAG, 3,
-  0b01100110, 0b01010101,
+  0b01100110, 0b01100101, // account for lawyer 1
   0b01010101, 0b10011001,
   0b10101010, RLE_TAG, 3,
   0b01100110,
