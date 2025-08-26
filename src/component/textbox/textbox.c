@@ -36,7 +36,7 @@ char fastcall textbox_tick_write(void)
   }
   if (curr_char == '\f')
   {
-    if (pad_state(0) & PAD_A)
+    if (pad_poll(0) & PAD_A)
     {
       textbox_tick = textbox_tick_clear;
       text_vram_addr = TEXT_VRAM_ADDR_INIT;

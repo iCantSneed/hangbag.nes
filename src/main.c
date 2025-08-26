@@ -24,7 +24,6 @@ void main(void)
   next_gamestate = gamestate_title_init;
   while (1)
   {
-    pad_poll(0);
     vram_update_reset();
     rand8();
     next_gamestate();

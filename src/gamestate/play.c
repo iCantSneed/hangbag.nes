@@ -121,7 +121,7 @@ void fastcall gamestate_play_text(void)
 
 void fastcall gamestate_play_normal(void)
 {
-  if (pad_state(0) & PAD_START)
+  if (pad_poll(0) & PAD_START)
   {
     vram_update_append(POZZED_VRAM_UPDATE_ADDR, sizeof(pozzed_text) - 1, pozzed_text);
     next_gamestate = gamestate_play_pozzed;
@@ -136,7 +136,7 @@ void fastcall gamestate_play_normal(void)
 
 void fastcall gamestate_play_pozzed(void)
 {
-  if (pad_state(0) & PAD_START)
+  if (pad_poll(0) & PAD_START)
   {
     vram_update_append(POZZED_VRAM_UPDATE_ADDR, sizeof(unpozzed_text) - 1, unpozzed_text);
     next_gamestate = gamestate_play_normal;
@@ -163,7 +163,7 @@ void fastcall gamestate_play_moneybag_hanged(void)
 
 void fastcall gamestate_play_level_completed(void)
 {
-  if (pad_state(0) & PAD_A)
+  if (pad_poll(0) & PAD_A)
   {
     ppu_off();
     if (level_number == level_text_size - 1)

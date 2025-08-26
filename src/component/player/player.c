@@ -37,7 +37,7 @@ void fastcall player_tick_nooseless(void)
   kiwi_tick_nooseless();
   lasso_tick_nooseless();
 
-  if (pad_poll(0) & PAD_A)
+  if (pad_state(0) & PAD_A)
   {
     player_tick = player_tick_noosed;
     noose_init_noosed();

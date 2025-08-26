@@ -74,7 +74,7 @@ void fastcall gamestate_title_init(void)
 
 void fastcall gamestate_title_wait(void)
 {
-  if (pad_state(0) & PAD_START)
+  if (pad_poll(0) & PAD_START)
   {
     next_gamestate = gamestate_play_init;
   }
