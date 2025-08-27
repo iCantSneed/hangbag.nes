@@ -2,7 +2,6 @@
 #define PLAYER_INTERNAL_H_
 
 #define KIWI_RIGHT_X (8*30-13+2)
-#define KIWI_Y 50
 #define SPRITE_HIDDEN_Y 0xff
 
 void fastcall player_make_nooseless(void);

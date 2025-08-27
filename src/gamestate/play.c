@@ -17,11 +17,11 @@ extern const unsigned char level_text_size;
 
 static const unsigned char palette[32] = {
   0x00, TEXT_PALETTE,  // text
-  0, 0x0f, 0x15, 0x05, // scenery
-  0, 0x07, 0x16, 0x27, // powerbar, health, pyrite
+  0, 0x0f, 0x15, 0x05, // scenery, lawyer
+  0, 0x07, 0x16, 0x27, // powerbar, health, pyrite, lawyer
   0, 0x16, 0x28, 0x19, // powerbar
 
-  0, 0x0f, 0x17, 0x37, // kiwi, moneybag, lardhajj
+  0, 0x0f, 0x17, 0x37, // kiwi, moneybag, lardhajj, hammer
   0, 0x0f, 0x17, 0x39, // kiwi, scissors
   0, 0x07, 0x16, 0x27, // pyrite
 };

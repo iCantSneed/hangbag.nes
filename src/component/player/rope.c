@@ -1,3 +1,4 @@
+#include "player.h"
 #include "player_internal.h"
 #include <chr/gfx.h>
 #include <component/lynchman/lynchman.h>

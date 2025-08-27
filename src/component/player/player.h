@@ -3,6 +3,7 @@
 
 #define PLAYER_PLATFORM_BOTTOM 55
 #define PLAYER_POWER_CRAP 3
+#define KIWI_Y 50
 
 extern void (*player_tick)(void);
 #pragma zpsym ("player_tick")

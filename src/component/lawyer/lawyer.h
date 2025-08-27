@@ -1,0 +1,13 @@
+#if !defined(LAWYER_H_)
+#define LAWYER_H_
+
+#define LAWYER_OBJ_WIDTH 3
+#define LAWYER_OBJ_HEIGHT 3
+
+#define LAWYER_OBJ_ROW 14
+#define LAWYER0_OBJ_COL 2
+
+#define LAWYER_Y ((LAWYER_OBJ_ROW + LAWYER_OBJ_HEIGHT / 2) * 8)
+#define LAWYER0_X ((LAWYER0_OBJ_COL + LAWYER_OBJ_WIDTH / 2) * 8)
+
+#endif // LAWYER_H_
