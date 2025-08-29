@@ -149,3 +149,5 @@ target_link_options(${PROJECT_NAME} PRIVATE
   -Wl --dbgfile,${PROJECT_NAME}.dbg
   -C ${CMAKE_CURRENT_SOURCE_DIR}/src/neslib/nes.cfg
 )
+
+add_subdirectory("html")

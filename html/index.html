@@ -5,9 +5,13 @@
   <script type="module">
     import { Nostalgist } from 'https://esm.run/nostalgist'
     await Nostalgist.nes({
-      rom: 'hangbag.nes',
-      resolveRom(file) {
-        return `./${file}`;
+      rom: 'hangbag',
+      resolveRom() {
+        const b64rom = '%HANGBAG_ROM%';
+        const binary = Uint8Array.from(atob(b64rom), c => c.charCodeAt(0));
+        const stream = new Response(binary).body;
+        const decompressedStream = stream.pipeThrough(new DecompressionStream('gzip'));
+        return new Response(decompressedStream).arrayBuffer();
       },
     });
   </script>
