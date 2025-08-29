@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Hangbag!</title>
+  <script type="module">
+    import { Nostalgist } from 'https://esm.run/nostalgist'
+    await Nostalgist.nes({
+      rom: 'hangbag.nes',
+      resolveRom(file) {
+        return `./${file}`;
+      },
+    });
+  </script>
+</head>
