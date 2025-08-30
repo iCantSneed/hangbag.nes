@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.18)
-project(hangbag C ASM)
 
 # CMake toolchain file for cc65
 
@@ -81,6 +80,7 @@ set_readonly(CMAKE_EXECUTABLE_SUFFIX ".nes")
 set(CMAKE_DEPFILE_FLAGS_ASM "--create-dep <DEP_FILE>")
 set(CMAKE_DEPFILE_FLAGS_C "--create-dep <DEP_FILE>")
 
+project(hangbag C ASM)
 add_executable(${PROJECT_NAME}
   "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c"
 
